@@ -107,7 +107,7 @@ export const generateToken = (userId: string, email: string, roles: string[], ex
       expiresIn: expiresIn || env.JWT_EXPIRATION,
       issuer: 'dental-lab-api',
       audience: 'dental-lab-app',
-    }
+    } as any
   );
 };
 
@@ -121,7 +121,7 @@ export const generateRefreshToken = (userId: string): string => {
     {
       expiresIn: env.JWT_REFRESH_EXPIRATION,
       issuer: 'dental-lab-api',
-    }
+    } as any
   );
 };
 

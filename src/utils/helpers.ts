@@ -125,6 +125,20 @@ export const calculateSkip = (page: number, limit: number): number => {
   return (page - 1) * limit;
 };
 
+export const getPaginationParams = (page: string | number, limit: string | number) => {
+  const pageNum = typeof page === 'string' ? parseInt(page, 10) : page;
+  const limitNum = typeof limit === 'string' ? parseInt(limit, 10) : limit;
+
+  const validPage = Math.max(1, isNaN(pageNum) ? 1 : pageNum);
+  const validLimit = Math.max(1, Math.min(100, isNaN(limitNum) ? 20 : limitNum));
+
+  return {
+    page: validPage,
+    limit: validLimit,
+    skip: (validPage - 1) * validLimit,
+  };
+};
+
 // Search/Filter utilities
 export const buildSearchFilter = (searchTerm: string, fields: string[]) => {
   const formattedTerm = `%${searchTerm}%`;
