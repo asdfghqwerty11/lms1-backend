@@ -1,0 +1,1 @@
+{"version":3,"file":"dentists.controller.d.ts","sourceRoot":"","sources":["../../src/controllers/dentists.controller.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAmCnC,qBAAa,kBAAkB;IAC7B,aAAa,gGAYV;IAEH,WAAW,gGAmBR;IAEH,cAAc,gGAWX;IAEH,aAAa,gGAaV;IAEH,aAAa,gGAYV;IAEH,sBAAsB,gGAoBpB;IAEF,iBAAiB,gGAqBd;CACJ;AAED,eAAO,MAAM,kBAAkB,oBAA2B,CAAC"}

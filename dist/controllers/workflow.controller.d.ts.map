@@ -1,0 +1,1 @@
+{"version":3,"file":"workflow.controller.d.ts","sourceRoot":"","sources":["../../src/controllers/workflow.controller.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAyBnC,qBAAa,kBAAkB;IAC7B,eAAe,gGAcZ;IAEH,mBAAmB,gGA8BhB;IAEH,YAAY,gGAiBT;IAEH,WAAW,gGAgCR;IAEH,aAAa,gGAoBV;IAEH,WAAW,gGAcR;IAEH,gBAAgB,gGAsBb;CACJ;AAED,eAAO,MAAM,kBAAkB,oBAA2B,CAAC"}
