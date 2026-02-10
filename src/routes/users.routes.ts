@@ -7,15 +7,7 @@ const router = Router();
 // Apply auth middleware to all routes
 router.use(authMiddleware, requireAuth);
 
-// User CRUD
-router.post('/', usersController.createUser);
-router.get('/', usersController.getUsers);
-router.get('/search', usersController.searchUsers);
-router.get('/:id', usersController.getUserById);
-router.put('/:id', usersController.updateUser);
-router.delete('/:id', usersController.deactivateUser);
-
-// Role management
+// Role management (must be before /:id to avoid matching "roles" as an id)
 router.post('/roles', usersController.createRole);
 router.get('/roles', usersController.getRoles);
 router.get('/roles/:id', usersController.getRoleById);
@@ -24,5 +16,13 @@ router.delete('/roles/:id', usersController.deleteRole);
 
 // Permission management
 router.get('/permissions', usersController.getPermissions);
+
+// User CRUD
+router.post('/', usersController.createUser);
+router.get('/', usersController.getUsers);
+router.get('/search', usersController.searchUsers);
+router.get('/:id', usersController.getUserById);
+router.put('/:id', usersController.updateUser);
+router.delete('/:id', usersController.deactivateUser);
 
 export default router;
