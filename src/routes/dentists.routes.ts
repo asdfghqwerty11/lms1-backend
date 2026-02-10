@@ -1,20 +1,21 @@
 import { Router } from 'express';
+import { dentistsController } from '../controllers/dentists.controller';
 import { authMiddleware, requireAuth } from '../middleware/auth';
 
 const router = Router();
 
+// Apply auth middleware to all routes
 router.use(authMiddleware, requireAuth);
 
-// TODO: Implement dentist management routes
-// GET /dentists - List dentists
-// POST /dentists - Create dentist profile
-// GET /dentists/:id - Get dentist by ID
-// PUT /dentists/:id - Update dentist profile
-// DELETE /dentists/:id - Delete dentist
-// GET /dentists/:id/cases - Get dentist cases
-// POST /dentists/:id/applications - Submit application
-// GET /dentists/:id/applications - Get applications
-// PUT /dentists/:id/applications/:appId - Update application
-// PUT /dentists/:id/verify - Verify dentist (admin)
+// Dentist CRUD
+router.post('/', dentistsController.createDentist);
+router.get('/', dentistsController.getDentists);
+router.get('/:id', dentistsController.getDentistById);
+router.put('/:id', dentistsController.updateDentist);
+router.delete('/:id', dentistsController.deleteDentist);
+
+// Applications
+router.get('/applications', dentistsController.getDentistApplications);
+router.put('/applications/:applicationId/review', dentistsController.reviewApplication);
 
 export default router;

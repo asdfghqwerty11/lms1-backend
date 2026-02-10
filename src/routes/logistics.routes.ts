@@ -1,21 +1,24 @@
 import { Router } from 'express';
+import { logisticsController } from '../controllers/logistics.controller';
 import { authMiddleware, requireAuth } from '../middleware/auth';
 
 const router = Router();
 
+// Apply auth middleware to all routes
 router.use(authMiddleware, requireAuth);
 
-// TODO: Implement logistics/shipping routes
-// GET /shipments - List shipments
-// POST /shipments - Create shipment
-// GET /shipments/:id - Get shipment by ID
-// PUT /shipments/:id - Update shipment
-// DELETE /shipments/:id - Delete shipment
-// GET /shipments/:id/tracking - Get tracking info
-// POST /shipments/:id/track - Add tracking update
-// GET /shipments/:id/routes - Get delivery routes
-// POST /shipments/:id/routes - Create delivery route
-// PUT /routes/:routeId/stops/:stopId - Update route stop
-// GET /shipments/status/:status - Get shipments by status
+// Shipment CRUD
+router.post('/shipments', logisticsController.createShipment);
+router.get('/shipments', logisticsController.getShipments);
+router.get('/shipments/:id', logisticsController.getShipmentById);
+router.put('/shipments/:id', logisticsController.updateShipment);
+router.delete('/shipments/:id', logisticsController.deleteShipment);
+
+// Delivery Routes
+router.get('/routes', logisticsController.getDeliveryRoutes);
+router.post('/routes', logisticsController.createDeliveryRoute);
+
+// Route Stops
+router.put('/routes/stops/:id', logisticsController.updateRouteStop);
 
 export default router;

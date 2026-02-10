@@ -1,23 +1,18 @@
 import { Router } from 'express';
+import { settingsController } from '../controllers/settings.controller';
 import { authMiddleware, requireAuth } from '../middleware/auth';
 
 const router = Router();
 
+// Apply auth middleware to all routes
 router.use(authMiddleware, requireAuth);
 
-// TODO: Implement settings routes
-// GET /settings - Get all settings
-// GET /settings/:key - Get setting by key
-// PUT /settings/:key - Update setting
-// DELETE /settings/:key - Delete setting
-// GET /audit-logs - Get audit logs
-// GET /audit-logs/:id - Get audit log by ID
-// POST /roles - Create role
-// GET /roles - Get all roles
-// PUT /roles/:id - Update role
-// DELETE /roles/:id - Delete role
-// POST /roles/:id/permissions - Add permission to role
-// DELETE /roles/:id/permissions/:permissionId - Remove permission from role
-// GET /permissions - Get all permissions
+// Settings management
+router.post('/', settingsController.createSetting);
+router.get('/', settingsController.getAllSettings);
+router.get('/:key', settingsController.getSetting);
+router.put('/:key', settingsController.updateSetting);
+router.put('/', settingsController.bulkUpdateSettings);
+router.delete('/:key', settingsController.deleteSetting);
 
 export default router;

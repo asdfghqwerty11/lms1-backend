@@ -1,19 +1,25 @@
 import { Router } from 'express';
+import { staffController } from '../controllers/staff.controller';
 import { authMiddleware, requireAuth } from '../middleware/auth';
 
 const router = Router();
 
+// Apply auth middleware to all routes
 router.use(authMiddleware, requireAuth);
 
-// TODO: Implement staff management routes
-// GET /staff - List all staff
-// POST /staff - Create new staff
-// GET /staff/:id - Get staff by ID
-// PUT /staff/:id - Update staff
-// DELETE /staff/:id - Delete staff
-// GET /staff/:id/schedule - Get staff schedule
-// POST /staff/:id/schedule - Create schedule
-// GET /staff/:id/reviews - Get performance reviews
-// POST /staff/:id/reviews - Create performance review
+// Staff CRUD
+router.post('/', staffController.createStaff);
+router.get('/', staffController.getStaff);
+router.get('/:id', staffController.getStaffById);
+router.put('/:id', staffController.updateStaff);
+router.delete('/:id', staffController.deleteStaff);
+
+// Staff schedules
+router.get('/:id/schedules', staffController.getStaffSchedules);
+router.post('/:id/schedules', staffController.addStaffSchedule);
+
+// Performance reviews
+router.get('/:id/reviews', staffController.getPerformanceReviews);
+router.post('/:id/reviews', staffController.addPerformanceReview);
 
 export default router;
