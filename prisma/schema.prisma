@@ -13,19 +13,21 @@ datasource db {
 // ==================== Authentication & User Management ====================
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  firstName     String
-  lastName      String
-  password      String
-  phone         String?
-  avatar        String?
-  isActive      Boolean   @default(true)
-  emailVerified DateTime?
-  lastLogin     DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  deletedAt     DateTime?
+  id                      String    @id @default(cuid())
+  email                   String    @unique
+  firstName               String
+  lastName                String
+  password                String
+  phone                   String?
+  avatar                  String?
+  isActive                Boolean   @default(true)
+  emailVerified           DateTime?
+  lastLogin               DateTime?
+  resetPasswordToken      String?   @unique
+  resetPasswordExpires    DateTime?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  deletedAt               DateTime?
 
   // Relations
   roles                    Role[]

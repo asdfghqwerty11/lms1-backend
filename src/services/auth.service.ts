@@ -1,10 +1,13 @@
 import bcryptjs from 'bcryptjs';
+import crypto from 'crypto';
 import { prisma } from '../config/database';
 import { generateToken, generateRefreshToken, verifyRefreshToken } from '../middleware/auth';
 import { createAppError } from '../middleware/errorHandler';
+import { emailService } from './email.service';
 import { LoginRequest, RegisterRequest, TokenResponse, AuthUser } from '../types';
 
 const SALT_ROUNDS = 10;
+const RESET_TOKEN_EXPIRY = 3600000; // 1 hour in milliseconds
 
 export class AuthService {
   async register(data: RegisterRequest): Promise<TokenResponse> {
@@ -43,6 +46,15 @@ export class AuthService {
         userRole.id,
         user.id
       );
+    }
+
+    // Send welcome email
+    try {
+      await emailService.sendWelcomeEmail(user.email, user.firstName);
+      console.log(`[AUTH] Welcome email sent to ${user.email}`);
+    } catch (error) {
+      console.error(`[AUTH] Failed to send welcome email to ${user.email}:`, error);
+      // Don't throw - registration should succeed even if email fails
     }
 
     const tokens = await this.generateTokens(user.id, user.email, userRole ? [userRole.name] : []);
@@ -201,6 +213,75 @@ export class AuthService {
       where: { id: user.id },
       data: { password: hashedPassword },
     });
+  }
+
+  async forgotPassword(email: string): Promise<string> {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      // Don't reveal if email exists for security
+      console.log(`[AUTH] Password reset requested for non-existent email: ${email}`);
+      return 'If an account exists with this email, a password reset link has been sent.';
+    }
+
+    // Generate secure reset token
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+    const expiryTime = new Date(Date.now() + RESET_TOKEN_EXPIRY);
+
+    // Store hashed token in database
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        resetPasswordToken: hashedToken,
+        resetPasswordExpires: expiryTime,
+      },
+    });
+
+    // Send email with reset link
+    try {
+      await emailService.sendPasswordResetEmail(user.email, resetToken, user.firstName);
+      console.log(`[AUTH] Password reset email sent to ${user.email}`);
+    } catch (error) {
+      console.error(`[AUTH] Failed to send password reset email to ${user.email}:`, error);
+      // Don't throw - the token is still stored, user can try again
+    }
+
+    return 'If an account exists with this email, a password reset link has been sent.';
+  }
+
+  async resetPasswordWithToken(resetToken: string, newPassword: string): Promise<void> {
+    const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+    const user = await prisma.user.findFirst({
+      where: {
+        resetPasswordToken: hashedToken,
+        resetPasswordExpires: {
+          gt: new Date(), // Token must not be expired
+        },
+      },
+    });
+
+    if (!user) {
+      throw createAppError('Invalid or expired password reset token', 400, 'INVALID_RESET_TOKEN');
+    }
+
+    // Hash new password
+    const hashedPassword = await bcryptjs.hash(newPassword, SALT_ROUNDS);
+
+    // Update user with new password and clear reset token
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
+    });
+
+    console.log(`[AUTH] Password reset successfully for user ${user.email}`);
   }
 
   private async generateTokens(userId: string, email: string, roles: string[]): Promise<Omit<TokenResponse, 'user'>> {

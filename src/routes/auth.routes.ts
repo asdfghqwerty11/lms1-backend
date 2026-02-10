@@ -9,11 +9,12 @@ const router = Router();
 router.post('/register', authLimiter, authController.register);
 router.post('/login', authLimiter, authController.login);
 router.post('/refresh-token', authController.refreshToken);
+router.post('/forgot-password', authLimiter, authController.forgotPassword);
+router.post('/reset-password', authLimiter, authController.resetPassword);
 
 // Protected routes
 router.get('/me', authMiddleware, requireAuth, authController.getCurrentUser);
 router.post('/logout', authMiddleware, requireAuth, authController.logout);
 router.post('/update-password', authMiddleware, requireAuth, authController.updatePassword);
-router.post('/reset-password', authController.resetPassword);
 
 export default router;

@@ -142,11 +142,15 @@ export class CasesController {
   addCaseFile = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
     const { id } = req.params;
 
+    if (!req.user) {
+      throw createAppError('User not authenticated', 401, 'UNAUTHORIZED');
+    }
+
     if (!req.file) {
       throw createAppError('No file provided', 400, 'NO_FILE');
     }
 
-    const file = await casesService.addCaseFile(id, req.file);
+    const file = await casesService.addCaseFile(id, req.file, req.user.id);
 
     const response: SuccessResponse<typeof file> = {
       success: true,

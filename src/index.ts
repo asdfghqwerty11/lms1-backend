@@ -2,6 +2,7 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { connectDatabase, disconnectDatabase } from './config/database';
+import { initStorage } from './config/storage';
 import env from './config/env';
 import { errorHandler } from './middleware/errorHandler';
 import { apiLimiter } from './middleware/rateLimiter';
@@ -54,6 +55,14 @@ const startServer = async (): Promise<void> => {
   try {
     // Connect to database
     await connectDatabase();
+
+    // Initialize Supabase Storage
+    try {
+      await initStorage();
+    } catch (error) {
+      console.warn('Warning: Failed to initialize Supabase storage:', error);
+      console.warn('File uploads will not work until Supabase is properly configured');
+    }
 
     // Start listening
     const server = app.listen(PORT, () => {

@@ -1,6 +1,8 @@
 import bcryptjs from 'bcryptjs';
+import crypto from 'crypto';
 import { prisma } from '../config/database';
 import { createAppError } from '../middleware/errorHandler';
+import { emailService } from './email.service';
 import {
   PaginationParams,
   PaginatedResponse,
@@ -73,6 +75,15 @@ export class UsersService {
         dentistProfile: true,
       },
     });
+
+    // Send welcome email
+    try {
+      await emailService.sendWelcomeEmail(user.email, user.firstName, data.password);
+      console.log(`[USERS] Welcome email sent to ${user.email}`);
+    } catch (error) {
+      console.error(`[USERS] Failed to send welcome email to ${user.email}:`, error);
+      // Don't throw - user creation should succeed even if email fails
+    }
 
     return userWithRoles;
   }

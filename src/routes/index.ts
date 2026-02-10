@@ -11,6 +11,8 @@ import settingsRoutes from './settings.routes';
 import usersRoutes from './users.routes';
 import dentistsRoutes from './dentists.routes';
 import logisticsRoutes from './logistics.routes';
+import reportsRoutes from './reports.routes';
+import uploadsRoutes from './uploads.routes';
 
 const router = Router();
 
@@ -36,19 +38,14 @@ router.use('/api/settings', settingsRoutes);
 router.use('/api/users', usersRoutes);
 router.use('/api/dentists', dentistsRoutes);
 router.use('/api/logistics', logisticsRoutes);
+router.use('/api/reports', reportsRoutes);
+router.use('/api/uploads', uploadsRoutes);
 
 // Placeholder routes for modules not yet needed
 router.use('/api/calendar', (_req, res) => {
   res.status(501).json({
     success: false,
     message: 'Calendar module not yet implemented',
-  });
-});
-
-router.use('/api/reports', (_req, res) => {
-  res.status(501).json({
-    success: false,
-    message: 'Reports module not yet implemented',
   });
 });
 

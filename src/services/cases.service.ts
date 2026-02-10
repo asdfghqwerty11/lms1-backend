@@ -8,6 +8,14 @@ import {
   PaginationParams,
   PaginatedResponse,
 } from '../types';
+import {
+  uploadFileToStorage,
+  getSignedDownloadUrl,
+  deleteFileFromStorage,
+  listCaseFiles,
+  AttachmentType,
+  getAttachmentTypeFromMime,
+} from '../config/storage';
 
 export class CasesService {
   async createCase(data: CreateCaseRequest, createdById: string): Promise<any> {
@@ -189,28 +197,98 @@ export class CasesService {
     });
   }
 
-  async addCaseFile(caseId: string, file: Express.Multer.File): Promise<any> {
-    const newFile = await prisma.caseFile.create({
-      data: {
-        caseId,
-        filename: file.originalname,
-        fileSize: BigInt(file.size),
-        fileType: file.mimetype,
-        fileUrl: `/uploads/${file.filename}`,
-      },
+  async addCaseFile(caseId: string, file: Express.Multer.File, userId: string): Promise<any> {
+    // Verify case exists
+    const caseExists = await prisma.case.findUnique({
+      where: { id: caseId },
     });
 
-    return newFile;
+    if (!caseExists) {
+      throw createAppError('Case not found', 404, 'CASE_NOT_FOUND');
+    }
+
+    try {
+      // Upload file to Supabase Storage
+      const uploadResult = await uploadFileToStorage(file, caseId, userId);
+
+      // Store file metadata in database
+      const newFile = await prisma.caseFile.create({
+        data: {
+          caseId,
+          filename: file.originalname,
+          fileSize: BigInt(file.size),
+          fileType: file.mimetype,
+          fileUrl: uploadResult.path, // Store the Supabase path
+        },
+      });
+
+      // Return file metadata with signed URL
+      const signedUrl = await getSignedDownloadUrl(uploadResult.path, 3600); // 1 hour expiry
+
+      return {
+        ...newFile,
+        signedUrl,
+        attachmentType: uploadResult.attachmentType,
+      };
+    } catch (error) {
+      throw createAppError(
+        `Failed to upload file: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        500,
+        'FILE_UPLOAD_FAILED'
+      );
+    }
   }
 
   async getCaseFiles(caseId: string): Promise<any[]> {
-    return prisma.caseFile.findMany({
+    const files = await prisma.caseFile.findMany({
       where: { caseId },
       orderBy: { uploadedAt: 'desc' },
     });
+
+    // Add signed URLs to each file
+    const filesWithUrls = await Promise.all(
+      files.map(async (file) => {
+        try {
+          const signedUrl = await getSignedDownloadUrl(file.fileUrl, 3600); // 1 hour expiry
+          return {
+            ...file,
+            signedUrl,
+            attachmentType: getAttachmentTypeFromMime(file.fileType),
+          };
+        } catch (error) {
+          // If signed URL generation fails, return file without signed URL
+          console.error(`Failed to generate signed URL for file ${file.id}:`, error);
+          return {
+            ...file,
+            signedUrl: null,
+            attachmentType: getAttachmentTypeFromMime(file.fileType),
+          };
+        }
+      })
+    );
+
+    return filesWithUrls;
   }
 
   async deleteCaseFile(fileId: string): Promise<void> {
+    // Get file metadata to find the storage path
+    const file = await prisma.caseFile.findUnique({
+      where: { id: fileId },
+    });
+
+    if (!file) {
+      throw createAppError('File not found', 404, 'FILE_NOT_FOUND');
+    }
+
+    try {
+      // Delete from Supabase Storage
+      await deleteFileFromStorage(file.fileUrl);
+    } catch (error) {
+      console.error('Failed to delete file from storage:', error);
+      // Continue to delete database record even if storage deletion fails
+    }
+
+    // Delete from database
     await prisma.caseFile.delete({
       where: { id: fileId },
     });

@@ -27,8 +27,12 @@ const updatePasswordSchema = z.object({
   path: ['confirmPassword'],
 });
 
-const resetPasswordSchema = z.object({
+const forgotPasswordSchema = z.object({
   email: z.string().email('Invalid email address'),
+});
+
+const resetPasswordSchema = z.object({
+  token: z.string().min(1, 'Reset token is required'),
   newPassword: z.string().min(8, 'New password must be at least 8 characters'),
   confirmPassword: z.string().min(1, 'Password confirmation is required'),
 }).refine((data) => data.newPassword === data.confirmPassword, {
@@ -136,10 +140,24 @@ export class AuthController {
     res.status(200).json(response);
   });
 
+  forgotPassword = asyncHandler(async (req: Request, res: Response): Promise<void> => {
+    const validatedData = forgotPasswordSchema.parse(req.body);
+
+    const message = await authService.forgotPassword(validatedData.email);
+
+    const response: SuccessResponse<null> = {
+      success: true,
+      message,
+      data: null as any,
+    };
+
+    res.status(200).json(response);
+  });
+
   resetPassword = asyncHandler(async (req: Request, res: Response): Promise<void> => {
     const validatedData = resetPasswordSchema.parse(req.body);
 
-    await authService.resetPassword(validatedData.email, validatedData.newPassword);
+    await authService.resetPasswordWithToken(validatedData.token, validatedData.newPassword);
 
     const response: SuccessResponse<null> = {
       success: true,

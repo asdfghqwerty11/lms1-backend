@@ -1,4 +1,6 @@
+import { Resend } from 'resend';
 import env from '../config/env';
+import { emailTemplates } from '../utils/emailTemplates';
 
 export interface EmailOptions {
   to: string;
@@ -9,27 +11,126 @@ export interface EmailOptions {
   bcc?: string[];
 }
 
+// Initialize Resend client
+const resend = new Resend(env.RESEND_API_KEY || '');
+const FROM_EMAIL = env.FROM_EMAIL || 'noreply@dentalkart.com';
+const APP_NAME = 'DentNode by DentalKart';
+
 export class EmailService {
+  private isResendConfigured(): boolean {
+    return !!env.RESEND_API_KEY;
+  }
+
   async sendEmail(options: EmailOptions): Promise<void> {
-    // In production, use nodemailer or similar
-    if (!env.SMTP_HOST) {
-      console.log('[EMAIL] Simulated email sent:', {
+    try {
+      if (!this.isResendConfigured()) {
+        console.warn('[EMAIL] Resend API key not configured. Email simulation mode.');
+        console.log('[EMAIL] Simulated email sent:', {
+          to: options.to,
+          subject: options.subject,
+          timestamp: new Date().toISOString(),
+        });
+        return;
+      }
+
+      await resend.emails.send({
+        from: FROM_EMAIL,
+        to: options.to,
+        subject: options.subject,
+        html: options.html,
+        cc: options.cc,
+        bcc: options.bcc,
+      });
+
+      console.log('[EMAIL] Email sent successfully:', {
         to: options.to,
         subject: options.subject,
       });
-      return;
-    }
-
-    try {
-      // Placeholder for actual email sending implementation
-      // Using nodemailer, SendGrid, AWS SES, etc.
-      console.log('[EMAIL] Email would be sent via SMTP');
     } catch (error) {
       console.error('[EMAIL] Failed to send email:', error);
       throw error;
     }
   }
 
+  // Password reset email
+  async sendPasswordResetEmail(to: string, resetToken: string, userName: string): Promise<void> {
+    const resetUrl = `${env.FRONTEND_URL || 'https://dentalkart.com'}/reset-password?token=${resetToken}`;
+    const template = emailTemplates.passwordReset(resetUrl, userName);
+
+    await this.sendEmail({
+      to,
+      subject: template.subject,
+      html: template.html,
+    });
+  }
+
+  // Welcome email for new users
+  async sendWelcomeEmail(to: string, userName: string, tempPassword?: string): Promise<void> {
+    const template = emailTemplates.welcome(userName, tempPassword);
+
+    await this.sendEmail({
+      to,
+      subject: template.subject,
+      html: template.html,
+    });
+  }
+
+  // Case status update notification
+  async sendCaseStatusUpdate(to: string, dentistName: string, caseNumber: string, newStatus: string, patientName: string): Promise<void> {
+    const template = emailTemplates.caseStatusUpdate(dentistName, caseNumber, newStatus, patientName);
+
+    await this.sendEmail({
+      to,
+      subject: template.subject,
+      html: template.html,
+    });
+  }
+
+  // New case submission confirmation
+  async sendCaseSubmissionConfirmation(to: string, dentistName: string, caseNumber: string, patientName: string): Promise<void> {
+    const template = emailTemplates.caseSubmissionConfirmation(dentistName, caseNumber, patientName);
+
+    await this.sendEmail({
+      to,
+      subject: template.subject,
+      html: template.html,
+    });
+  }
+
+  // Invoice notification
+  async sendInvoiceEmail(to: string, dentistName: string, invoiceNumber: string, amount: number, dueDate: string): Promise<void> {
+    const template = emailTemplates.invoiceNotification(dentistName, invoiceNumber, amount, dueDate);
+
+    await this.sendEmail({
+      to,
+      subject: template.subject,
+      html: template.html,
+    });
+  }
+
+  // Low stock alert (to lab managers)
+  async sendLowStockAlert(to: string, itemName: string, currentQuantity: number, minQuantity: number): Promise<void> {
+    const template = emailTemplates.lowStockAlert(itemName, currentQuantity, minQuantity);
+
+    await this.sendEmail({
+      to,
+      subject: template.subject,
+      html: template.html,
+    });
+  }
+
+  // Shipment tracking update
+  async sendShipmentUpdate(to: string, recipientName: string, trackingNumber: string, status: string, estimatedDelivery?: string): Promise<void> {
+    const template = emailTemplates.shipmentUpdate(recipientName, trackingNumber, status, estimatedDelivery);
+
+    await this.sendEmail({
+      to,
+      subject: template.subject,
+      html: template.html,
+    });
+  }
+
+  // Legacy email methods for backward compatibility
   async sendCaseAssignmentEmail(email: string, caseName: string, caseNumber: string): Promise<void> {
     const html = `
       <h2>Case Assignment</h2>
@@ -60,22 +161,6 @@ export class EmailService {
     });
   }
 
-  async sendInvoiceEmail(email: string, invoiceNumber: string, amount: string): Promise<void> {
-    const html = `
-      <h2>Invoice Generated</h2>
-      <p>Your invoice has been generated.</p>
-      <p>Invoice Number: <strong>${invoiceNumber}</strong></p>
-      <p>Amount Due: <strong>${amount}</strong></p>
-      <p>Please review and process payment as soon as possible.</p>
-    `;
-
-    await this.sendEmail({
-      to: email,
-      subject: `Invoice: ${invoiceNumber}`,
-      html,
-    });
-  }
-
   async sendPaymentConfirmationEmail(email: string, invoiceNumber: string, amount: string): Promise<void> {
     const html = `
       <h2>Payment Received</h2>
@@ -88,22 +173,6 @@ export class EmailService {
     await this.sendEmail({
       to: email,
       subject: `Payment Confirmation: ${invoiceNumber}`,
-      html,
-    });
-  }
-
-  async sendInventoryAlertEmail(email: string, itemName: string, currentStock: number, minStock: number): Promise<void> {
-    const html = `
-      <h2>Inventory Alert</h2>
-      <p>Stock level for <strong>${itemName}</strong> is below minimum.</p>
-      <p>Current Stock: ${currentStock}</p>
-      <p>Minimum Stock: ${minStock}</p>
-      <p>Please order additional inventory.</p>
-    `;
-
-    await this.sendEmail({
-      to: email,
-      subject: `Low Inventory Alert: ${itemName}`,
       html,
     });
   }
