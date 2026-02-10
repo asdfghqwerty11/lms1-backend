@@ -105,9 +105,9 @@ export class CasesService {
 
     if (filters.search) {
       where.OR = [
-        { patientName: { contains: filters.search, mode: 'insensitive' } },
-        { caseNumber: { contains: filters.search, mode: 'insensitive' } },
-        { description: { contains: filters.search, mode: 'insensitive' } },
+        { patientName: { contains: filters.search, mode: 'insensitive' as const } },
+        { caseNumber: { contains: filters.search, mode: 'insensitive' as const } },
+        { description: { contains: filters.search, mode: 'insensitive' as const } },
       ];
     }
 
@@ -123,7 +123,7 @@ export class CasesService {
 
     const [cases, total] = await Promise.all([
       prisma.case.findMany({
-        where,
+        where: where as any,
         include: {
           dentist: true,
           createdBy: true,
@@ -134,7 +134,7 @@ export class CasesService {
         take: pagination.limit,
         orderBy: { createdAt: 'desc' },
       }),
-      prisma.case.count({ where }),
+      prisma.case.count({ where: where as any }),
     ]);
 
     const pages = Math.ceil(total / pagination.limit);
@@ -258,15 +258,15 @@ export class CasesService {
   async searchCases(searchTerm: string, pagination: PaginationParams): Promise<PaginatedResponse<any>> {
     const where = {
       OR: [
-        { patientName: { contains: searchTerm, mode: 'insensitive' } },
-        { caseNumber: { contains: searchTerm, mode: 'insensitive' } },
-        { description: { contains: searchTerm, mode: 'insensitive' } },
+        { patientName: { contains: searchTerm, mode: 'insensitive' as const } },
+        { caseNumber: { contains: searchTerm, mode: 'insensitive' as const } },
+        { description: { contains: searchTerm, mode: 'insensitive' as const } },
       ],
     };
 
     const [cases, total] = await Promise.all([
       prisma.case.findMany({
-        where,
+        where: where as any,
         include: {
           dentist: true,
           createdBy: true,
@@ -275,7 +275,7 @@ export class CasesService {
         skip: pagination.skip,
         take: pagination.limit,
       }),
-      prisma.case.count({ where }),
+      prisma.case.count({ where: where as any }),
     ]);
 
     return {

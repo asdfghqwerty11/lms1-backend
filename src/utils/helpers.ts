@@ -146,7 +146,7 @@ export const buildSearchFilter = (searchTerm: string, fields: string[]) => {
     OR: fields.map((field) => ({
       [field]: {
         contains: searchTerm,
-        mode: 'insensitive',
+        mode: 'insensitive' as const,
       },
     })),
   };
