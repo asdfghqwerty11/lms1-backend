@@ -1,34 +1,178 @@
 {
   "pages": [
-    { "id": "page-1", "name": "Patient website & booking" },
-    { "id": "page-2", "name": "Clinic console" },
-    { "id": "page-3", "name": "Chairside & automation" }
+    {
+      "id": "page-1",
+      "name": "Patient website & booking"
+    },
+    {
+      "id": "page-2",
+      "name": "Clinic console"
+    },
+    {
+      "id": "page-3",
+      "name": "Chairside & automation"
+    }
   ],
   "artboards": [
-    { "file": "Main.dc.html",        "page": "page-1", "x": 0,    "y": 0,    "w": 1440, "h": 3560, "title": "Home", "print": "flow", "is_interactive": true },
-    { "file": "Treatment.dc.html",   "page": "page-1", "x": 1560, "y": 0,    "w": 1440, "h": 2280, "title": "Treatment page — implants", "print": "flow", "is_interactive": true },
-    { "file": "Booking.dc.html",     "page": "page-1", "x": 3120, "y": 0,    "w": 1120, "h": 960,  "title": "Booking flow", "is_interactive": true },
-    { "file": "Portal.dc.html",      "page": "page-1", "x": 3120, "y": 1140, "w": 1120, "h": 900,  "title": "Patient portal", "is_interactive": true },
-
-    { "file": "Console.dc.html",     "page": "page-2", "x": 0,    "y": 0,    "w": 1440, "h": 900,  "title": "Day schedule", "is_interactive": true },
-    { "file": "Chart.dc.html",       "page": "page-2", "x": 1560, "y": 0,    "w": 1440, "h": 900,  "title": "Patient chart", "is_interactive": true },
-    { "file": "Staff.dc.html",       "page": "page-2", "x": 3120, "y": 0,    "w": 1440, "h": 900,  "title": "Staff & roster", "is_interactive": true },
-    { "file": "Billing.dc.html",     "page": "page-2", "x": 0,    "y": 1080, "w": 1440, "h": 900,  "title": "Invoice & collection", "is_interactive": true },
-    { "file": "Inventory.dc.html",   "page": "page-2", "x": 1560, "y": 1080, "w": 1440, "h": 920,  "title": "Inventory → Dentalkart order", "is_interactive": true },
-
-    { "file": "Chairside.dc.html",   "page": "page-3", "x": 0,    "y": 0,    "w": 900,  "h": 1200, "title": "Chairside — voice to signed Rx", "is_interactive": true },
-    { "file": "Whatsapp.dc.html",    "page": "page-3", "x": 1020, "y": 0,    "w": 390,  "h": 844,  "title": "What the patient receives", "is_interactive": true },
-    { "file": "Automations.dc.html", "page": "page-3", "x": 1530, "y": 0,    "w": 1280, "h": 1000, "title": "Automation control room", "is_interactive": true }
+    {
+      "file": "Main.dc.html",
+      "page": "page-1",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 3560,
+      "title": "Home",
+      "print": "flow",
+      "is_interactive": true
+    },
+    {
+      "file": "Treatment.dc.html",
+      "page": "page-1",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 2280,
+      "title": "Treatment page — implants",
+      "print": "flow",
+      "is_interactive": true
+    },
+    {
+      "file": "Booking.dc.html",
+      "page": "page-1",
+      "x": 3120,
+      "y": 0,
+      "w": 1120,
+      "h": 960,
+      "title": "Booking flow",
+      "is_interactive": true
+    },
+    {
+      "file": "Portal.dc.html",
+      "page": "page-1",
+      "x": 3120,
+      "y": 1140,
+      "w": 1120,
+      "h": 900,
+      "title": "Patient portal",
+      "is_interactive": true
+    },
+    {
+      "file": "Console.dc.html",
+      "page": "page-2",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Day schedule",
+      "is_interactive": true
+    },
+    {
+      "file": "Chart.dc.html",
+      "page": "page-2",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Patient chart",
+      "is_interactive": true
+    },
+    {
+      "file": "Staff.dc.html",
+      "page": "page-2",
+      "x": 3120,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Staff & roster",
+      "is_interactive": true
+    },
+    {
+      "file": "Billing.dc.html",
+      "page": "page-2",
+      "x": 0,
+      "y": 1080,
+      "w": 1440,
+      "h": 900,
+      "title": "Invoice & collection",
+      "is_interactive": true
+    },
+    {
+      "file": "Inventory.dc.html",
+      "page": "page-2",
+      "x": 1560,
+      "y": 1080,
+      "w": 1440,
+      "h": 920,
+      "title": "Inventory → Dentalkart order",
+      "is_interactive": true
+    },
+    {
+      "file": "Chairside.dc.html",
+      "page": "page-3",
+      "x": 0,
+      "y": 0,
+      "w": 900,
+      "h": 1200,
+      "title": "Chairside — voice to signed Rx",
+      "is_interactive": true
+    },
+    {
+      "file": "Whatsapp.dc.html",
+      "page": "page-3",
+      "x": 1020,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "What the patient receives",
+      "is_interactive": true
+    },
+    {
+      "file": "Automations.dc.html",
+      "page": "page-3",
+      "x": 1530,
+      "y": 0,
+      "w": 1280,
+      "h": 1000,
+      "title": "Automation control room",
+      "is_interactive": true
+    }
   ],
   "annotations": [
-    { "id": "note-1", "page": "page-1", "x": 3120, "y": -190, "w": 1120,
-      "text": "Fully clickable: pick a treatment, a doctor, a day and a slot, then send the OTP and confirm. The Continue button stays dead until each step is genuinely complete — that is the real validation rule, not decoration.\n\nEverything in [square brackets] is a placeholder for you to fill: clinic name, address, phone, doctor names, prices, review counts." },
-    { "id": "note-2", "page": "page-2", "x": 1560, "y": -190, "w": 1440,
-      "text": "Entity names here match your existing lms1-backend Prisma schema — Appointment, InventoryItem, InventoryTransaction, Supplier, Invoice, Payment, StaffProfile, StaffSchedule — so these screens sit on the API you already have rather than needing a new one.\n\nThe inventory card is the Dentalkart integration: click Approve and place order to watch the loop close." },
-    { "id": "note-3", "page": "page-3", "x": 0, "y": -230, "w": 900,
-      "text": "The medico-legal gate is real: the Sign button is disabled until you tick the responsibility checkbox. Nothing reaches the patient before a doctor signs. Do not let anyone talk you into removing that step — it is what keeps the voice feature on the right side of NMC rules." },
-    { "id": "note-4", "page": "page-3", "x": 1530, "y": -230, "w": 1280,
-      "text": "Open the tweak chips above this artboard to set your real monthly patient volume and your loaded hourly cost — the whole savings table recomputes from your numbers, not mine. Switch a loop off to see what it was carrying." }
+    {
+      "id": "note-1",
+      "page": "page-1",
+      "x": 3120,
+      "y": -190,
+      "w": 1120,
+      "text": "Fully clickable: pick a treatment, a doctor, a day and a slot, then send the OTP and confirm. The Continue button stays dead until each step is genuinely complete — that is the real validation rule, not decoration.\n\nEverything in [square brackets] is a placeholder for you to fill: clinic name, address, phone, doctor names, prices, review counts.\n\nThe blue is an approximation of the Dentalkart brand, not a sampled value — the live site was unreachable when this was built. PALETTE.md in the repo maps every hex to its role so swapping it is one pass."
+    },
+    {
+      "id": "note-2",
+      "page": "page-2",
+      "x": 1560,
+      "y": -190,
+      "w": 1440,
+      "text": "Entity names here match your existing lms1-backend Prisma schema — Appointment, InventoryItem, InventoryTransaction, Supplier, Invoice, Payment, StaffProfile, StaffSchedule — so these screens sit on the API you already have rather than needing a new one.\n\nThe inventory card is the Dentalkart integration: click Approve and place order to watch the loop close."
+    },
+    {
+      "id": "note-3",
+      "page": "page-3",
+      "x": 0,
+      "y": -230,
+      "w": 900,
+      "text": "The medico-legal gate is real: the Sign button is disabled until you tick the responsibility checkbox. Nothing reaches the patient before a doctor signs. Do not let anyone talk you into removing that step — it is what keeps the voice feature on the right side of NMC rules."
+    },
+    {
+      "id": "note-4",
+      "page": "page-3",
+      "x": 1530,
+      "y": -230,
+      "w": 1280,
+      "text": "Open the tweak chips above this artboard to set your real monthly patient volume and your loaded hourly cost — the whole savings table recomputes from your numbers, not mine. Switch a loop off to see what it was carrying."
+    }
   ],
-  "launch": { "view": "canvas", "page": "page-1" }
+  "launch": {
+    "view": "canvas",
+    "page": "page-1"
+  }
 }
