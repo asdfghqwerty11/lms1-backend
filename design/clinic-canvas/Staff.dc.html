@@ -52,6 +52,7 @@
 
     <div style="flex-grow: 1; background: #FFFFFF; border-radius: 16px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; overflow: hidden; min-width: 0">
 
+      <sc-if value="{{isRoster}}" hint-placeholder-val="{{true}}">
       <div style="display: flex; border-bottom: 1px solid #EEF2F7; flex-shrink: 0">
         <div style="width: 210px; flex-shrink: 0; padding: 13px 18px; border-right: 1px solid #EEF2F7; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: #A3B0C0">Person</div>
         <sc-for list="{{days}}" as="d" hint-placeholder-count="6">
@@ -80,6 +81,70 @@
           </div>
         </sc-for>
       </div>
+      </sc-if>
+
+      <sc-if value="{{isAttend}}" hint-placeholder-val="{{true}}">
+        <div style="display: flex; padding: 12px 20px; border-bottom: 1px solid #EEF2F7; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: #A3B0C0; flex-shrink: 0">
+          <div style="flex-grow: 1">Person</div>
+          <div style="width: 108px; text-align: right">Clocked in</div>
+          <div style="width: 108px; text-align: right">Clocked out</div>
+          <div style="width: 96px; text-align: right">Hours</div>
+          <div style="width: 108px; text-align: right">Late / short</div>
+          <div style="width: 116px; text-align: right">Status</div>
+        </div>
+        <div style="flex-grow: 1; overflow: hidden">
+          <sc-for list="{{attendance}}" as="a" hint-placeholder-count="8">
+            <div style="display: flex; align-items: center; padding: 13px 20px; border-bottom: 1px solid #F4F7FA">
+              <div style="flex-grow: 1; display: flex; gap: 11px; align-items: center; min-width: 0">
+                <div style="{{a.av}}">{{a.initials}}</div>
+                <div style="display: flex; flex-direction: column; gap: 1px; min-width: 0">
+                  <div style="font-size: 13px; font-weight: 700">{{a.name}}</div>
+                  <div style="font-size: 11px; color: #8494A8">{{a.role}}</div>
+                </div>
+              </div>
+              <div style="width: 108px; text-align: right; font-size: 13px; color: #5D6D82">{{a.in}}</div>
+              <div style="width: 108px; text-align: right; font-size: 13px; color: #5D6D82">{{a.out}}</div>
+              <div style="width: 96px; text-align: right; font-size: 13.5px; font-weight: 700">{{a.hours}}</div>
+              <div style="width: 108px; text-align: right; font-size: 13px; color: {{a.varColor}}">{{a.variance}}</div>
+              <div style="width: 116px; display: flex; justify-content: flex-end"><span style="{{a.pill}}">{{a.status}}</span></div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{isPerf}}" hint-placeholder-val="{{true}}">
+        <div style="display: flex; padding: 12px 20px; border-bottom: 1px solid #EEF2F7; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: #A3B0C0; flex-shrink: 0">
+          <div style="flex-grow: 1">Person</div>
+          <div style="width: 116px; text-align: right">Patients seen</div>
+          <div style="width: 116px; text-align: right">Chair hours</div>
+          <div style="width: 116px; text-align: right">Revenue</div>
+          <div style="width: 132px; text-align: right">Utilisation</div>
+          <div style="width: 108px; text-align: right">Rebook rate</div>
+        </div>
+        <div style="flex-grow: 1; overflow: hidden">
+          <sc-for list="{{performance}}" as="p" hint-placeholder-count="8">
+            <div style="display: flex; align-items: center; padding: 13px 20px; border-bottom: 1px solid #F4F7FA">
+              <div style="flex-grow: 1; display: flex; gap: 11px; align-items: center; min-width: 0">
+                <div style="{{p.av}}">{{p.initials}}</div>
+                <div style="display: flex; flex-direction: column; gap: 1px; min-width: 0">
+                  <div style="font-size: 13px; font-weight: 700">{{p.name}}</div>
+                  <div style="font-size: 11px; color: #8494A8">{{p.role}}</div>
+                </div>
+              </div>
+              <div style="width: 116px; text-align: right; font-size: 13px; color: #5D6D82">{{p.patients}}</div>
+              <div style="width: 116px; text-align: right; font-size: 13px; color: #5D6D82">{{p.hours}}</div>
+              <div style="width: 116px; text-align: right; font-size: 13.5px; font-weight: 700">{{p.revenue}}</div>
+              <div style="width: 132px; display: flex; align-items: center; gap: 9px; justify-content: flex-end">
+                <div style="width: 62px; height: 6px; border-radius: 999px; background: #EEF2F7; overflow: hidden">
+                  <div style="{{p.bar}}"></div>
+                </div>
+                <span style="font-size: 12.5px; font-weight: 700; width: 34px; text-align: right">{{p.util}}</span>
+              </div>
+              <div style="width: 108px; text-align: right; font-size: 13px; color: #5D6D82">{{p.rebook}}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
     </div>
 
     <div style="width: 340px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px">
@@ -171,6 +236,32 @@ class Component extends DCLogic {
       { initials: 'HN', name: '[Name]', role: 'Front desk supervisor', shifts: ['full','full','full','full','full','full'] }
     ];
 
+    const AV = 'width: 32px; height: 32px; border-radius: 10px; background: #EDF3FE; color: #0B5CD5; display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 800; flex-shrink: 0';
+
+    // [in, out, hours, variance, status, tone]
+    const attendData = [
+      ['[8:48 AM]', '[7:12 PM]', '[10.4]', 'on time', 'PRESENT', 'ok'],
+      ['[9:04 AM]', '[6:58 PM]', '[9.9]', '[4] min late', 'PRESENT', 'ok'],
+      ['[1:55 PM]', '[8:06 PM]', '[6.2]', 'on time', 'PRESENT', 'ok'],
+      ['[8:51 AM]', '[6:30 PM]', '[9.6]', 'on time', 'PRESENT', 'ok'],
+      ['[9:22 AM]', '[7:05 PM]', '[9.7]', '[22] min late', 'PRESENT', 'warn'],
+      ['[8:45 AM]', '[7:10 PM]', '[10.4]', 'on time', 'PRESENT', 'ok'],
+      ['—', '—', '[0]', 'unplanned', 'ABSENT', 'bad'],
+      ['[8:30 AM]', '[7:30 PM]', '[11.0]', '[1.0] hr over', 'PRESENT', 'warn']
+    ];
+
+    // [patients, chair hours, revenue, utilisation %, rebook rate]
+    const perfData = [
+      ['[46]', '[38.5]', '₹[SAMPLE 6.4L]', 92, '[81%]'],
+      ['[58]', '[41.0]', '₹[SAMPLE 4.1L]', 88, '[76%]'],
+      ['[34]', '[26.5]', '₹[SAMPLE 2.8L]', 71, '[89%]'],
+      ['[62]', '[35.0]', '₹[SAMPLE 1.9L]', 84, '[68%]'],
+      ['—', '[38.0]', '—', 90, '—'],
+      ['—', '[36.5]', '—', 86, '—'],
+      ['—', '[30.0]', '—', 74, '—'],
+      ['—', '[44.0]', '—', 95, '—']
+    ];
+
     return {
       tabs: [
         { id: 'roster', label: 'Roster' }, { id: 'attend', label: 'Attendance' }, { id: 'perf', label: 'Performance' }
@@ -211,6 +302,31 @@ class Component extends DCLogic {
             + (dayData[i].id === st.day ? '; box-shadow: 0 0 0 1.5px #C2D5EE' : '')
         }))
       })),
+
+      isRoster: st.tab === 'roster', isAttend: st.tab === 'attend', isPerf: st.tab === 'perf',
+
+      attendance: peopleData.map((p, i) => {
+        const a = attendData[i];
+        return {
+          initials: p.initials, name: p.name, role: p.role,
+          av: AV,
+          in: a[0], out: a[1], hours: a[2], variance: a[3], status: a[4],
+          varColor: a[5] === 'bad' ? '#B42318' : (a[5] === 'warn' ? '#B45309' : '#5D6D82'),
+          pill: (a[5] === 'bad' ? 'background: #FFF0EE; color: #8E2A20;' : (a[5] === 'warn' ? 'background: #FFF6E8; color: #7A5B14;' : 'background: #E9F7F3; color: #0E7A57;'))
+            + ' padding: 5px 10px; border-radius: 6px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.05em'
+        };
+      }),
+
+      performance: peopleData.map((p, i) => {
+        const d = perfData[i];
+        return {
+          initials: p.initials, name: p.name, role: p.role,
+          av: AV,
+          patients: d[0], hours: d[1], revenue: d[2], util: d[3] + '%', rebook: d[4],
+          bar: 'width: ' + d[3] + '%; height: 6px; border-radius: 999px; background: '
+            + (d[3] >= 85 ? '#0E7A57' : (d[3] >= 70 ? '#0B5CD5' : '#B45309'))
+        };
+      }),
 
       live: [
         { name: 'Dr. [Name]', note: 'In chair [1] · implant placement', status: 'IN CHAIR', tone: 'blue' },

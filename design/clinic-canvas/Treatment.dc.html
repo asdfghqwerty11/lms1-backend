@@ -100,7 +100,7 @@
                   </div>
                   <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; color: #0B1B30">&#8377;[SET PRICE]</div>
                   <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 6px; border-top: 1px solid #EEF2F7">
-                    <sc-for list="{{t.feats}}" as="f" hint-placeholder-count="3">
+                    <sc-for list="{{t.feats}}" as="f" hint-placeholder-count="4">
                       <div style="display: flex; gap: 9px; align-items: flex-start">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0E7A57" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px"><path d="m5 12.5 4.5 4.5L19 7"/></svg>
                         <span style="font-size: 13px; color: #46586F; line-height: 1.45">{{f.t}}</span>
@@ -140,7 +140,7 @@
         <div style="padding: 22px; border-radius: 18px; background: #0B1B30; display: flex; flex-direction: column; gap: 12px">
           <div style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: #6FA6F0">Warranty</div>
           <div style="font-size: 15px; color: #FFFFFF; line-height: 1.55; font-weight: 600">{{sel.warranty}}</div>
-          <div style="font-size: 13px; color: #9DB4CE; line-height: 1.55">Registered against your patient record, honoured at any [Dentalkart Dental Studio] location.</div>
+          <div style="font-size: 13px; color: #9DB4CE; line-height: 1.55">Registered against your patient record, honoured at any Dentalkart Dental Studio location.</div>
         </div>
       </div>
 
@@ -169,7 +169,7 @@ class Component extends DCLogic {
     const tierData = [
       { id: 'entry', label: 'Essential', name: '[Implant brand A]', sub: 'Korean system, PFM crown', crown: 'PFM', warranty: '[5]-year implant warranty', feats: ['Guided placement included', 'Metal-ceramic crown', 'Follow-ups for [1] year'] },
       { id: 'mid', label: 'Most chosen', name: '[Implant brand B]', sub: 'European system, zirconia crown', crown: 'Zirconia', warranty: '[10]-year implant warranty', feats: ['Guided placement included', 'Full-zirconia crown', 'Follow-ups for [3] years', 'Temporary tooth on day of surgery'] },
-      { id: 'top', label: 'Premium', name: '[Implant brand C]', sub: 'Swiss system, layered zirconia', crown: 'Layered zirconia', warranty: 'Lifetime implant warranty', feats: ['Guided placement included', 'Layered zirconia crown', 'Lifetime follow-up', 'Priority slots for every visit'] }
+      { id: 'top', label: 'Premium', name: '[Implant brand C]', sub: 'Swiss system, layered zirconia', crown: 'Layered zirconia', warranty: '[Lifetime] implant warranty', feats: ['Guided placement included', 'Layered zirconia crown', 'Lifetime follow-up', 'Priority slots for every visit'] }
     ];
 
     const sel = tierData.filter((t) => t.id === this.state.tier)[0] || tierData[1];

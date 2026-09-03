@@ -37,7 +37,7 @@
       <div style="padding: 18px 22px; border-bottom: 1px solid #EEF2F7; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0">
         <div style="display: flex; flex-direction: column; gap: 3px">
           <div style="font-size: 15px; font-weight: 800">Line items</div>
-          <div style="font-size: 12px; color: #8494A8">Priced from your rate card. Tap a line to include or hold it back.</div>
+          <div style="font-size: 12px; color: #8494A8">Priced from your rate card &mdash; the figures below are <strong>sample</strong> rates until you load your own. Tap a line to include or hold it back.</div>
         </div>
         <button style="height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid #DDE5EF; font-size: 12.5px; font-weight: 700">+ Add line</button>
       </div>
@@ -171,7 +171,8 @@ class Component extends DCLogic {
 
     const active = lineData.filter((l) => !st.off[l.id]);
     const sub = active.reduce((a, l) => a + l.rate * parseInt(l.qty, 10), 0);
-    const disc = Math.round(sub * 0.05);
+    const DISCOUNT_PCT = 5; // shown to the patient as "[5%] plan discount"
+    const disc = Math.round(sub * DISCOUNT_PCT / 100);
     const paid = 0;
     const due = sub - disc - paid;
 

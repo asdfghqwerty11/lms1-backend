@@ -133,7 +133,7 @@
       </div>
     </div>
     <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px">
-      <sc-for list="{{cards}}" as="t" hint-placeholder-count="6">
+      <sc-for list="{{cards}}" as="t" hint-placeholder-count="9">
         <div style="padding: 24px; border-radius: 18px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 14px; min-height: 226px">
           <div style="display: flex; justify-content: space-between; align-items: flex-start">
             <div style="width: 44px; height: 44px; border-radius: 12px; background: #EDF3FE; display: flex; align-items: center; justify-content: center">
@@ -203,7 +203,7 @@
         <button style="align-self: flex-start; height: 48px; padding: 0 22px; border-radius: 11px; border: 1px solid #C2D5EE; background: #FFFFFF; font-weight: 700; font-size: 14.5px; margin-top: 6px">Message the clinic</button>
       </div>
       <div style="grid-column: span 7; display: flex; flex-direction: column; gap: 10px">
-        <sc-for list="{{faqs}}" as="f" hint-placeholder-count="4">
+        <sc-for list="{{faqs}}" as="f" hint-placeholder-count="5">
           <div style="{{f.wrap}}">
             <button onClick="{{f.toggle}}" style="width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 20px 22px; text-align: left">
               <span style="font-size: 15.5px; font-weight: 700; letter-spacing: -0.005em">{{f.q}}</span>

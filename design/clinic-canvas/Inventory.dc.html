@@ -50,7 +50,7 @@
     <div style="flex-grow: 1; background: #FFFFFF; border-radius: 16px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; overflow: hidden; min-width: 0">
       <div style="padding: 14px 20px; border-bottom: 1px solid #EEF2F7; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0">
         <div style="display: flex; gap: 3px; padding: 3px; border-radius: 10px; background: #F1F5FA">
-          <sc-for list="{{filters}}" as="f" hint-placeholder-count="4">
+          <sc-for list="{{filters}}" as="f" hint-placeholder-count="5">
             <button onClick="{{f.pick}}" style="{{f.wrap}}">{{f.label}}</button>
           </sc-for>
         </div>
@@ -67,7 +67,7 @@
       </div>
 
       <div style="flex-grow: 1; overflow: hidden">
-        <sc-for list="{{rows}}" as="r" hint-placeholder-count="10">
+        <sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
           <div style="{{r.wrap}}">
             <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0">
               <div style="font-size: 13.5px; font-weight: 700">{{r.name}}</div>
@@ -178,16 +178,16 @@ class Component extends DCLogic {
     const st = this.state;
 
     const items = [
-      { name: 'Gutta-percha points [F2] · [box of 60]', meta: 'Endodontics · [Brand]', stock: '1 box', par: '4', rate: '2.5 boxes', cover: '3 days', tone: 'red', status: 'BELOW PAR', low: true },
-      { name: 'Composite [A2] syringe · [4 g]', meta: 'Restorative · [Brand]', stock: '3', par: '10', rate: '6', cover: '4 days', tone: 'red', status: 'BELOW PAR', low: true },
-      { name: 'Nitrile gloves [M] · [box of 100]', meta: 'Consumables · [Brand]', stock: '5 boxes', par: '14', rate: '9 boxes', cover: '4 days', tone: 'red', status: 'BELOW PAR', low: true },
-      { name: 'Articaine [4%] with adrenaline', meta: 'Anaesthetic · [Brand]', stock: '18', par: '40', rate: '22', cover: '6 days', tone: 'amber', status: 'LOW', low: true },
-      { name: 'Rotary files [ProTaper] assorted', meta: 'Endodontics · [Brand]', stock: '9', par: '15', rate: '5', cover: '13 days', tone: 'amber', status: 'LOW', low: true },
-      { name: 'Zirconia blanks · [98 mm]', meta: 'Lab · [Brand]', stock: '6', par: '6', rate: '1.5', cover: '28 days', tone: 'green', status: 'HEALTHY', low: false },
-      { name: 'Impression material · putty', meta: 'Prosthetics · [Brand]', stock: '11', par: '8', rate: '2', cover: '38 days', tone: 'green', status: 'HEALTHY', low: false },
-      { name: 'Surgical suction tips', meta: 'Consumables · [Brand]', stock: '240', par: '150', rate: '60', cover: '28 days', tone: 'green', status: 'HEALTHY', low: false },
-      { name: 'Fluoride varnish · unit dose', meta: 'Preventive · [Brand]', stock: '82', par: '60', rate: '18', cover: '32 days', tone: 'green', status: 'HEALTHY', low: false },
-      { name: 'Implant fixtures [4.0 × 10]', meta: 'Surgical · [Brand]', stock: '7', par: '5', rate: '1.2', cover: '41 days', tone: 'green', status: 'HEALTHY', low: false }
+      { name: 'Gutta-percha points [F2] · [box of 60]', meta: 'Endodontics · [Brand]', stock: '1 box', par: '4', rate: '2.5 boxes', cover: '3 days', tone: 'red', status: 'BELOW PAR', cat: 'endo', low: true },
+      { name: 'Composite [A2] syringe · [4 g]', meta: 'Restorative · [Brand]', stock: '3', par: '10', rate: '6', cover: '4 days', tone: 'red', status: 'BELOW PAR', cat: 'resto', low: true },
+      { name: 'Nitrile gloves [M] · [box of 100]', meta: 'Consumables · [Brand]', stock: '5 boxes', par: '14', rate: '9 boxes', cover: '4 days', tone: 'red', status: 'BELOW PAR', cat: 'cons', low: true },
+      { name: 'Articaine [4%] with adrenaline', meta: 'Anaesthetic · [Brand]', stock: '18', par: '40', rate: '22', cover: '6 days', tone: 'amber', status: 'LOW', cat: 'cons', low: true },
+      { name: 'Rotary files [ProTaper] assorted', meta: 'Endodontics · [Brand]', stock: '9', par: '15', rate: '5', cover: '13 days', tone: 'amber', status: 'LOW', cat: 'endo', low: true },
+      { name: 'Zirconia blanks · [98 mm]', meta: 'Lab · [Brand]', stock: '6', par: '6', rate: '1.5', cover: '28 days', tone: 'green', status: 'HEALTHY', cat: 'lab', low: false },
+      { name: 'Impression material · putty', meta: 'Prosthetics · [Brand]', stock: '11', par: '8', rate: '2', cover: '38 days', tone: 'green', status: 'HEALTHY', cat: 'lab', low: false },
+      { name: 'Surgical suction tips', meta: 'Consumables · [Brand]', stock: '240', par: '150', rate: '60', cover: '28 days', tone: 'green', status: 'HEALTHY', cat: 'cons', low: false },
+      { name: 'Fluoride varnish · unit dose', meta: 'Preventive · [Brand]', stock: '82', par: '60', rate: '18', cover: '32 days', tone: 'green', status: 'HEALTHY', cat: 'cons', low: false },
+      { name: 'Implant fixtures [4.0 × 10]', meta: 'Surgical · [Brand]', stock: '7', par: '5', rate: '1.2', cover: '41 days', tone: 'green', status: 'HEALTHY', cat: 'surg', low: false }
     ];
 
     const toneMap = {
@@ -200,10 +200,13 @@ class Component extends DCLogic {
       { id: 'low', label: 'Needs attention' },
       { id: 'all', label: 'All items' },
       { id: 'endo', label: 'Endodontics' },
-      { id: 'cons', label: 'Consumables' }
+      { id: 'cons', label: 'Consumables' },
+      { id: 'lab', label: 'Lab' }
     ];
 
-    const rows = st.filter === 'low' ? items.filter((i) => i.low) : items;
+    const rows = st.filter === 'low'
+      ? items.filter((i) => i.low)
+      : (st.filter === 'all' ? items : items.filter((i) => i.cat === st.filter));
 
     return {
       kpis: [
@@ -242,7 +245,7 @@ class Component extends DCLogic {
 
       cartWrap: 'flex-grow: 1; border-radius: 16px; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden; min-height: 0; border: '
         + (st.placed ? '1px solid #BFE6DB' : '2px solid #0B5CD5'),
-      cartLine: st.placed ? '#EEF2F7' : '#EEF2F7',
+      cartLine: '#EEF2F7',
       cartTitle: st.placed ? 'Order placed with Dentalkart' : 'Dentalkart cart · awaiting your approval',
       cartTitleColor: st.placed ? '#0E7A57' : '#0F1A2A',
       cartSub: st.placed

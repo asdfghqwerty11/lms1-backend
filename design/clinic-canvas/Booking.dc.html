@@ -36,7 +36,10 @@
       <div style="display: flex; align-items: center; gap: 8px">
         <sc-for list="{{crumbs}}" as="c" hint-placeholder-count="4">
           <button onClick="{{c.go}}" style="{{c.wrap}}">
-            <span style="{{c.num}}">{{c.mark}}</span>
+            <span style="{{c.num}}">
+              <sc-if value="{{c.done}}" hint-placeholder-val="{{true}}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"></path></svg></sc-if>
+              <sc-if value="{{c.pending}}" hint-placeholder-val="{{true}}">{{c.mark}}</sc-if>
+            </span>
             <span>{{c.label}}</span>
           </button>
         </sc-for>
@@ -273,20 +276,28 @@ class Component extends DCLogic {
     ];
 
     const dayData = [
-      { id: 'd1', dow: 'TODAY', date: '[03]', free: 2 },
-      { id: 'd2', dow: 'THU', date: '[04]', free: 7 },
-      { id: 'd3', dow: 'FRI', date: '[05]', free: 5 },
-      { id: 'd4', dow: 'SAT', date: '[06]', free: 9 },
-      { id: 'd5', dow: 'MON', date: '[08]', free: 6 },
-      { id: 'd6', dow: 'TUE', date: '[09]', free: 8 },
-      { id: 'd7', dow: 'WED', date: '[10]', free: 4 }
+      { id: 'd1', dow: 'TODAY', date: '[03]' },
+      { id: 'd2', dow: 'THU', date: '[04]' },
+      { id: 'd3', dow: 'FRI', date: '[05]' },
+      { id: 'd4', dow: 'SAT', date: '[06]' },
+      { id: 'd5', dow: 'MON', date: '[08]' },
+      { id: 'd6', dow: 'TUE', date: '[09]' },
+      { id: 'd7', dow: 'WED', date: '[10]' }
     ];
 
-    const groupData = [
-      { label: 'Morning', slots: [['09:00', 1], ['09:30', 0], ['10:00', 1], ['10:30', 1], ['11:30', 0]] },
-      { label: 'Afternoon', slots: [['12:00', 1], ['12:30', 1], ['02:00', 0], ['02:30', 1], ['03:30', 1]] },
-      { label: 'Evening', slots: [['05:00', 1], ['05:30', 1], ['06:30', 0], ['07:00', 1], ['07:30', 1]] }
+    // Which slots are free varies by day, the way a real chair diary does.
+    const times = [
+      { label: 'Morning', slots: ['09:00', '09:30', '10:00', '10:30', '11:30'] },
+      { label: 'Afternoon', slots: ['12:00', '12:30', '02:00', '02:30', '03:30'] },
+      { label: 'Evening', slots: ['05:00', '05:30', '06:30', '07:00', '07:30'] }
     ];
+    const dayIdx = Math.max(0, dayData.map((d) => d.id).indexOf(st.day));
+    const isFree = (g, i) => ((dayIdx * 4 + g * 5 + i * 3) % 7) > 1;
+    const groupData = times.map((t, g) => ({
+      label: t.label,
+      slots: t.slots.map((time, i) => [time, isFree(g, i) ? 1 : 0])
+    }));
+    const freeCount = groupData.reduce((a, g) => a + g.slots.filter((s) => s[1]).length, 0);
 
     const chip = (on, free) => {
       if (!free) return 'height: 42px; border-radius: 10px; background: #F4F7FB; border: 1px dashed #E0E7F0; color: #B6C1CF; font-weight: 700; font-size: 13.5px; text-align: center; text-decoration: line-through';
@@ -317,7 +328,9 @@ class Component extends DCLogic {
         const on = st.step === s.n;
         return {
           label: s.label,
-          mark: done ? '✓' : String(s.n),
+          mark: String(s.n),
+          done: done,
+          pending: !done,
           go: () => { if (s.n < st.step && st.step < 4) this.setState({ step: s.n }); },
           wrap: on
             ? 'display: flex; align-items: center; gap: 7px; padding: 7px 13px 7px 7px; border-radius: 999px; background: #EDF3FE; font-size: 12.5px; font-weight: 700; color: #0B5CD5'
@@ -383,7 +396,7 @@ class Component extends DCLogic {
           wrap: chip(st.slot === s[0], s[1])
         }))
       })),
-      slotCount: '[' + selDay.free + ']',
+      slotCount: '[' + freeCount + ']',
       dayLabel: selDay.dow === 'TODAY' ? 'today' : selDay.dow + ' ' + selDay.date,
 
       returning: [{ id: 'yes', label: 'Yes, I am a patient' }, { id: 'no', label: 'First visit' }].map((r) => ({
@@ -419,7 +432,7 @@ class Component extends DCLogic {
 
       next: () => { if (canGo[st.step]) this.setState({ step: st.step + 1 }); },
       back: () => this.setState({ step: Math.max(1, st.step - 1) }),
-      restart: () => this.setState({ step: 1, treatment: '', doctor: '', slot: '', ret: '', otp: 0 }),
+      restart: () => this.setState({ step: 1, treatment: '', doctor: '', day: 'd2', slot: '', ret: '', otp: 0 }),
       nextLabel: labels[st.step] || '',
       nextStyle: canGo[st.step]
         ? 'height: 52px; border-radius: 12px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 15px; text-align: center; box-shadow: 0 8px 20px rgba(11,92,213,0.22)'

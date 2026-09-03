@@ -129,7 +129,7 @@
             <div style="display: flex; gap: 14px">
               <div style="flex-grow: 1; padding: 18px 20px; border-radius: 14px; background: #FFF6F5; border: 1px solid #F5D2CC; display: flex; flex-direction: column; gap: 5px">
                 <div style="font-size: 12px; font-weight: 700; color: #B42318; letter-spacing: 0.06em; text-transform: uppercase">Outstanding</div>
-                <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; color: #0B1B30">&#8377;[SAMPLE 18,400]</div>
+                <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; color: #0B1B30">&#8377;{{outstanding}}</div>
               </div>
               <div style="flex-grow: 1; padding: 18px 20px; border-radius: 14px; background: #F4F8FD; border: 1px solid #DDE6F2; display: flex; flex-direction: column; gap: 5px">
                 <div style="font-size: 12px; font-weight: 700; color: #5D6D82; letter-spacing: 0.06em; text-transform: uppercase">Paid this year</div>
@@ -187,10 +187,18 @@ class Component extends DCLogic {
 
   renderVals() {
     const st = this.state;
+    const billData = [
+      { id: 'b1', title: 'Root canal, sitting 2 · 46', no: 'INV-[2026]-[0184]', date: '[03 Sep]', amt: '[7,277]', due: true },
+      { id: 'b2', title: 'Root canal, sitting 1 · 46', no: 'INV-[2026]-[0161]', date: '[28 Aug]', amt: '[9,500]', due: false },
+      { id: 'b3', title: 'Consultation + digital X-ray', no: 'INV-[2026]-[0142]', date: '[21 Aug]', amt: '[1,200]', due: false },
+      { id: 'b4', title: 'Scaling and polishing', no: 'INV-[2026]-[0090]', date: '[12 Jun]', amt: '[2,800]', due: false }
+    ];
+    const dueCount = billData.filter((b) => b.due && !st.paid[b.id]).length;
+
     const tabData = [
       { id: 'visits', label: 'Appointments', count: '4' },
       { id: 'rx', label: 'Prescriptions', count: '3' },
-      { id: 'bills', label: 'Invoices', count: '1 due' },
+      { id: 'bills', label: 'Invoices', count: dueCount ? dueCount + ' due' : 'clear' },
       { id: 'files', label: 'X-rays & records', count: '8' }
     ];
 
@@ -219,13 +227,6 @@ class Component extends DCLogic {
       }
     };
 
-    const billData = [
-      { id: 'b1', title: 'Root canal, sitting 2 + crown', no: 'INV-[2026]-[0184]', date: '[01 Sep]', amt: '[18,400]', due: true },
-      { id: 'b2', title: 'Root canal, sitting 1', no: 'INV-[2026]-[0161]', date: '[28 Aug]', amt: '[9,500]', due: false },
-      { id: 'b3', title: 'Consultation + digital X-ray', no: 'INV-[2026]-[0142]', date: '[21 Aug]', amt: '[1,200]', due: false },
-      { id: 'b4', title: 'Scaling and polishing', no: 'INV-[2026]-[0090]', date: '[12 Jun]', amt: '[2,800]', due: false }
-    ];
-
     return {
       tabs: tabData.map((t) => ({
         label: t.label, count: t.count,
@@ -238,6 +239,7 @@ class Component extends DCLogic {
           : 'padding: 3px 8px; border-radius: 6px; background: #F1F5FA; font-size: 11px; font-weight: 800; color: #8494A8'
       })),
 
+      outstanding: '[SAMPLE ' + (dueCount ? '7,277' : '0') + ']',
       isVisits: st.tab === 'visits', isRx: st.tab === 'rx', isBills: st.tab === 'bills', isFiles: st.tab === 'files',
 
       visits: [

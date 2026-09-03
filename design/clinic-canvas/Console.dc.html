@@ -58,7 +58,7 @@
 
     <div style="height: 66px; flex-shrink: 0; background: #FFFFFF; border-bottom: 1px solid #E3E9F0; display: flex; align-items: center; justify-content: space-between; padding: 0 22px">
       <div style="display: flex; align-items: center; gap: 16px">
-        <h1 style="font-size: 19px; font-weight: 800; letter-spacing: -0.02em">Today &middot; [Wed 3 Sep]</h1>
+        <h1 style="font-size: 19px; font-weight: 800; letter-spacing: -0.02em">{{title}}</h1>
         <div style="display: flex; gap: 3px; padding: 3px; border-radius: 10px; background: #F1F5FA">
           <sc-for list="{{views}}" as="v" hint-placeholder-count="3">
             <button onClick="{{v.pick}}" style="{{v.wrap}}">{{v.label}}</button>
@@ -111,7 +111,7 @@
               <sc-for list="{{hours}}" as="h" hint-placeholder-count="10">
                 <div style="{{h.lineStyle}}"></div>
               </sc-for>
-              <sc-for list="{{c.appts}}" as="a" hint-placeholder-count="4">
+              <sc-for list="{{c.appts}}" as="a" hint-placeholder-count="3">
                 <button onClick="{{a.pick}}" style="{{a.style}}">
                   <div style="font-size: 12px; font-weight: 800; line-height: 1.25; overflow: hidden">{{a.patient}}</div>
                   <div style="font-size: 11px; opacity: 0.82; line-height: 1.3">{{a.treatment}}</div>
@@ -200,18 +200,18 @@ class Component extends DCLogic {
     };
 
     const apptData = [
-      { id: 'a1', chair: 0, from: 9, dur: 1, patient: '[Patient A]', treatment: 'Scaling + polishing', tone: 'grey', status: 'DONE' },
-      { id: 'a2', chair: 0, from: 10.5, dur: 1.5, patient: '[Patient B]', treatment: 'Implant placement · 36', tone: 'blue', status: 'IN CHAIR' },
-      { id: 'a3', chair: 0, from: 14, dur: 1, patient: '[Patient C]', treatment: 'Crown try-in', tone: 'blue', status: 'BOOKED' },
-      { id: 'a4', chair: 1, from: 9.5, dur: 1.5, patient: '[Patient D]', treatment: 'RCT sitting 2 · 46', tone: 'teal', status: 'IN CHAIR' },
-      { id: 'a5', chair: 1, from: 12, dur: 1, patient: '[Patient E]', treatment: 'Emergency · pain', tone: 'rose', status: 'WALK-IN' },
-      { id: 'a6', chair: 1, from: 15.5, dur: 1, patient: '[Patient F]', treatment: 'Filling · 25', tone: 'teal', status: 'BOOKED' },
-      { id: 'a7', chair: 2, from: 10, dur: 1, patient: '[Patient G]', treatment: 'Aligner review', tone: 'amber', status: 'BOOKED' },
-      { id: 'a8', chair: 2, from: 13, dur: 1.5, patient: '[Patient H]', treatment: 'Braces adjustment', tone: 'amber', status: 'BOOKED' },
-      { id: 'a9', chair: 2, from: 16, dur: 1, patient: '[Patient J]', treatment: 'Auto-filled from waitlist', tone: 'grey', status: 'BOOKED' },
-      { id: 'a10', chair: 3, from: 9, dur: 1, patient: '[Patient K]', treatment: 'Child check-up', tone: 'blue', status: 'DONE' },
-      { id: 'a11', chair: 3, from: 11.5, dur: 1, patient: '[Patient L]', treatment: 'Fluoride + sealant', tone: 'blue', status: 'BOOKED' },
-      { id: 'a12', chair: 3, from: 15, dur: 1.5, patient: '[Patient M]', treatment: 'Extraction · 48', tone: 'rose', status: 'BOOKED' }
+      { id: 'a1', chair: 0, doc: 0, from: 9, dur: 1, patient: '[Patient A]', treatment: 'Scaling + polishing', tone: 'grey', status: 'DONE' },
+      { id: 'a2', chair: 0, doc: 0, from: 10.5, dur: 1.5, patient: '[Patient B]', treatment: 'Implant placement · 36', tone: 'blue', status: 'IN CHAIR' },
+      { id: 'a3', chair: 0, doc: 0, from: 14, dur: 1, patient: '[Patient C]', treatment: 'Crown try-in', tone: 'blue', status: 'BOOKED' },
+      { id: 'a4', chair: 1, doc: 1, from: 9.5, dur: 1.5, patient: '[Patient D]', treatment: 'RCT sitting 2 · 46', tone: 'teal', status: 'IN CHAIR' },
+      { id: 'a5', chair: 1, doc: 1, from: 12, dur: 1, patient: '[Patient E]', treatment: 'Emergency · pain', tone: 'rose', status: 'WALK-IN' },
+      { id: 'a6', chair: 1, doc: 1, from: 15.5, dur: 1, patient: '[Patient F]', treatment: 'Filling · 25', tone: 'teal', status: 'BOOKED' },
+      { id: 'a7', chair: 2, doc: 2, from: 10, dur: 1, patient: '[Patient G]', treatment: 'Aligner review', tone: 'amber', status: 'BOOKED' },
+      { id: 'a8', chair: 2, doc: 2, from: 13, dur: 1.5, patient: '[Patient H]', treatment: 'Braces adjustment', tone: 'amber', status: 'BOOKED' },
+      { id: 'a9', chair: 2, doc: 2, from: 16, dur: 1, patient: '[Patient J]', treatment: 'Auto-filled from waitlist', tone: 'grey', status: 'BOOKED' },
+      { id: 'a10', chair: 3, doc: 3, from: 9, dur: 1, patient: '[Patient K]', treatment: 'Child check-up', tone: 'blue', status: 'DONE' },
+      { id: 'a11', chair: 3, doc: 3, from: 11.5, dur: 1, patient: '[Patient L]', treatment: 'Fluoride + sealant', tone: 'blue', status: 'BOOKED' },
+      { id: 'a12', chair: 3, doc: 3, from: 15, dur: 1.5, patient: '[Patient M]', treatment: 'Extraction · 48', tone: 'rose', status: 'BOOKED' }
     ];
 
     const chairData = [
@@ -219,6 +219,36 @@ class Component extends DCLogic {
       { name: 'Chair 2', doctor: 'Dr. [Name] · Endo' },
       { name: 'Chair 3', doctor: 'Dr. [Name] · Ortho' },
       { name: 'Chair 4', doctor: 'Dr. [Name] · Paeds' }
+    ];
+
+    const doctorData = [
+      { name: 'Dr. [Name]', doctor: 'Implantologist · Director' },
+      { name: 'Dr. [Name]', doctor: 'Endodontist' },
+      { name: 'Dr. [Name]', doctor: 'Orthodontist' },
+      { name: 'Dr. [Name]', doctor: 'Paediatric dentist' }
+    ];
+
+    // The week view is a coarser diary: one column per working day.
+    const weekData = [
+      { id: 'w1', col: 0, from: 9.5, dur: 2, patient: '[8] booked', treatment: 'Mon · 2 emergency slots held', tone: 'blue' },
+      { id: 'w2', col: 0, from: 14, dur: 2.5, patient: '[5] booked', treatment: 'Mon afternoon', tone: 'teal' },
+      { id: 'w3', col: 1, from: 9, dur: 3, patient: '[11] booked', treatment: 'Tue · full', tone: 'blue' },
+      { id: 'w4', col: 1, from: 15, dur: 2, patient: '[4] booked', treatment: 'Tue evening', tone: 'amber' },
+      { id: 'w5', col: 2, from: 9, dur: 3.5, patient: '[12] booked', treatment: 'Wed · today', tone: 'blue' },
+      { id: 'w6', col: 2, from: 14, dur: 3, patient: '[6] booked', treatment: 'Wed afternoon', tone: 'teal' },
+      { id: 'w7', col: 3, from: 10, dur: 2, patient: '[6] booked', treatment: 'Thu · Dr. [Name] off', tone: 'grey' },
+      { id: 'w8', col: 4, from: 9, dur: 3, patient: '[10] booked', treatment: 'Fri', tone: 'blue' },
+      { id: 'w9', col: 4, from: 15.5, dur: 2, patient: '[3] booked', treatment: 'Fri evening', tone: 'amber' },
+      { id: 'w10', col: 5, from: 9, dur: 4, patient: '[14] booked', treatment: 'Sat · busiest day', tone: 'rose' }
+    ];
+
+    const weekCols = [
+      { name: 'Mon [01]', doctor: '[13] appointments' },
+      { name: 'Tue [02]', doctor: '[15] appointments' },
+      { name: 'Wed [03]', doctor: '[12] appointments · today' },
+      { name: 'Thu [04]', doctor: '[6] appointments' },
+      { name: 'Fri [05]', doctor: '[13] appointments' },
+      { name: 'Sat [06]', doctor: '[14] appointments' }
     ];
 
     const hours = [];
@@ -241,6 +271,9 @@ class Component extends DCLogic {
       label: f[0],
       style: 'padding: 5px 10px; border-radius: 7px; font-size: 11px; font-weight: 700; background: ' + tones[f[1]][0] + '; color: ' + tones[f[1]][2]
     }));
+
+    const columns = st.view === 'day' ? chairData : (st.view === 'doc' ? doctorData : weekCols);
+    const source = st.view === 'week' ? weekData : apptData;
 
     const fmt = (t) => {
       const h = Math.floor(t); const m = (t - h) * 60;
@@ -285,14 +318,16 @@ class Component extends DCLogic {
         deltaStyle: 'padding: 3px 8px; border-radius: 6px; background: #E9F7F3; color: #0E7A57; font-size: 11px; font-weight: 800'
       })),
 
-      chairs: chairData.map((c, i) => ({
+      title: st.view === 'week' ? 'This week · [1–6 Sep]' : 'Today · [Wed 3 Sep]',
+
+      chairs: columns.map((c, i) => ({
         name: c.name, doctor: c.doctor,
-        appts: apptData.filter((a) => a.chair === i).map((a) => {
+        appts: source.filter((a) => (st.view === 'day' ? a.chair : (st.view === 'doc' ? a.doc : a.col)) === i).map((a) => {
           const on = st.sel === a.id;
           const t = tones[a.tone];
           return {
             patient: a.patient, treatment: a.treatment, time: fmt(a.from) + ' – ' + fmt(a.from + a.dur),
-            pick: () => this.setState({ sel: a.id }),
+            pick: () => { if (st.view !== 'week') this.setState({ sel: a.id }); },
             style: 'position: absolute; left: 6px; right: 6px; top: ' + ((a.from - START) * PX + 2) + 'px; height: ' + (a.dur * PX - 5) + 'px;'
               + ' padding: 7px 9px; border-radius: 9px; display: flex; flex-direction: column; gap: 2px; overflow: hidden;'
               + ' background: ' + t[0] + '; color: ' + t[2] + ';'
@@ -313,7 +348,7 @@ class Component extends DCLogic {
           { k: 'Age / sex', v: '[34] · [F]' },
           { k: 'Phone', v: '+91 [00000 00000]' },
           { k: 'Treatment plan', v: '[3] of [5] steps done' },
-          { k: 'Outstanding', v: '₹[SAMPLE 18,400]' }
+          { k: 'Outstanding', v: '₹[SAMPLE 7,277]' }
         ],
         history: [
           { what: 'RCT sitting 1 · 46', when: '[28 Aug] · Dr. [Name]' },

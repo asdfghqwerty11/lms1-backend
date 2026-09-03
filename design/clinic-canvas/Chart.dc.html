@@ -99,7 +99,11 @@
             <div style="display: flex; flex-direction: column; gap: 9px">
               <sc-for list="{{plan}}" as="p" hint-placeholder-count="5">
                 <div style="display: flex; gap: 16px; align-items: center; padding: 13px 16px; border-radius: 12px; border: 1px solid #EEF2F7">
-                  <div style="{{p.mark}}">{{p.markCh}}</div>
+                  <div style="{{p.mark}}">
+                    <sc-if value="{{p.done}}" hint-placeholder-val="{{true}}">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"></path></svg>
+                    </sc-if>
+                  </div>
                   <div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
                     <div style="font-size: 14px; font-weight: 700">{{p.what}}</div>
                     <div style="font-size: 12px; color: #8494A8">{{p.when}}</div>
@@ -166,7 +170,7 @@
     <div style="width: 292px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px">
       <div style="padding: 18px; border-radius: 15px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 12px">
         <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #8494A8">Medical alerts</div>
-        <sc-for list="{{alerts}}" as="a" hint-placeholder-count="4">
+        <sc-for list="{{alerts}}" as="a" hint-placeholder-count="3">
           <div style="display: flex; gap: 10px; align-items: flex-start">
             <div style="{{a.dot}}"></div>
             <div style="display: flex; flex-direction: column; gap: 1px">
@@ -181,7 +185,7 @@
         <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #6FA6F0">Account</div>
         <div style="display: flex; justify-content: space-between; align-items: center">
           <span style="font-size: 12.5px; color: #9DB4CE">Outstanding</span>
-          <span style="font-size: 17px; font-weight: 800; color: #FFFFFF">₹[SAMPLE 18,400]</span>
+          <span style="font-size: 17px; font-weight: 800; color: #FFFFFF">₹[SAMPLE 7,277]</span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center">
           <span style="font-size: 12.5px; color: #9DB4CE">EMI</span>
@@ -240,6 +244,11 @@ class Component extends DCLogic {
     const lowerN = ['48','47','46','45','44','43','42','41','31','32','33','34','35','36','37','38'];
 
     const names = {
+      '17': 'Upper right second molar',
+      '14': 'Upper right first premolar',
+      '25': 'Upper left second premolar',
+      '37': 'Lower left second molar',
+      '38': 'Lower left third molar',
       '46': 'Lower right first molar',
       '36': 'Lower left first molar',
       '26': 'Upper left first molar',
@@ -247,6 +256,11 @@ class Component extends DCLogic {
       '48': 'Lower right third molar'
     };
     const notes = {
+      '17': 'Occlusal caries noted at the examination on [21 Aug]. Restoration planned after the endodontic treatment on 46 is complete.',
+      '14': 'Composite restoration, occluso-distal. Placed [2023], margins sound at last review.',
+      '25': 'Composite restoration, occlusal. Placed [2022], intact.',
+      '37': 'Composite restoration, occlusal. Placed [2024], intact.',
+      '38': 'Congenitally absent. Confirmed on the OPG taken [21 Aug].',
       '46': 'Deep occlusal caries with pulpal involvement. RCT sitting 1 completed [28 Aug]. Sitting 2 and crown planned.',
       '36': 'Implant placed [Feb 2026], integrated. Crown fitted [Apr 2026]. Review at 12 months.',
       '26': 'Zirconia crown, cemented [Jun 2025]. Margins sound at last review.',
@@ -314,7 +328,7 @@ class Component extends DCLogic {
         { what: 'Six-month review and scaling', when: '[Mar 2027] · auto-recall set', amt: '[2,800]', done: false, status: 'RECALL' }
       ].map((p) => ({
         what: p.what, when: p.when, amt: p.amt, status: p.status,
-        markCh: p.done ? '✓' : '',
+        done: p.done,
         mark: p.done
           ? 'width: 22px; height: 22px; border-radius: 999px; background: #0E7A57; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0'
           : 'width: 22px; height: 22px; border-radius: 999px; border: 2px solid #D7DFE9; flex-shrink: 0',
