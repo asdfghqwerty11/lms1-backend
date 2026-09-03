@@ -1,0 +1,329 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <style>
+    *{ box-sizing: border-box; }
+    body { margin: 0; background: #F5F7FB; color: #0F1A2A;
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; }
+    a { color: #0B5CD5; text-decoration: none; } a:hover { color: #08306E; }
+    button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; text-align: left; }
+    h1, h2, h3 { margin: 0; } p { margin: 0; }
+  </style>
+</helmet>
+
+<div style="display: flex; height: 900px; background: #F5F7FB; overflow: hidden">
+
+  <div style="width: 216px; flex-shrink: 0; background: #0B1B30; display: flex; flex-direction: column; padding: 18px 12px; gap: 22px">
+    <div style="display: flex; align-items: center; gap: 10px; padding: 0 8px">
+      <div style="width: 30px; height: 30px; border-radius: 9px; background: #0B5CD5; display: flex; align-items: center; justify-content: center">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.1c-1.7 0-2.4.9-4.2.9-1.6 0-2.6-.6-3.6.5C2.8 6.1 3 9.1 3.7 11.8c.6 2.2 1.1 4.7 1.7 6.2.4 1.1 1.6 1.1 2-.1.4-1.2.7-3.3 1.3-4.2.5-.8 2-.8 2.5 0 .6.9.9 3 1.3 4.2.4 1.2 1.6 1.2 2 .1.6-1.5 1.1-4 1.7-6.2.7-2.7.9-5.7-.5-7.3-1-1.1-2-.5-3.6-.5-1.8 0-2.5-.9-4.1-.9z"/></svg>
+      </div>
+      <div style="display: flex; flex-direction: column">
+        <div style="font-size: 13px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.01em">Clinic Console</div>
+        <div style="font-size: 10px; color: #6E8AAC; font-weight: 600">[Branch name]</div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 3px">
+      <sc-for list="{{nav}}" as="n" hint-placeholder-count="8">
+        <div style="{{n.wrap}}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0"><path d="{{n.d}}"></path></svg>
+          <span style="flex-grow: 1">{{n.label}}</span>
+          <span style="{{n.dot}}">{{n.badge}}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="flex-grow: 1"></div>
+
+    <div style="padding: 14px; border-radius: 13px; background: #12294A; display: flex; flex-direction: column; gap: 9px">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <span style="width: 7px; height: 7px; border-radius: 999px; background: #37D39B"></span>
+        <span style="font-size: 11px; font-weight: 800; color: #37D39B; letter-spacing: 0.06em">AUTOMATIONS LIVE</span>
+      </div>
+      <div style="font-size: 12px; color: #9DB4CE; line-height: 1.5">[14] tasks handled without staff today &mdash; reminders, reschedules, invoices and one stock order.</div>
+      <div style="font-size: 12px; font-weight: 700; color: #FFFFFF">View automation log &rarr;</div>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; min-width: 0">
+
+    <div style="height: 66px; flex-shrink: 0; background: #FFFFFF; border-bottom: 1px solid #E3E9F0; display: flex; align-items: center; justify-content: space-between; padding: 0 22px">
+      <div style="display: flex; align-items: center; gap: 16px">
+        <h1 style="font-size: 19px; font-weight: 800; letter-spacing: -0.02em">Today &middot; [Wed 3 Sep]</h1>
+        <div style="display: flex; gap: 3px; padding: 3px; border-radius: 10px; background: #F1F5FA">
+          <sc-for list="{{views}}" as="v" hint-placeholder-count="3">
+            <button onClick="{{v.pick}}" style="{{v.wrap}}">{{v.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px">
+        <div style="display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 14px; border-radius: 10px; border: 1px solid #E3E9F0; background: #FFFFFF; font-size: 13px; color: #8494A8; width: 230px">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8494A8" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-3.6-3.6"/></svg>
+          Search patient, phone, invoice
+        </div>
+        <button style="height: 38px; padding: 0 16px; border-radius: 10px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 13px">+ New appointment</button>
+      </div>
+    </div>
+
+    <div style="padding: 16px 22px; display: flex; gap: 12px; flex-shrink: 0">
+      <sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+        <div style="flex-grow: 1; padding: 14px 16px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 6px">
+          <div style="font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; font-weight: 700; color: #8494A8">{{k.label}}</div>
+          <div style="display: flex; align-items: baseline; gap: 8px">
+            <div style="font-size: 23px; font-weight: 800; letter-spacing: -0.02em">{{k.value}}</div>
+            <div style="{{k.deltaStyle}}">{{k.delta}}</div>
+          </div>
+          <div style="font-size: 11.5px; color: #8494A8">{{k.note}}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="flex-grow: 1; display: flex; gap: 16px; padding: 0 22px 20px; min-height: 0">
+
+      <div style="flex-grow: 1; background: #FFFFFF; border-radius: 16px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; overflow: hidden; min-width: 0">
+        <div style="display: flex; border-bottom: 1px solid #EEF2F7; flex-shrink: 0">
+          <div style="width: 62px; flex-shrink: 0; border-right: 1px solid #EEF2F7"></div>
+          <sc-for list="{{chairs}}" as="c" hint-placeholder-count="4">
+            <div style="flex-grow: 1; flex-basis: 0; padding: 12px 14px; border-right: 1px solid #EEF2F7; display: flex; flex-direction: column; gap: 3px">
+              <div style="font-size: 13px; font-weight: 800">{{c.name}}</div>
+              <div style="font-size: 11.5px; color: #8494A8">{{c.doctor}}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="flex-grow: 1; display: flex; overflow: hidden; position: relative">
+          <div style="width: 62px; flex-shrink: 0; border-right: 1px solid #EEF2F7; position: relative">
+            <sc-for list="{{hours}}" as="h" hint-placeholder-count="10">
+              <div style="{{h.labelStyle}}">{{h.label}}</div>
+            </sc-for>
+          </div>
+          <sc-for list="{{chairs}}" as="c" hint-placeholder-count="4">
+            <div style="flex-grow: 1; flex-basis: 0; border-right: 1px solid #EEF2F7; position: relative; min-width: 0">
+              <sc-for list="{{hours}}" as="h" hint-placeholder-count="10">
+                <div style="{{h.lineStyle}}"></div>
+              </sc-for>
+              <sc-for list="{{c.appts}}" as="a" hint-placeholder-count="4">
+                <button onClick="{{a.pick}}" style="{{a.style}}">
+                  <div style="font-size: 12px; font-weight: 800; line-height: 1.25; overflow: hidden">{{a.patient}}</div>
+                  <div style="font-size: 11px; opacity: 0.82; line-height: 1.3">{{a.treatment}}</div>
+                  <div style="font-size: 10.5px; opacity: 0.7; margin-top: auto">{{a.time}}</div>
+                </button>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="width: 320px; flex-shrink: 0; background: #FFFFFF; border-radius: 16px; border: 1px solid #E3E9F0; padding: 20px; display: flex; flex-direction: column; gap: 16px; overflow: hidden">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start">
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <div style="font-size: 17px; font-weight: 800; letter-spacing: -0.015em">{{sel.patient}}</div>
+            <div style="font-size: 12.5px; color: #5D6D82">{{sel.meta}}</div>
+          </div>
+          <div style="{{sel.pill}}">{{sel.status}}</div>
+        </div>
+
+        <div style="display: flex; gap: 7px; flex-wrap: wrap">
+          <sc-for list="{{sel.flags}}" as="f" hint-placeholder-count="3">
+            <div style="{{f.style}}">{{f.label}}</div>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 11px; padding: 15px; border-radius: 13px; background: #F7FAFE">
+          <sc-for list="{{sel.rows}}" as="r" hint-placeholder-count="4">
+            <div style="display: flex; justify-content: space-between; gap: 12px">
+              <span style="font-size: 12.5px; color: #7C8CA0; flex-shrink: 0">{{r.k}}</span>
+              <span style="font-size: 12.5px; font-weight: 700; text-align: right">{{r.v}}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #8494A8">Last three visits</div>
+          <sc-for list="{{sel.history}}" as="h" hint-placeholder-count="3">
+            <div style="display: flex; gap: 10px; align-items: flex-start; padding-bottom: 9px; border-bottom: 1px solid #F1F5FA">
+              <div style="width: 6px; height: 6px; border-radius: 999px; background: #C2D5EE; margin-top: 6px; flex-shrink: 0"></div>
+              <div style="display: flex; flex-direction: column; gap: 1px">
+                <div style="font-size: 12.5px; font-weight: 700">{{h.what}}</div>
+                <div style="font-size: 11.5px; color: #8494A8">{{h.when}}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="flex-grow: 1"></div>
+
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <button style="height: 46px; border-radius: 11px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 14px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 9px">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0v-5a3 3 0 0 0-3-3z"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>
+            Open chairside note
+          </button>
+          <div style="display: flex; gap: 8px">
+            <button style="flex-grow: 1; height: 42px; border-radius: 11px; border: 1px solid #DDE5EF; font-weight: 700; font-size: 13px; text-align: center">Raise invoice</button>
+            <button style="flex-grow: 1; height: 42px; border-radius: 11px; border: 1px solid #DDE5EF; font-weight: 700; font-size: 13px; text-align: center">Message</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: 'a4', view: 'day' };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const PX = 52;
+    const START = 9;
+
+    const tones = {
+      blue: ['#EDF3FE', '#B9D3F6', '#123A6B'],
+      teal: ['#E7F6F4', '#B2E0D9', '#0B5A52'],
+      amber: ['#FFF6E8', '#F0DBB4', '#7A5B14'],
+      rose: ['#FFF0EE', '#F6CFC9', '#8E2A20'],
+      grey: ['#F4F6FA', '#E1E7EF', '#5D6D82']
+    };
+
+    const apptData = [
+      { id: 'a1', chair: 0, from: 9, dur: 1, patient: '[Patient A]', treatment: 'Scaling + polishing', tone: 'grey', status: 'DONE' },
+      { id: 'a2', chair: 0, from: 10.5, dur: 1.5, patient: '[Patient B]', treatment: 'Implant placement · 36', tone: 'blue', status: 'IN CHAIR' },
+      { id: 'a3', chair: 0, from: 14, dur: 1, patient: '[Patient C]', treatment: 'Crown try-in', tone: 'blue', status: 'BOOKED' },
+      { id: 'a4', chair: 1, from: 9.5, dur: 1.5, patient: '[Patient D]', treatment: 'RCT sitting 2 · 46', tone: 'teal', status: 'IN CHAIR' },
+      { id: 'a5', chair: 1, from: 12, dur: 1, patient: '[Patient E]', treatment: 'Emergency · pain', tone: 'rose', status: 'WALK-IN' },
+      { id: 'a6', chair: 1, from: 15.5, dur: 1, patient: '[Patient F]', treatment: 'Filling · 25', tone: 'teal', status: 'BOOKED' },
+      { id: 'a7', chair: 2, from: 10, dur: 1, patient: '[Patient G]', treatment: 'Aligner review', tone: 'amber', status: 'BOOKED' },
+      { id: 'a8', chair: 2, from: 13, dur: 1.5, patient: '[Patient H]', treatment: 'Braces adjustment', tone: 'amber', status: 'BOOKED' },
+      { id: 'a9', chair: 2, from: 16, dur: 1, patient: '[Patient J]', treatment: 'Auto-filled from waitlist', tone: 'grey', status: 'BOOKED' },
+      { id: 'a10', chair: 3, from: 9, dur: 1, patient: '[Patient K]', treatment: 'Child check-up', tone: 'blue', status: 'DONE' },
+      { id: 'a11', chair: 3, from: 11.5, dur: 1, patient: '[Patient L]', treatment: 'Fluoride + sealant', tone: 'blue', status: 'BOOKED' },
+      { id: 'a12', chair: 3, from: 15, dur: 1.5, patient: '[Patient M]', treatment: 'Extraction · 48', tone: 'rose', status: 'BOOKED' }
+    ];
+
+    const chairData = [
+      { name: 'Chair 1', doctor: 'Dr. [Name] · Implants' },
+      { name: 'Chair 2', doctor: 'Dr. [Name] · Endo' },
+      { name: 'Chair 3', doctor: 'Dr. [Name] · Ortho' },
+      { name: 'Chair 4', doctor: 'Dr. [Name] · Paeds' }
+    ];
+
+    const hours = [];
+    for (let h = 9; h <= 18; h++) {
+      const label = (h > 12 ? h - 12 : h) + (h < 12 ? ' am' : ' pm');
+      hours.push({
+        label: label,
+        labelStyle: 'position: absolute; top: ' + ((h - START) * PX - 7) + 'px; right: 10px; font-size: 10.5px; font-weight: 700; color: #A3B0C0',
+        lineStyle: 'position: absolute; top: ' + ((h - START) * PX) + 'px; left: 0; right: 0; height: 1px; background: #F1F5FA'
+      });
+    }
+
+    const selAppt = apptData.filter((a) => a.id === st.sel)[0] || apptData[3];
+
+    const flagSets = {
+      a4: [['Allergy: Penicillin', 'rose'], ['On EMI plan', 'amber'], ['Returning patient', 'grey']],
+      def: [['No known allergies', 'teal'], ['Returning patient', 'grey']]
+    };
+    const flags = (flagSets[selAppt.id] || flagSets.def).map((f) => ({
+      label: f[0],
+      style: 'padding: 5px 10px; border-radius: 7px; font-size: 11px; font-weight: 700; background: ' + tones[f[1]][0] + '; color: ' + tones[f[1]][2]
+    }));
+
+    const fmt = (t) => {
+      const h = Math.floor(t); const m = (t - h) * 60;
+      return (h > 12 ? h - 12 : h) + ':' + (m === 0 ? '00' : '30') + (h < 12 ? ' am' : ' pm');
+    };
+
+    return {
+      nav: [
+        { label: 'Schedule', d: 'M4 6.5h16M4 12h16M4 17.5h16', on: true, badge: '' },
+        { label: 'Patients', d: 'M12 5a3.6 3.6 0 1 0 0 7.2A3.6 3.6 0 1 0 12 5M5 20a7 7 0 0 1 14 0', on: false, badge: '' },
+        { label: 'Chairside notes', d: 'M12 3.5a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0v-5a3 3 0 0 0-3-3M5.5 11a6.5 6.5 0 0 0 13 0', on: false, badge: '2' },
+        { label: 'Billing', d: 'M4 6h16v12H4zM4 10h16', on: false, badge: '5' },
+        { label: 'Inventory', d: 'M4 8.5 12 4l8 4.5v7L12 20l-8-4.5zM12 12v8M4 8.5 12 12l8-3.5', on: false, badge: '!' },
+        { label: 'Staff & roster', d: 'M8 5a3 3 0 1 0 0 6 3 3 0 1 0 0-6M2.5 20a5.5 5.5 0 0 1 11 0M16 6.2a3 3 0 0 1 0 5.6M17 20h4.5a5.5 5.5 0 0 0-3.6-5', on: false, badge: '' },
+        { label: 'Automations', d: 'M13 2.5 4 13.5h6l-1 8 9-11h-6z', on: false, badge: '' },
+        { label: 'Reports', d: 'M5 19V9M12 19V4M19 19v-7', on: false, badge: '' }
+      ].map((n) => ({
+        label: n.label, d: n.d, badge: n.badge,
+        wrap: n.on
+          ? 'display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; background: #17304F; color: #FFFFFF; font-size: 13px; font-weight: 700'
+          : 'display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; color: #8FA6C2; font-size: 13px; font-weight: 600',
+        dot: n.badge
+          ? 'min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: #0B5CD5; color: #FFFFFF; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center'
+          : 'display: none'
+      })),
+
+      views: [{ id: 'day', label: 'Day' }, { id: 'week', label: 'Week' }, { id: 'doc', label: 'By doctor' }].map((v) => ({
+        label: v.label,
+        pick: () => this.setState({ view: v.id }),
+        wrap: st.view === v.id
+          ? 'height: 30px; padding: 0 14px; border-radius: 8px; background: #FFFFFF; color: #0F1A2A; font-size: 12.5px; font-weight: 700; text-align: center; box-shadow: 0 1px 3px rgba(15,26,42,0.10)'
+          : 'height: 30px; padding: 0 14px; border-radius: 8px; color: #7C8CA0; font-size: 12.5px; font-weight: 700; text-align: center'
+      })),
+
+      kpis: [
+        { label: 'Booked today', value: '[12]', delta: '4 chairs', note: '[87%] chair utilisation', up: true },
+        { label: 'Expected revenue', value: '₹[SAMPLE 1.4L]', delta: '+[12%]', note: 'vs same weekday last month', up: true },
+        { label: 'No-show risk', value: '[2]', delta: 'auto-nudged', note: 'Waitlist standing by for both', up: true },
+        { label: 'Staff-hours saved', value: '[3.4]', delta: 'today', note: 'Reminders, rebooks, invoices', up: true }
+      ].map((k) => ({
+        label: k.label, value: k.value, delta: k.delta, note: k.note,
+        deltaStyle: 'padding: 3px 8px; border-radius: 6px; background: #E9F7F3; color: #0E7A57; font-size: 11px; font-weight: 800'
+      })),
+
+      chairs: chairData.map((c, i) => ({
+        name: c.name, doctor: c.doctor,
+        appts: apptData.filter((a) => a.chair === i).map((a) => {
+          const on = st.sel === a.id;
+          const t = tones[a.tone];
+          return {
+            patient: a.patient, treatment: a.treatment, time: fmt(a.from) + ' – ' + fmt(a.from + a.dur),
+            pick: () => this.setState({ sel: a.id }),
+            style: 'position: absolute; left: 6px; right: 6px; top: ' + ((a.from - START) * PX + 2) + 'px; height: ' + (a.dur * PX - 5) + 'px;'
+              + ' padding: 7px 9px; border-radius: 9px; display: flex; flex-direction: column; gap: 2px; overflow: hidden;'
+              + ' background: ' + t[0] + '; color: ' + t[2] + ';'
+              + (on ? ' border: 2px solid #0B5CD5; box-shadow: 0 6px 16px rgba(11,92,213,0.20)' : ' border: 1px solid ' + t[1])
+          };
+        })
+      })),
+
+      hours: hours,
+
+      sel: {
+        patient: selAppt.patient,
+        meta: selAppt.treatment + ' · ' + fmt(selAppt.from) + ' · Chair ' + (selAppt.chair + 1),
+        status: selAppt.status,
+        pill: 'padding: 6px 11px; border-radius: 7px; background: ' + tones[selAppt.tone][0] + '; color: ' + tones[selAppt.tone][2] + '; font-size: 10.5px; font-weight: 800; letter-spacing: 0.05em; flex-shrink: 0',
+        flags: flags,
+        rows: [
+          { k: 'Age / sex', v: '[34] · [F]' },
+          { k: 'Phone', v: '+91 [00000 00000]' },
+          { k: 'Treatment plan', v: '[3] of [5] steps done' },
+          { k: 'Outstanding', v: '₹[SAMPLE 18,400]' }
+        ],
+        history: [
+          { what: 'RCT sitting 1 · 46', when: '[28 Aug] · Dr. [Name]' },
+          { what: 'Consultation + IOPA', when: '[21 Aug] · Dr. [Name]' },
+          { what: 'Scaling and polishing', when: '[12 Jun] · Dr. [Name]' }
+        ]
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

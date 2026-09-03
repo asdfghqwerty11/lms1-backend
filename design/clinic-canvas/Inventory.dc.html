@@ -1,0 +1,287 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <style>
+    *{ box-sizing: border-box; }
+    body { margin: 0; background: #F5F7FB; color: #0F1A2A;
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #0B5CD5; text-decoration: none; } a:hover { color: #08306E; }
+    button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; text-align: left; }
+    h1, h2, h3 { margin: 0; } p { margin: 0; }
+  </style>
+</helmet>
+
+<div style="display: flex; flex-direction: column; height: 920px; background: #F5F7FB; overflow: hidden">
+
+  <div style="height: 72px; flex-shrink: 0; background: #FFFFFF; border-bottom: 1px solid #E3E9F0; display: flex; align-items: center; justify-content: space-between; padding: 0 24px">
+    <div style="display: flex; flex-direction: column; gap: 3px">
+      <h1 style="font-size: 19px; font-weight: 800; letter-spacing: -0.02em">Inventory</h1>
+      <div style="font-size: 12.5px; color: #5D6D82">Stock deducts itself as procedures are completed &middot; last sync [2 min ago]</div>
+    </div>
+    <div style="display: flex; gap: 9px; align-items: center">
+      <div style="display: flex; align-items: center; gap: 9px; height: 38px; padding: 0 14px; border-radius: 10px; background: #E9F7F3; border: 1px solid #BFE6DB">
+        <span style="width: 7px; height: 7px; border-radius: 999px; background: #0E7A57"></span>
+        <span style="font-size: 12px; font-weight: 800; color: #0E7A57; letter-spacing: 0.03em">DENTALKART CONNECTED</span>
+      </div>
+      <button style="height: 38px; padding: 0 16px; border-radius: 10px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 13px">Stock count</button>
+      <button style="height: 38px; padding: 0 16px; border-radius: 10px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 13px">Order rules</button>
+    </div>
+  </div>
+
+  <div style="padding: 16px 24px; display: flex; gap: 12px; flex-shrink: 0">
+    <sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+      <div style="flex-grow: 1; padding: 14px 16px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 5px">
+        <div style="font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; font-weight: 700; color: #8494A8">{{k.label}}</div>
+        <div style="{{k.valStyle}}">{{k.value}}</div>
+        <div style="font-size: 11.5px; color: #8494A8">{{k.note}}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; gap: 16px; padding: 0 24px 20px; min-height: 0">
+
+    <div style="flex-grow: 1; background: #FFFFFF; border-radius: 16px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; overflow: hidden; min-width: 0">
+      <div style="padding: 14px 20px; border-bottom: 1px solid #EEF2F7; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0">
+        <div style="display: flex; gap: 3px; padding: 3px; border-radius: 10px; background: #F1F5FA">
+          <sc-for list="{{filters}}" as="f" hint-placeholder-count="4">
+            <button onClick="{{f.pick}}" style="{{f.wrap}}">{{f.label}}</button>
+          </sc-for>
+        </div>
+        <div style="font-size: 12.5px; color: #8494A8; font-weight: 600">{{rowCount}} items</div>
+      </div>
+
+      <div style="display: flex; padding: 11px 20px; border-bottom: 1px solid #EEF2F7; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; font-weight: 700; color: #A3B0C0; flex-shrink: 0">
+        <div style="flex-grow: 1">Item</div>
+        <div style="width: 96px; text-align: right">In stock</div>
+        <div style="width: 76px; text-align: right">Par</div>
+        <div style="width: 118px; text-align: right">Weekly use</div>
+        <div style="width: 118px; text-align: right">Cover</div>
+        <div style="width: 116px; text-align: right">Status</div>
+      </div>
+
+      <div style="flex-grow: 1; overflow: hidden">
+        <sc-for list="{{rows}}" as="r" hint-placeholder-count="10">
+          <div style="{{r.wrap}}">
+            <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0">
+              <div style="font-size: 13.5px; font-weight: 700">{{r.name}}</div>
+              <div style="font-size: 11.5px; color: #8494A8">{{r.meta}}</div>
+            </div>
+            <div style="width: 96px; text-align: right; font-size: 13.5px; font-weight: 700">{{r.stock}}</div>
+            <div style="width: 76px; text-align: right; font-size: 13px; color: #8494A8">{{r.par}}</div>
+            <div style="width: 118px; text-align: right; font-size: 13px; color: #5D6D82">{{r.rate}}</div>
+            <div style="width: 118px; text-align: right; font-size: 13px; font-weight: 700; color: {{r.coverColor}}">{{r.cover}}</div>
+            <div style="width: 116px; display: flex; justify-content: flex-end">
+              <span style="{{r.pill}}">{{r.status}}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="width: 396px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px">
+
+      <div style="{{cartWrap}}">
+        <div style="padding: 20px 22px; border-bottom: 1px solid {{cartLine}}; display: flex; justify-content: space-between; align-items: flex-start">
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <div style="font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em; color: {{cartTitleColor}}">{{cartTitle}}</div>
+            <div style="font-size: 12.5px; color: {{cartSubColor}}; line-height: 1.45; max-width: 260px">{{cartSub}}</div>
+          </div>
+          <div style="{{cartBadge}}">{{cartBadgeText}}</div>
+        </div>
+
+        <div style="padding: 18px 22px; display: flex; flex-direction: column; gap: 12px; flex-grow: 1">
+          <sc-for list="{{cart}}" as="c" hint-placeholder-count="4">
+            <div style="display: flex; gap: 13px; align-items: center">
+              <div style="width: 40px; height: 40px; border-radius: 10px; background: #F3F7FD; border: 1px dashed #C7D9F0; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8CACD4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5z"/><path d="M12 12v8M4 8.5 12 12l8-3.5"/></svg>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1; min-width: 0">
+                <div style="font-size: 13px; font-weight: 700">{{c.name}}</div>
+                <div style="font-size: 11.5px; color: #8494A8">{{c.qty}} &middot; {{c.why}}</div>
+              </div>
+              <div style="font-size: 13px; font-weight: 700; flex-shrink: 0">₹{{c.amt}}</div>
+            </div>
+          </sc-for>
+
+          <div style="height: 1px; background: #EEF2F7; margin: 2px 0"></div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div style="display: flex; justify-content: space-between; font-size: 12.5px"><span style="color: #5D6D82">Subtotal</span><span style="font-weight: 700">₹[SAMPLE 21,340]</span></div>
+            <div style="display: flex; justify-content: space-between; font-size: 12.5px"><span style="color: #5D6D82">Clinic account discount</span><span style="font-weight: 700; color: #0E7A57">&minus;₹[SAMPLE 3,201]</span></div>
+            <div style="display: flex; justify-content: space-between; font-size: 12.5px"><span style="color: #5D6D82">GST</span><span style="font-weight: 700">₹[SAMPLE 3,265]</span></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 6px; border-top: 1px solid #EEF2F7">
+              <span style="font-size: 13.5px; font-weight: 800">Order total</span>
+              <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 24px">₹[SAMPLE 21,404]</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding: 0 22px 20px; display: flex; flex-direction: column; gap: 9px">
+          <sc-if value="{{isReview}}" hint-placeholder-val="{{true}}">
+            <div style="display: flex; flex-direction: column; gap: 9px">
+              <button onClick="{{approve}}" style="height: 50px; border-radius: 12px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 14.5px; text-align: center; box-shadow: 0 8px 20px rgba(11,92,213,0.22)">Approve and place order</button>
+              <div style="display: flex; gap: 9px">
+                <button style="flex-grow: 1; height: 42px; border-radius: 11px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 13px; text-align: center">Edit cart</button>
+                <button style="flex-grow: 1; height: 42px; border-radius: 11px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 13px; text-align: center">Snooze [7] days</button>
+              </div>
+              <div style="font-size: 11.5px; color: #8494A8; line-height: 1.5; text-align: center">Or approve from WhatsApp &mdash; the same cart was sent to [+91 00000 00000] at [8:05 AM].</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{isPlaced}}" hint-placeholder-val="{{true}}">
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <div style="display: flex; flex-direction: column; gap: 10px; padding: 15px 17px; border-radius: 13px; background: #F2FBF8; border: 1px solid #BFE6DB">
+                <sc-for list="{{track}}" as="t" hint-placeholder-count="4">
+                  <div style="display: flex; gap: 11px; align-items: flex-start">
+                    <div style="{{t.dot}}"></div>
+                    <div style="display: flex; flex-direction: column; gap: 1px">
+                      <div style="{{t.titleStyle}}">{{t.title}}</div>
+                      <div style="font-size: 11.5px; color: #6E8578">{{t.when}}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <button onClick="{{reset}}" style="height: 42px; border-radius: 11px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 13px; text-align: center">Back to pending cart</button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+      <div style="padding: 18px 20px; border-radius: 16px; background: #0B1B30; display: flex; flex-direction: column; gap: 11px; flex-shrink: 0">
+        <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #6FA6F0">Rules running this</div>
+        <sc-for list="{{rules}}" as="r" hint-placeholder-count="3">
+          <div style="display: flex; gap: 10px; align-items: flex-start">
+            <div style="width: 6px; height: 6px; border-radius: 999px; background: #37D39B; margin-top: 6px; flex-shrink: 0"></div>
+            <div style="font-size: 12.5px; color: #C6D6E8; line-height: 1.5">{{r.text}}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":920}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { filter: 'low', placed: false };
+  }
+
+  renderVals() {
+    const st = this.state;
+
+    const items = [
+      { name: 'Gutta-percha points [F2] · [box of 60]', meta: 'Endodontics · [Brand]', stock: '1 box', par: '4', rate: '2.5 boxes', cover: '3 days', tone: 'red', status: 'BELOW PAR', low: true },
+      { name: 'Composite [A2] syringe · [4 g]', meta: 'Restorative · [Brand]', stock: '3', par: '10', rate: '6', cover: '4 days', tone: 'red', status: 'BELOW PAR', low: true },
+      { name: 'Nitrile gloves [M] · [box of 100]', meta: 'Consumables · [Brand]', stock: '5 boxes', par: '14', rate: '9 boxes', cover: '4 days', tone: 'red', status: 'BELOW PAR', low: true },
+      { name: 'Articaine [4%] with adrenaline', meta: 'Anaesthetic · [Brand]', stock: '18', par: '40', rate: '22', cover: '6 days', tone: 'amber', status: 'LOW', low: true },
+      { name: 'Rotary files [ProTaper] assorted', meta: 'Endodontics · [Brand]', stock: '9', par: '15', rate: '5', cover: '13 days', tone: 'amber', status: 'LOW', low: true },
+      { name: 'Zirconia blanks · [98 mm]', meta: 'Lab · [Brand]', stock: '6', par: '6', rate: '1.5', cover: '28 days', tone: 'green', status: 'HEALTHY', low: false },
+      { name: 'Impression material · putty', meta: 'Prosthetics · [Brand]', stock: '11', par: '8', rate: '2', cover: '38 days', tone: 'green', status: 'HEALTHY', low: false },
+      { name: 'Surgical suction tips', meta: 'Consumables · [Brand]', stock: '240', par: '150', rate: '60', cover: '28 days', tone: 'green', status: 'HEALTHY', low: false },
+      { name: 'Fluoride varnish · unit dose', meta: 'Preventive · [Brand]', stock: '82', par: '60', rate: '18', cover: '32 days', tone: 'green', status: 'HEALTHY', low: false },
+      { name: 'Implant fixtures [4.0 × 10]', meta: 'Surgical · [Brand]', stock: '7', par: '5', rate: '1.2', cover: '41 days', tone: 'green', status: 'HEALTHY', low: false }
+    ];
+
+    const toneMap = {
+      red: ['#FFF0EE', '#8E2A20', '#B42318'],
+      amber: ['#FFF6E8', '#7A5B14', '#B45309'],
+      green: ['#E9F7F3', '#0E7A57', '#0E7A57']
+    };
+
+    const filters = [
+      { id: 'low', label: 'Needs attention' },
+      { id: 'all', label: 'All items' },
+      { id: 'endo', label: 'Endodontics' },
+      { id: 'cons', label: 'Consumables' }
+    ];
+
+    const rows = st.filter === 'low' ? items.filter((i) => i.low) : items;
+
+    return {
+      kpis: [
+        { label: 'Below par right now', value: '[5]', note: 'Auto-cart already drafted', tone: 'red' },
+        { label: 'Auto-orders this month', value: '[7]', note: '₹[SAMPLE 1.32L] through Dentalkart', tone: 'ink' },
+        { label: 'Stockouts since go-live', value: '[0]', note: 'Down from [4] a month', tone: 'green' },
+        { label: 'Ordering time per week', value: '[6 min]', note: 'Was [4 hrs] of a purchase clerk', tone: 'green' }
+      ].map((k) => ({
+        label: k.label, value: k.value, note: k.note,
+        valStyle: 'font-size: 23px; font-weight: 800; letter-spacing: -0.02em; color: '
+          + (k.tone === 'red' ? '#B42318' : (k.tone === 'green' ? '#0E7A57' : '#0F1A2A'))
+      })),
+
+      filters: filters.map((f) => ({
+        label: f.label,
+        pick: () => this.setState({ filter: f.id }),
+        wrap: st.filter === f.id
+          ? 'height: 30px; padding: 0 14px; border-radius: 8px; background: #FFFFFF; color: #0F1A2A; font-size: 12.5px; font-weight: 700; text-align: center; box-shadow: 0 1px 3px rgba(15,26,42,0.10)'
+          : 'height: 30px; padding: 0 14px; border-radius: 8px; color: #7C8CA0; font-size: 12.5px; font-weight: 700; text-align: center'
+      })),
+      rowCount: '[' + rows.length + ']',
+
+      rows: rows.map((r) => ({
+        name: r.name, meta: r.meta, stock: r.stock, par: r.par, rate: r.rate, cover: r.cover, status: r.status,
+        coverColor: toneMap[r.tone][2],
+        wrap: 'display: flex; align-items: center; padding: 13px 20px; border-bottom: 1px solid #F4F7FA'
+          + (r.tone === 'red' ? '; background: #FFFBFA' : ''),
+        pill: 'padding: 5px 10px; border-radius: 6px; background: ' + toneMap[r.tone][0] + '; color: ' + toneMap[r.tone][1]
+          + '; font-size: 10.5px; font-weight: 800; letter-spacing: 0.05em'
+      })),
+
+      isReview: !st.placed,
+      isPlaced: st.placed,
+      approve: () => this.setState({ placed: true }),
+      reset: () => this.setState({ placed: false }),
+
+      cartWrap: 'flex-grow: 1; border-radius: 16px; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden; min-height: 0; border: '
+        + (st.placed ? '1px solid #BFE6DB' : '2px solid #0B5CD5'),
+      cartLine: st.placed ? '#EEF2F7' : '#EEF2F7',
+      cartTitle: st.placed ? 'Order placed with Dentalkart' : 'Dentalkart cart · awaiting your approval',
+      cartTitleColor: st.placed ? '#0E7A57' : '#0F1A2A',
+      cartSub: st.placed
+        ? 'Order [DK-000000] · nobody raised a PO, called a rep or typed a line item.'
+        : 'Drafted at [8:05 AM] from this week’s consumption. Nothing is ordered until you tap approve.',
+      cartSubColor: '#5D6D82',
+      cartBadgeText: st.placed ? 'PLACED' : 'ACTION NEEDED',
+      cartBadge: (st.placed
+        ? 'background: #E9F7F3; color: #0E7A57;'
+        : 'background: #FFF6E8; color: #7A5B14;')
+        + ' padding: 6px 11px; border-radius: 7px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.05em; flex-shrink: 0',
+
+      cart: [
+        { name: 'Gutta-percha points [F2]', qty: '[6] boxes', why: 'to [6] weeks cover', amt: '[4,140]' },
+        { name: 'Composite [A2] syringe', qty: '[24] units', why: 'to [4] weeks cover', amt: '[8,760]' },
+        { name: 'Nitrile gloves [M]', qty: '[20] boxes', why: 'to [4] weeks cover', amt: '[5,600]' },
+        { name: 'Articaine [4%]', qty: '[60] cartridges', why: 'to [4] weeks cover', amt: '[2,840]' }
+      ],
+
+      track: [
+        { title: 'Approved by you', when: '[8:11 AM] · logged against your account', done: true },
+        { title: 'Order confirmed by Dentalkart', when: '[8:11 AM] · payment on clinic credit terms', done: true },
+        { title: 'Dispatched from [warehouse]', when: 'Expected [today, 6 PM]', done: false },
+        { title: 'Stock auto-received on delivery', when: 'Scan the box, levels update themselves', done: false }
+      ].map((t) => ({
+        title: t.title, when: t.when,
+        titleStyle: 'font-size: 12.5px; font-weight: 700; color: ' + (t.done ? '#0B4A3A' : '#4F6B61'),
+        dot: 'width: 8px; height: 8px; border-radius: 999px; margin-top: 5px; flex-shrink: 0; background: '
+          + (t.done ? '#0E7A57' : '#B7D8CC')
+      })),
+
+      rules: [
+        { text: 'Every completed procedure deducts its materials kit. No one counts anything by hand.' },
+        { text: 'When an item drops below [4] weeks of cover, it joins the next morning’s draft cart.' },
+        { text: 'Carts over ₹[SAMPLE 25,000] need your approval. Below that they place themselves.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

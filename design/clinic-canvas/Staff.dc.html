@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <style>
+    *{ box-sizing: border-box; }
+    body { margin: 0; background: #F5F7FB; color: #0F1A2A;
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #0B5CD5; text-decoration: none; } a:hover { color: #08306E; }
+    button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; text-align: left; }
+    h1, h2, h3 { margin: 0; } p { margin: 0; }
+  </style>
+</helmet>
+
+<div style="display: flex; flex-direction: column; height: 900px; background: #F5F7FB; overflow: hidden">
+
+  <div style="height: 72px; flex-shrink: 0; background: #FFFFFF; border-bottom: 1px solid #E3E9F0; display: flex; align-items: center; justify-content: space-between; padding: 0 24px">
+    <div style="display: flex; align-items: center; gap: 18px">
+      <div style="display: flex; flex-direction: column; gap: 3px">
+        <h1 style="font-size: 19px; font-weight: 800; letter-spacing: -0.02em">Staff &amp; roster</h1>
+        <div style="font-size: 12.5px; color: #5D6D82">Week of [1 Sep] &middot; [9] people across [4] chairs</div>
+      </div>
+      <div style="display: flex; gap: 3px; padding: 3px; border-radius: 10px; background: #F1F5FA">
+        <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+          <button onClick="{{t.pick}}" style="{{t.wrap}}">{{t.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: flex; gap: 9px">
+      <button style="height: 38px; padding: 0 16px; border-radius: 10px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 13px">Export payroll</button>
+      <button style="height: 38px; padding: 0 16px; border-radius: 10px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 13px">Publish next week</button>
+    </div>
+  </div>
+
+  <div style="padding: 16px 24px; display: flex; gap: 12px; flex-shrink: 0">
+    <sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+      <div style="flex-grow: 1; padding: 14px 16px; border-radius: 14px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 5px">
+        <div style="font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; font-weight: 700; color: #8494A8">{{k.label}}</div>
+        <div style="{{k.valStyle}}">{{k.value}}</div>
+        <div style="font-size: 11.5px; color: #8494A8">{{k.note}}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; gap: 16px; padding: 0 24px 20px; min-height: 0">
+
+    <div style="flex-grow: 1; background: #FFFFFF; border-radius: 16px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; overflow: hidden; min-width: 0">
+
+      <div style="display: flex; border-bottom: 1px solid #EEF2F7; flex-shrink: 0">
+        <div style="width: 210px; flex-shrink: 0; padding: 13px 18px; border-right: 1px solid #EEF2F7; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: #A3B0C0">Person</div>
+        <sc-for list="{{days}}" as="d" hint-placeholder-count="6">
+          <button onClick="{{d.pick}}" style="{{d.wrap}}">
+            <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; opacity: 0.72">{{d.dow}}</div>
+            <div style="font-size: 15px; font-weight: 800">{{d.date}}</div>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="flex-grow: 1; overflow: hidden">
+        <sc-for list="{{people}}" as="p" hint-placeholder-count="8">
+          <div style="display: flex; border-bottom: 1px solid #F4F7FA; align-items: stretch">
+            <div style="width: 210px; flex-shrink: 0; padding: 12px 18px; border-right: 1px solid #EEF2F7; display: flex; gap: 11px; align-items: center">
+              <div style="{{p.av}}">{{p.initials}}</div>
+              <div style="display: flex; flex-direction: column; gap: 1px; min-width: 0">
+                <div style="font-size: 13px; font-weight: 700">{{p.name}}</div>
+                <div style="font-size: 11px; color: #8494A8">{{p.role}}</div>
+              </div>
+            </div>
+            <sc-for list="{{p.shifts}}" as="s" hint-placeholder-count="6">
+              <div style="flex-grow: 1; flex-basis: 0; padding: 8px 7px; border-right: 1px solid #F4F7FA; display: flex; align-items: center; justify-content: center; min-width: 0">
+                <div style="{{s.style}}">{{s.label}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="width: 340px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px">
+
+      <div style="padding: 18px 20px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 13px">
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <div style="font-size: 14.5px; font-weight: 800">Today, live</div>
+          <div style="font-size: 11.5px; color: #8494A8; font-weight: 600">[Wed 3 Sep]</div>
+        </div>
+        <sc-for list="{{live}}" as="l" hint-placeholder-count="5">
+          <div style="display: flex; gap: 11px; align-items: center; padding-bottom: 11px; border-bottom: 1px solid #F4F7FA">
+            <div style="{{l.dot}}"></div>
+            <div style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1">
+              <div style="font-size: 13px; font-weight: 700">{{l.name}}</div>
+              <div style="font-size: 11.5px; color: #8494A8">{{l.note}}</div>
+            </div>
+            <div style="{{l.pill}}">{{l.status}}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="padding: 18px 20px; border-radius: 16px; background: #FFF9EE; border: 1px solid #F0DBB4; display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; align-items: center; gap: 9px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A5B14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5 4 13.5h6l-1 8 9-11h-6z"/></svg>
+          <div style="font-size: 13.5px; font-weight: 800; color: #7A5B14">Roster suggestion</div>
+        </div>
+        <div style="font-size: 12.5px; color: #7A5B14; line-height: 1.55">[Assistant name] is on leave [Fri 5 Sep]. Chair [3] has [6] booked slots that day. Moving [Assistant name] from Chair [4] covers it without overtime.</div>
+        <div style="display: flex; gap: 8px">
+          <button style="flex-grow: 1; height: 38px; border-radius: 10px; background: #7A5B14; color: #FFFFFF; font-size: 12.5px; font-weight: 700; text-align: center">Apply</button>
+          <button style="flex-grow: 1; height: 38px; border-radius: 10px; border: 1px solid #E0CBA0; background: #FFFFFF; color: #7A5B14; font-size: 12.5px; font-weight: 700; text-align: center">Dismiss</button>
+        </div>
+      </div>
+
+      <div style="flex-grow: 1; padding: 18px 20px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 12px; min-height: 0">
+        <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #8494A8">Pending with you</div>
+        <sc-for list="{{approvals}}" as="a" hint-placeholder-count="3">
+          <div style="display: flex; flex-direction: column; gap: 8px; padding: 13px 15px; border-radius: 12px; border: 1px solid #EEF2F7">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px">
+              <div style="display: flex; flex-direction: column; gap: 2px">
+                <div style="font-size: 13px; font-weight: 700">{{a.name}}</div>
+                <div style="font-size: 11.5px; color: #8494A8; line-height: 1.45">{{a.what}}</div>
+              </div>
+              <div style="{{a.pill}}">{{a.type}}</div>
+            </div>
+            <div style="display: flex; gap: 7px">
+              <button style="flex-grow: 1; height: 32px; border-radius: 8px; background: #0B5CD5; color: #FFFFFF; font-size: 12px; font-weight: 700; text-align: center">Approve</button>
+              <button style="flex-grow: 1; height: 32px; border-radius: 8px; border: 1px solid #DDE5EF; font-size: 12px; font-weight: 700; text-align: center">Decline</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'roster', day: 'd3' };
+  }
+
+  renderVals() {
+    const st = this.state;
+
+    const shiftTone = {
+      full: ['#EDF3FE', '#123A6B', 'Full day'],
+      morn: ['#E7F6F4', '#0B5A52', 'Morning'],
+      eve: ['#F3EDFB', '#4B2E75', 'Evening'],
+      leave: ['#FFF0EE', '#8E2A20', 'Leave'],
+      off: ['#F4F6FA', '#A3B0C0', 'Off']
+    };
+
+    const dayData = [
+      { id: 'd1', dow: 'MON', date: '[01]' }, { id: 'd2', dow: 'TUE', date: '[02]' },
+      { id: 'd3', dow: 'WED', date: '[03]' }, { id: 'd4', dow: 'THU', date: '[04]' },
+      { id: 'd5', dow: 'FRI', date: '[05]' }, { id: 'd6', dow: 'SAT', date: '[06]' }
+    ];
+
+    const peopleData = [
+      { initials: 'AN', name: 'Dr. [Name]', role: 'Implantologist · Director', shifts: ['full','full','full','off','full','morn'] },
+      { initials: 'BN', name: 'Dr. [Name]', role: 'Endodontist', shifts: ['morn','full','full','full','full','full'] },
+      { initials: 'CN', name: 'Dr. [Name]', role: 'Orthodontist', shifts: ['off','eve','eve','eve','eve','full'] },
+      { initials: 'DN', name: 'Dr. [Name]', role: 'Paediatric dentist', shifts: ['full','off','full','full','morn','full'] },
+      { initials: 'EN', name: '[Assistant name]', role: 'Chairside assistant', shifts: ['full','full','full','full','leave','full'] },
+      { initials: 'FN', name: '[Assistant name]', role: 'Chairside assistant', shifts: ['full','full','full','full','full','off'] },
+      { initials: 'GN', name: '[Name]', role: 'Sterilisation technician', shifts: ['morn','morn','full','full','full','morn'] },
+      { initials: 'HN', name: '[Name]', role: 'Front desk supervisor', shifts: ['full','full','full','full','full','full'] }
+    ];
+
+    return {
+      tabs: [
+        { id: 'roster', label: 'Roster' }, { id: 'attend', label: 'Attendance' }, { id: 'perf', label: 'Performance' }
+      ].map((t) => ({
+        label: t.label,
+        pick: () => this.setState({ tab: t.id }),
+        wrap: st.tab === t.id
+          ? 'height: 30px; padding: 0 14px; border-radius: 8px; background: #FFFFFF; color: #0F1A2A; font-size: 12.5px; font-weight: 700; text-align: center; box-shadow: 0 1px 3px rgba(15,26,42,0.10)'
+          : 'height: 30px; padding: 0 14px; border-radius: 8px; color: #7C8CA0; font-size: 12.5px; font-weight: 700; text-align: center'
+      })),
+
+      kpis: [
+        { label: 'Chair hours booked', value: '[184] / [216]', note: '[85%] of available capacity', tone: 'ink' },
+        { label: 'Overtime this week', value: '[2.5 hrs]', note: 'Down from [11 hrs] pre-automation', tone: 'green' },
+        { label: 'Front-desk headcount', value: '[1]', note: 'Was [3] before booking went online', tone: 'green' },
+        { label: 'Open leave requests', value: '[3]', note: 'Waiting on your approval', tone: 'amber' }
+      ].map((k) => ({
+        label: k.label, value: k.value, note: k.note,
+        valStyle: 'font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: '
+          + (k.tone === 'green' ? '#0E7A57' : (k.tone === 'amber' ? '#B45309' : '#0F1A2A'))
+      })),
+
+      days: dayData.map((d) => ({
+        dow: d.dow, date: d.date,
+        pick: () => this.setState({ day: d.id }),
+        wrap: st.day === d.id
+          ? 'flex-grow: 1; flex-basis: 0; padding: 10px 6px; border-right: 1px solid #EEF2F7; background: #EDF3FE; color: #0B5CD5; display: flex; flex-direction: column; align-items: center; gap: 2px'
+          : 'flex-grow: 1; flex-basis: 0; padding: 10px 6px; border-right: 1px solid #EEF2F7; color: #33455C; display: flex; flex-direction: column; align-items: center; gap: 2px'
+      })),
+
+      people: peopleData.map((p) => ({
+        initials: p.initials, name: p.name, role: p.role,
+        av: 'width: 32px; height: 32px; border-radius: 10px; background: #EDF3FE; color: #0B5CD5; display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 800; flex-shrink: 0',
+        shifts: p.shifts.map((s, i) => ({
+          label: shiftTone[s][2],
+          style: 'width: 100%; padding: 7px 4px; border-radius: 8px; text-align: center; font-size: 11.5px; font-weight: 700;'
+            + ' background: ' + shiftTone[s][0] + '; color: ' + shiftTone[s][1]
+            + (dayData[i].id === st.day ? '; box-shadow: 0 0 0 1.5px #C2D5EE' : '')
+        }))
+      })),
+
+      live: [
+        { name: 'Dr. [Name]', note: 'In chair [1] · implant placement', status: 'IN CHAIR', tone: 'blue' },
+        { name: 'Dr. [Name]', note: 'In chair [2] · RCT sitting 2', status: 'IN CHAIR', tone: 'blue' },
+        { name: '[Assistant name]', note: 'Clocked in [8:52 AM]', status: 'ON FLOOR', tone: 'green' },
+        { name: '[Name]', note: 'Sterilisation cycle [2] running', status: 'ON FLOOR', tone: 'green' },
+        { name: '[Name]', note: 'Front desk · [4] messages queued', status: 'ON FLOOR', tone: 'green' }
+      ].map((l) => ({
+        name: l.name, note: l.note, status: l.status,
+        dot: 'width: 8px; height: 8px; border-radius: 999px; flex-shrink: 0; background: '
+          + (l.tone === 'blue' ? '#0B5CD5' : '#0E7A57'),
+        pill: (l.tone === 'blue' ? 'background: #EDF3FE; color: #0B5CD5;' : 'background: #E9F7F3; color: #0E7A57;')
+          + ' padding: 4px 9px; border-radius: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.04em; flex-shrink: 0'
+      })),
+
+      approvals: [
+        { name: '[Assistant name]', what: 'Casual leave · [Fri 5 Sep], full day', type: 'LEAVE', tone: 'amber' },
+        { name: '[Name]', what: 'Shift swap with [Name] · [Sat 6 Sep]', type: 'SWAP', tone: 'blue' },
+        { name: 'Dr. [Name]', what: 'Conference leave · [12–14 Sep]', type: 'LEAVE', tone: 'amber' }
+      ].map((a) => ({
+        name: a.name, what: a.what, type: a.type,
+        pill: (a.tone === 'amber' ? 'background: #FFF6E8; color: #7A5B14;' : 'background: #EDF3FE; color: #0B5CD5;')
+          + ' padding: 4px 9px; border-radius: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.04em; flex-shrink: 0'
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

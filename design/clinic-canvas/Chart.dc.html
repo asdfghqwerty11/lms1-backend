@@ -1,0 +1,379 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <style>
+    *{ box-sizing: border-box; }
+    body { margin: 0; background: #F5F7FB; color: #0F1A2A;
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #0B5CD5; text-decoration: none; } a:hover { color: #08306E; }
+    button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; text-align: left; }
+    h1, h2, h3 { margin: 0; } p { margin: 0; }
+  </style>
+</helmet>
+
+<div style="display: flex; flex-direction: column; height: 900px; background: #F5F7FB; overflow: hidden">
+
+  <div style="height: 76px; flex-shrink: 0; background: #FFFFFF; border-bottom: 1px solid #E3E9F0; display: flex; align-items: center; justify-content: space-between; padding: 0 24px">
+    <div style="display: flex; align-items: center; gap: 16px">
+      <div style="width: 46px; height: 46px; border-radius: 13px; background: #0B5CD5; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800">PD</div>
+      <div style="display: flex; flex-direction: column; gap: 3px">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <h1 style="font-size: 19px; font-weight: 800; letter-spacing: -0.02em">[Patient D]</h1>
+          <div style="padding: 4px 9px; border-radius: 6px; background: #FFF0EE; color: #8E2A20; font-size: 10.5px; font-weight: 800; letter-spacing: 0.04em">ALLERGY: PENICILLIN</div>
+          <div style="padding: 4px 9px; border-radius: 6px; background: #FFF6E8; color: #7A5B14; font-size: 10.5px; font-weight: 800; letter-spacing: 0.04em">EMI ACTIVE</div>
+        </div>
+        <div style="font-size: 12.5px; color: #5D6D82">UHID [DK-00000] &middot; [34] yrs, [F] &middot; +91 [00000 00000] &middot; Last visit [28 Aug]</div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 9px">
+      <button style="height: 40px; padding: 0 16px; border-radius: 10px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 13px">Upload X-ray</button>
+      <button style="height: 40px; padding: 0 16px; border-radius: 10px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 13px">Treatment plan</button>
+      <button style="height: 40px; padding: 0 18px; border-radius: 10px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 13px">Start chairside note</button>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; gap: 16px; padding: 16px 24px 20px; min-height: 0">
+
+    <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 16px; min-width: 0">
+
+      <div style="background: #FFFFFF; border-radius: 16px; border: 1px solid #E3E9F0; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <div style="font-size: 15px; font-weight: 800; letter-spacing: -0.01em">Dental chart <span style="font-weight: 500; color: #8494A8">&middot; FDI notation</span></div>
+          <div style="display: flex; gap: 14px">
+            <sc-for list="{{legend}}" as="l" hint-placeholder-count="6">
+              <div style="display: flex; align-items: center; gap: 6px">
+                <span style="{{l.sw}}"></span>
+                <span style="font-size: 11.5px; color: #5D6D82; font-weight: 600">{{l.label}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 9px; align-items: center">
+          <div style="display: flex; gap: 4px">
+            <sc-for list="{{upper}}" as="t" hint-placeholder-count="16">
+              <button onClick="{{t.pick}}" style="{{t.wrap}}">
+                <div style="{{t.crown}}"></div>
+                <div style="{{t.num}}">{{t.n}}</div>
+              </button>
+            </sc-for>
+          </div>
+          <div style="width: 100%; max-width: 620px; height: 1px; background: #E7EDF5"></div>
+          <div style="display: flex; gap: 4px">
+            <sc-for list="{{lower}}" as="t" hint-placeholder-count="16">
+              <button onClick="{{t.pick}}" style="{{t.wrap}}">
+                <div style="{{t.num}}">{{t.n}}</div>
+                <div style="{{t.crown}}"></div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 16px; padding: 15px 18px; border-radius: 13px; background: #F7FAFE; align-items: center">
+          <div style="{{tooth.badge}}">{{tooth.n}}</div>
+          <div style="display: flex; flex-direction: column; gap: 3px; flex-grow: 1">
+            <div style="font-size: 14.5px; font-weight: 700">{{tooth.name}}</div>
+            <div style="font-size: 12.5px; color: #5D6D82">{{tooth.note}}</div>
+          </div>
+          <button style="height: 38px; padding: 0 15px; border-radius: 9px; border: 1px solid #DDE5EF; background: #FFFFFF; font-size: 12.5px; font-weight: 700">Add finding</button>
+          <button style="height: 38px; padding: 0 15px; border-radius: 9px; background: #0B5CD5; color: #FFFFFF; font-size: 12.5px; font-weight: 700">Add to plan</button>
+        </div>
+      </div>
+
+      <div style="flex-grow: 1; background: #FFFFFF; border-radius: 16px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; overflow: hidden; min-height: 0">
+        <div style="display: flex; gap: 4px; padding: 8px 8px 0; border-bottom: 1px solid #EEF2F7; flex-shrink: 0">
+          <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+            <button onClick="{{t.pick}}" style="{{t.wrap}}">{{t.label}}</button>
+          </sc-for>
+        </div>
+        <div style="padding: 18px 22px; overflow: hidden">
+
+          <sc-if value="{{isPlan}}" hint-placeholder-val="{{true}}">
+            <div style="display: flex; flex-direction: column; gap: 9px">
+              <sc-for list="{{plan}}" as="p" hint-placeholder-count="5">
+                <div style="display: flex; gap: 16px; align-items: center; padding: 13px 16px; border-radius: 12px; border: 1px solid #EEF2F7">
+                  <div style="{{p.mark}}">{{p.markCh}}</div>
+                  <div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+                    <div style="font-size: 14px; font-weight: 700">{{p.what}}</div>
+                    <div style="font-size: 12px; color: #8494A8">{{p.when}}</div>
+                  </div>
+                  <div style="font-size: 13.5px; font-weight: 700; width: 92px; text-align: right">₹{{p.amt}}</div>
+                  <div style="{{p.pill}}">{{p.status}}</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{isNotes}}" hint-placeholder-val="{{true}}">
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <sc-for list="{{notes}}" as="n" hint-placeholder-count="3">
+                <div style="padding: 16px 18px; border-radius: 13px; border: 1px solid #EEF2F7; display: flex; flex-direction: column; gap: 8px">
+                  <div style="display: flex; justify-content: space-between; align-items: center">
+                    <div style="font-size: 13.5px; font-weight: 800">{{n.title}}</div>
+                    <div style="display: flex; align-items: center; gap: 8px">
+                      <span style="padding: 4px 9px; border-radius: 6px; background: #EDF3FE; color: #0B5CD5; font-size: 10.5px; font-weight: 800; letter-spacing: 0.04em">{{n.source}}</span>
+                      <span style="font-size: 11.5px; color: #8494A8">{{n.when}}</span>
+                    </div>
+                  </div>
+                  <div style="font-size: 13px; color: #46586F; line-height: 1.6; white-space: pre-line">{{n.body}}</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{isMeds}}" hint-placeholder-val="{{true}}">
+            <div style="display: flex; flex-direction: column; gap: 9px">
+              <sc-for list="{{meds}}" as="m" hint-placeholder-count="4">
+                <div style="display: flex; gap: 16px; align-items: center; padding: 13px 16px; border-radius: 12px; border: 1px solid #EEF2F7">
+                  <div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+                    <div style="font-size: 14px; font-weight: 700">{{m.name}}</div>
+                    <div style="font-size: 12px; color: #8494A8">{{m.dose}}</div>
+                  </div>
+                  <div style="font-size: 12px; color: #5D6D82; width: 110px">{{m.when}}</div>
+                  <div style="{{m.pill}}">{{m.status}}</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{isFiles}}" hint-placeholder-val="{{true}}">
+            <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px">
+              <sc-for list="{{files}}" as="f" hint-placeholder-count="5">
+                <div style="border-radius: 12px; border: 1px solid #EEF2F7; overflow: hidden">
+                  <div style="height: 96px; background: #F3F7FD; display: flex; align-items: center; justify-content: center; border-bottom: 1px dashed #DDE6F2">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8CACD4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M3.5 15 9 10l4 3.6 3-2.4 4.5 3.8"/></svg>
+                  </div>
+                  <div style="padding: 10px 12px; display: flex; flex-direction: column; gap: 2px">
+                    <div style="font-size: 12px; font-weight: 700">{{f.name}}</div>
+                    <div style="font-size: 11px; color: #8494A8">{{f.date}}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 292px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px">
+      <div style="padding: 18px; border-radius: 15px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 12px">
+        <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #8494A8">Medical alerts</div>
+        <sc-for list="{{alerts}}" as="a" hint-placeholder-count="4">
+          <div style="display: flex; gap: 10px; align-items: flex-start">
+            <div style="{{a.dot}}"></div>
+            <div style="display: flex; flex-direction: column; gap: 1px">
+              <div style="font-size: 13px; font-weight: 700">{{a.title}}</div>
+              <div style="font-size: 11.5px; color: #8494A8; line-height: 1.45">{{a.note}}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="padding: 18px; border-radius: 15px; background: #0B1B30; display: flex; flex-direction: column; gap: 12px">
+        <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #6FA6F0">Account</div>
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <span style="font-size: 12.5px; color: #9DB4CE">Outstanding</span>
+          <span style="font-size: 17px; font-weight: 800; color: #FFFFFF">₹[SAMPLE 18,400]</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <span style="font-size: 12.5px; color: #9DB4CE">EMI</span>
+          <span style="font-size: 12.5px; font-weight: 700; color: #FFFFFF">[3] of [6] paid</span>
+        </div>
+        <div style="height: 6px; border-radius: 999px; background: #17304F; overflow: hidden">
+          <div style="width: 50%; height: 6px; border-radius: 999px; background: #37D39B"></div>
+        </div>
+        <button style="height: 40px; border-radius: 10px; background: #FFFFFF; color: #0B1B30; font-weight: 700; font-size: 13px; text-align: center; margin-top: 4px">Send payment link</button>
+      </div>
+
+      <div style="flex-grow: 1; padding: 18px; border-radius: 15px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 12px">
+        <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #8494A8">Automated follow-ups</div>
+        <sc-for list="{{followups}}" as="f" hint-placeholder-count="4">
+          <div style="display: flex; gap: 10px; align-items: flex-start; padding-bottom: 10px; border-bottom: 1px solid #F1F5FA">
+            <div style="{{f.icon}}">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="{{f.d}}"></path></svg>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1px">
+              <div style="font-size: 12.5px; font-weight: 700">{{f.title}}</div>
+              <div style="font-size: 11.5px; color: #8494A8">{{f.when}}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tooth: '46', tab: 'plan' };
+  }
+
+  renderVals() {
+    const st = this.state;
+
+    const cond = {
+      healthy: ['#FFFFFF', '#D7DFE9', 'Sound'],
+      filled: ['#BFD8F7', '#7FAEE8', 'Restored'],
+      crown: ['#F3D9A6', '#DCB868', 'Crown'],
+      implant: ['#B7E3DA', '#6FC3B4', 'Implant'],
+      caries: ['#F6C3BB', '#E08D80', 'Caries'],
+      missing: ['#F1F3F6', '#D7DFE9', 'Missing']
+    };
+
+    const map = {
+      '16': 'filled', '26': 'crown', '36': 'implant', '46': 'caries', '48': 'missing',
+      '14': 'filled', '25': 'filled', '37': 'filled', '17': 'caries', '38': 'missing'
+    };
+
+    const upperN = ['18','17','16','15','14','13','12','11','21','22','23','24','25','26','27','28'];
+    const lowerN = ['48','47','46','45','44','43','42','41','31','32','33','34','35','36','37','38'];
+
+    const names = {
+      '46': 'Lower right first molar',
+      '36': 'Lower left first molar',
+      '26': 'Upper left first molar',
+      '16': 'Upper right first molar',
+      '48': 'Lower right third molar'
+    };
+    const notes = {
+      '46': 'Deep occlusal caries with pulpal involvement. RCT sitting 1 completed [28 Aug]. Sitting 2 and crown planned.',
+      '36': 'Implant placed [Feb 2026], integrated. Crown fitted [Apr 2026]. Review at 12 months.',
+      '26': 'Zirconia crown, cemented [Jun 2025]. Margins sound at last review.',
+      '16': 'Composite restoration, occlusal. Placed [2024], intact.',
+      '48': 'Extracted [Feb 2026]. Socket healed, no residual pathology.'
+    };
+
+    const makeTooth = (n, isUpper) => {
+      const c = map[n] || 'healthy';
+      const on = st.tooth === n;
+      const col = cond[c];
+      return {
+        n: n,
+        pick: () => this.setState({ tooth: n }),
+        wrap: (on
+          ? 'padding: 4px 2px; border-radius: 8px; background: #EDF3FE; border: 1.5px solid #0B5CD5;'
+          : 'padding: 4px 2px; border-radius: 8px; border: 1.5px solid transparent;')
+          + ' width: 32px; display: flex; flex-direction: column; align-items: center; gap: 3px',
+        crown: 'width: 22px; height: 26px; border-radius: ' + (isUpper ? '5px 5px 9px 9px' : '9px 9px 5px 5px')
+          + '; background: ' + col[0] + '; border: 1.5px solid ' + col[1]
+          + (c === 'missing' ? '; opacity: 0.45' : ''),
+        num: on
+          ? 'font-size: 10px; font-weight: 800; color: #0B5CD5'
+          : 'font-size: 10px; font-weight: 700; color: #A3B0C0'
+      };
+    };
+
+    const selCond = cond[map[st.tooth] || 'healthy'];
+
+    return {
+      legend: ['healthy', 'filled', 'crown', 'implant', 'caries', 'missing'].map((k) => ({
+        label: cond[k][2],
+        sw: 'width: 12px; height: 12px; border-radius: 4px; background: ' + cond[k][0] + '; border: 1.5px solid ' + cond[k][1] + '; display: block'
+      })),
+      upper: upperN.map((n) => makeTooth(n, true)),
+      lower: lowerN.map((n) => makeTooth(n, false)),
+
+      tooth: {
+        n: st.tooth,
+        name: names[st.tooth] || 'Tooth ' + st.tooth,
+        note: notes[st.tooth] || 'No findings recorded. Sound on last examination [21 Aug].',
+        badge: 'width: 44px; height: 44px; border-radius: 12px; background: ' + selCond[0] + '; border: 2px solid ' + selCond[1]
+          + '; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0'
+      },
+
+      tabs: [
+        { id: 'plan', label: 'Treatment plan' },
+        { id: 'notes', label: 'Clinical notes' },
+        { id: 'meds', label: 'Prescriptions' },
+        { id: 'files', label: 'Imaging' }
+      ].map((t) => ({
+        label: t.label,
+        pick: () => this.setState({ tab: t.id }),
+        wrap: st.tab === t.id
+          ? 'padding: 12px 16px; border-radius: 10px 10px 0 0; background: #FFFFFF; border-bottom: 2px solid #0B5CD5; font-size: 13.5px; font-weight: 700; color: #0B5CD5; margin-bottom: -1px'
+          : 'padding: 12px 16px; border-radius: 10px 10px 0 0; font-size: 13.5px; font-weight: 700; color: #7C8CA0'
+      })),
+      isPlan: st.tab === 'plan', isNotes: st.tab === 'notes', isMeds: st.tab === 'meds', isFiles: st.tab === 'files',
+
+      plan: [
+        { what: 'Consultation, IOPA and treatment planning', when: '[21 Aug] · Dr. [Name]', amt: '[1,200]', done: true, status: 'PAID' },
+        { what: 'RCT · 46 · sitting 1 (access and cleaning)', when: '[28 Aug] · Dr. [Name]', amt: '[9,500]', done: true, status: 'PAID' },
+        { what: 'RCT · 46 · sitting 2 (obturation)', when: '[11 Sep] · booked', amt: '[4,900]', done: false, status: 'BOOKED' },
+        { what: 'Zirconia crown · 46', when: 'After sitting 2 · 2 visits', amt: '[13,500]', done: false, status: 'PLANNED' },
+        { what: 'Six-month review and scaling', when: '[Mar 2027] · auto-recall set', amt: '[2,800]', done: false, status: 'RECALL' }
+      ].map((p) => ({
+        what: p.what, when: p.when, amt: p.amt, status: p.status,
+        markCh: p.done ? '✓' : '',
+        mark: p.done
+          ? 'width: 22px; height: 22px; border-radius: 999px; background: #0E7A57; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0'
+          : 'width: 22px; height: 22px; border-radius: 999px; border: 2px solid #D7DFE9; flex-shrink: 0',
+        pill: (p.done
+          ? 'background: #E9F7F3; color: #0E7A57;'
+          : (p.status === 'BOOKED' ? 'background: #EDF3FE; color: #0B5CD5;' : 'background: #F1F5FA; color: #7C8CA0;'))
+          + ' padding: 5px 10px; border-radius: 6px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.05em; width: 78px; text-align: center; flex-shrink: 0'
+      })),
+
+      notes: [
+        { title: 'RCT · 46 · sitting 1', source: 'FROM VOICE NOTE', when: '[28 Aug], [5:12 PM]',
+          body: 'Chief complaint: throbbing pain lower right, worse at night, [4] days.\nOn examination: deep occlusal caries 46, tender to percussion, no swelling. IOPA shows periapical widening.\nProcedure: access opened under LA, [3] canals located, working length taken, cleaned and shaped to [F2], calcium hydroxide dressing placed, temporary restoration.\nPlan: obturation next sitting, then zirconia crown.' },
+        { title: 'Consultation and planning', source: 'FROM VOICE NOTE', when: '[21 Aug], [11:47 AM]',
+          body: 'Full-mouth examination. Caries 46 and 17. Existing restorations 14, 16, 25 intact. Missing 48 (extracted [Feb 2026]).\nOral hygiene fair, generalised calculus. Scaling advised.\nPlan discussed and priced. Patient opted for EMI over [6] months.' },
+        { title: 'Scaling and polishing', source: 'TYPED', when: '[12 Jun], [3:30 PM]',
+          body: 'Full-mouth scaling and polishing completed. Home care reinforced. Recall set for six months.' }
+      ],
+
+      meds: [
+        { name: 'Amoxicillin + Clavulanate [625 mg]', dose: 'BD after food, [5] days', when: '[28 Aug]', status: 'ACTIVE', on: true },
+        { name: 'Ibuprofen [400 mg]', dose: 'TDS as needed for pain', when: '[28 Aug]', status: 'ACTIVE', on: true },
+        { name: 'Chlorhexidine [0.2%]', dose: 'Rinse BD, [7] days', when: '[28 Aug]', status: 'ACTIVE', on: true },
+        { name: 'Paracetamol [650 mg]', dose: 'SOS', when: '[03 Feb]', status: 'PAST', on: false }
+      ].map((m) => ({
+        name: m.name, dose: m.dose, when: m.when, status: m.status,
+        pill: (m.on ? 'background: #E9F7F3; color: #0E7A57;' : 'background: #F1F5FA; color: #7C8CA0;')
+          + ' padding: 5px 10px; border-radius: 6px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.05em; width: 64px; text-align: center; flex-shrink: 0'
+      })),
+
+      files: [
+        { name: 'OPG panoramic', date: '[21 Aug]' }, { name: 'IOPA · 46', date: '[21 Aug]' },
+        { name: 'IOPA · 46 working length', date: '[28 Aug]' }, { name: 'IOPA · 17', date: '[21 Aug]' },
+        { name: 'Intraoral photo set', date: '[21 Aug]' }
+      ],
+
+      alerts: [
+        { title: 'Penicillin allergy', note: 'Rash reported [2019]. Amoxicillin substituted with clindamycin where needed.', tone: '#B42318' },
+        { title: 'Hypertension', note: 'On [medication name]. BP checked before every surgical procedure.', tone: '#B45309' },
+        { title: 'No bleeding disorder', note: 'Confirmed at intake [21 Aug].', tone: '#0E7A57' }
+      ].map((a) => ({
+        title: a.title, note: a.note,
+        dot: 'width: 8px; height: 8px; border-radius: 999px; background: ' + a.tone + '; margin-top: 5px; flex-shrink: 0'
+      })),
+
+      followups: [
+        { title: 'Day-1 post-op check', when: 'Sent [29 Aug] · patient replied “fine”', d: 'm5 12.5 4.5 4.5L19 7', ok: true },
+        { title: 'Sitting 2 reminder', when: 'Scheduled [10 Sep], 24h before', d: 'M12 7v5l3.2 2', ok: false },
+        { title: 'Crown-ready alert', when: 'Fires when lab marks it done', d: 'M12 7v5l3.2 2', ok: false },
+        { title: 'Six-month recall', when: 'Scheduled [Feb 2027]', d: 'M12 7v5l3.2 2', ok: false }
+      ].map((f) => ({
+        title: f.title, when: f.when, d: f.d,
+        icon: (f.ok
+          ? 'background: #E9F7F3; color: #0E7A57;'
+          : 'background: #EDF3FE; color: #0B5CD5;')
+          + ' width: 22px; height: 22px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0'
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

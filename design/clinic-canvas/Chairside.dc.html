@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <style>
+    *{ box-sizing: border-box; }
+    body { margin: 0; background: #0B1B30; color: #0F1A2A;
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #0B5CD5; text-decoration: none; } a:hover { color: #08306E; }
+    button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; text-align: left; }
+    h1, h2, h3 { margin: 0; } p { margin: 0; }
+  </style>
+</helmet>
+
+<div style="width: 900px; min-height: 1200px; background: #0B1B30; display: flex; flex-direction: column">
+
+  <div style="padding: 20px 26px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0">
+    <div style="display: flex; align-items: center; gap: 14px">
+      <div style="width: 42px; height: 42px; border-radius: 12px; background: #17304F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800">PD</div>
+      <div style="display: flex; flex-direction: column; gap: 3px">
+        <div style="font-size: 17px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em">[Patient D] &middot; RCT sitting 2 &middot; 46</div>
+        <div style="font-size: 12.5px; color: #8FA6C2">Chair [2] &middot; Dr. [Name] &middot; Started [4:32 PM]</div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 9px; padding: 8px 14px; border-radius: 999px; background: #3B1E1C; border: 1px solid #6B322C">
+      <span style="width: 7px; height: 7px; border-radius: 999px; background: #F0776A"></span>
+      <span style="font-size: 11.5px; font-weight: 800; color: #F0776A; letter-spacing: 0.05em">PENICILLIN ALLERGY</span>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; background: #F5F7FB; border-radius: 26px 26px 0 0; padding: 26px; display: flex; flex-direction: column; gap: 18px">
+
+    <div style="display: flex; gap: 8px">
+      <sc-for list="{{stages}}" as="s" hint-placeholder-count="4">
+        <div style="{{s.wrap}}">
+          <span style="{{s.dot}}"></span>
+          <span>{{s.label}}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{isIdle}}" hint-placeholder-val="{{true}}">
+      <div style="flex-grow: 1; background: #FFFFFF; border-radius: 20px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; padding: 60px 40px; min-height: 720px">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; font-weight: 400; letter-spacing: -0.015em">Just talk through the case.</h2>
+          <p style="font-size: 16px; color: #5D6D82; max-width: 470px; line-height: 1.6">Speak the way you would to your assistant. The summary, the tooth chart update and the prescription are drafted for you to check and sign.</p>
+        </div>
+        <button onClick="{{start}}" style="width: 132px; height: 132px; border-radius: 999px; background: #0B5CD5; display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 40px rgba(11,92,213,0.32)">
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0v-5a3 3 0 0 0-3-3z"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>
+        </button>
+        <div style="font-size: 13.5px; font-weight: 700; color: #8494A8">Tap to start &middot; works in [English / Hindi / Hinglish]</div>
+        <div style="display: flex; gap: 10px; padding-top: 16px">
+          <sc-for list="{{quickTemplates}}" as="q" hint-placeholder-count="3">
+            <div style="padding: 10px 16px; border-radius: 10px; background: #F4F7FB; border: 1px solid #E3E9F0; font-size: 13px; font-weight: 700; color: #5D6D82">{{q.label}}</div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isRec}}" hint-placeholder-val="{{true}}">
+      <div style="flex-grow: 1; background: #FFFFFF; border-radius: 20px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; padding: 34px; gap: 26px; min-height: 720px">
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <div style="display: flex; align-items: center; gap: 11px">
+            <span style="width: 11px; height: 11px; border-radius: 999px; background: #D6392B"></span>
+            <span style="font-size: 15px; font-weight: 800">Recording &middot; [01:12]</span>
+          </div>
+          <div style="font-size: 13px; color: #8494A8; font-weight: 600">Nothing leaves the room until you sign</div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: center; gap: 3px; height: 92px">
+          <sc-for list="{{wave}}" as="w" hint-placeholder-count="40">
+            <div style="{{w.style}}"></div>
+          </sc-for>
+        </div>
+
+        <div style="flex-grow: 1; padding: 24px; border-radius: 16px; background: #F7FAFE; display: flex; flex-direction: column; gap: 14px; overflow: hidden">
+          <div style="font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: #8494A8">Live transcript</div>
+          <sc-for list="{{transcript}}" as="t" hint-placeholder-count="5">
+            <div style="{{t.style}}">{{t.text}}</div>
+          </sc-for>
+        </div>
+
+        <button onClick="{{stop}}" style="height: 62px; border-radius: 15px; background: #0F1A2A; color: #FFFFFF; font-weight: 700; font-size: 16px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 11px">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg>
+          Stop and draft the note
+        </button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isDraft}}" hint-placeholder-val="{{true}}">
+      <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 14px">
+
+        <div style="padding: 22px 24px; background: #FFFFFF; border-radius: 18px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; justify-content: space-between; align-items: center">
+            <div style="font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em">Case summary <span style="font-weight: 500; color: #8494A8">&middot; drafted from your voice note</span></div>
+            <button style="font-size: 13px; font-weight: 700; color: #0B5CD5">Edit</button>
+          </div>
+          <sc-for list="{{summary}}" as="s" hint-placeholder-count="4">
+            <div style="display: flex; gap: 18px; align-items: flex-start">
+              <div style="width: 128px; flex-shrink: 0; font-size: 12px; font-weight: 700; color: #8494A8; letter-spacing: 0.05em; text-transform: uppercase; padding-top: 2px">{{s.k}}</div>
+              <div style="font-size: 14px; color: #1D2C3F; line-height: 1.6; flex-grow: 1">{{s.v}}</div>
+            </div>
+          </sc-for>
+          <div style="display: flex; gap: 8px; padding-top: 4px">
+            <div style="padding: 7px 13px; border-radius: 8px; background: #EDF3FE; color: #0B5CD5; font-size: 12px; font-weight: 700">Chart updated: 46 &rarr; obturated</div>
+            <div style="padding: 7px 13px; border-radius: 8px; background: #EDF3FE; color: #0B5CD5; font-size: 12px; font-weight: 700">Next visit auto-proposed: [+14 days]</div>
+          </div>
+        </div>
+
+        <div style="padding: 22px 24px; background: #FFFFFF; border-radius: 18px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 14px">
+          <div style="display: flex; justify-content: space-between; align-items: center">
+            <div style="font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em">Prescription draft</div>
+            <div style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #FFF6E8; border: 1px solid #F0DBB4">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7A5B14" stroke-width="2.2" stroke-linecap="round"><path d="M12 8v5M12 16.5h0"/><path d="M12 3.4 21 19H3z"/></svg>
+              <span style="font-size: 11.5px; font-weight: 800; color: #7A5B14">UNSIGNED &mdash; NOT SENT</span>
+            </div>
+          </div>
+          <sc-for list="{{rx}}" as="r" hint-placeholder-count="3">
+            <div style="display: flex; gap: 14px; align-items: center; padding: 14px 16px; border-radius: 13px; border: 1px solid #EEF2F7">
+              <div style="width: 28px; height: 28px; border-radius: 9px; background: #EDF3FE; color: #0B5CD5; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0">{{r.n}}</div>
+              <div style="display: flex; flex-direction: column; gap: 3px; flex-grow: 1">
+                <div style="font-size: 14.5px; font-weight: 700">{{r.name}}</div>
+                <div style="font-size: 12.5px; color: #5D6D82">{{r.dose}}</div>
+              </div>
+              <div style="{{r.pill}}">{{r.flag}}</div>
+              <button style="font-size: 12.5px; font-weight: 700; color: #0B5CD5; flex-shrink: 0">Change</button>
+            </div>
+          </sc-for>
+          <div style="display: flex; gap: 11px; align-items: flex-start; padding: 14px 16px; border-radius: 12px; background: #FFF0EE; border: 1px solid #F6CFC9">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8E2A20" stroke-width="2" stroke-linecap="round" style="flex-shrink: 0; margin-top: 1px"><path d="M12 8v5M12 16.5h0"/><path d="M12 3.4 21 19H3z"/></svg>
+            <div style="font-size: 12.5px; color: #8E2A20; line-height: 1.55"><strong>Allergy check:</strong> amoxicillin was suppressed for this patient and clindamycin substituted. Confirm before signing.</div>
+          </div>
+        </div>
+
+        <div style="padding: 22px 24px; background: #FFFFFF; border-radius: 18px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 16px">
+          <button onClick="{{toggleAck}}" style="display: flex; gap: 13px; align-items: flex-start">
+            <div style="{{ackBox}}">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 3px">
+              <div style="font-size: 14px; font-weight: 700">I have read this summary and prescription and take clinical responsibility for it.</div>
+              <div style="font-size: 12.5px; color: #8494A8">Required. Your signature and registration number are stamped on the PDF, and the approval is written to the audit log.</div>
+            </div>
+          </button>
+          <div style="display: flex; gap: 10px">
+            <button onClick="{{sign}}" style="{{signStyle}}">Sign and send to patient</button>
+            <button style="height: 56px; padding: 0 22px; border-radius: 13px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 14.5px; text-align: center; flex-shrink: 0">Save as draft</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isSent}}" hint-placeholder-val="{{true}}">
+      <div style="flex-grow: 1; background: #FFFFFF; border-radius: 20px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; align-items: center; padding: 60px 40px; gap: 28px; min-height: 720px">
+        <div style="width: 84px; height: 84px; border-radius: 999px; background: #E9F7F3; display: flex; align-items: center; justify-content: center">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#0E7A57" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center">
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; font-weight: 400">Signed and sent.</h2>
+          <p style="font-size: 15.5px; color: #5D6D82; max-width: 440px; line-height: 1.6">The whole visit closed itself out in [11] seconds. Nobody typed anything.</p>
+        </div>
+        <div style="width: 100%; max-width: 560px; display: flex; flex-direction: column; gap: 9px">
+          <sc-for list="{{sentItems}}" as="s" hint-placeholder-count="6">
+            <div style="display: flex; gap: 13px; align-items: center; padding: 15px 18px; border-radius: 13px; background: #F7FAFE; border: 1px solid #E7EDF5">
+              <div style="width: 26px; height: 26px; border-radius: 8px; background: #E9F7F3; color: #0E7A57; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+                <div style="font-size: 13.5px; font-weight: 700">{{s.title}}</div>
+                <div style="font-size: 12px; color: #8494A8">{{s.note}}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <button onClick="{{reset}}" style="font-size: 14px; font-weight: 700; color: #0B5CD5">Start the next patient</button>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":900,"height":1200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { stage: 'idle', ack: false };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const order = ['idle', 'rec', 'draft', 'sent'];
+    const at = order.indexOf(st.stage);
+
+    const heights = [14,22,38,52,30,64,44,26,58,72,40,20,34,56,68,30,18,46,60,38,24,50,66,32,42,58,28,16,36,54,70,44,26,38,62,30,20,48,34,22];
+
+    return {
+      stages: [
+        { label: 'Record', i: 0 }, { label: 'Draft', i: 1 }, { label: 'Doctor signs', i: 2 }, { label: 'Sent', i: 3 }
+      ].map((s) => ({
+        label: s.label,
+        wrap: (s.i <= at
+          ? 'background: #FFFFFF; border: 1px solid #C2D5EE; color: #0B5CD5;'
+          : 'background: #EEF2F8; border: 1px solid #E3E9F0; color: #A3B0C0;')
+          + ' flex-grow: 1; padding: 11px 15px; border-radius: 11px; display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 700',
+        dot: (s.i < at
+          ? 'background: #0E7A57;'
+          : (s.i === at ? 'background: #0B5CD5;' : 'background: #C8D2DE;'))
+          + ' width: 8px; height: 8px; border-radius: 999px; display: block; flex-shrink: 0'
+      })),
+
+      isIdle: st.stage === 'idle', isRec: st.stage === 'rec', isDraft: st.stage === 'draft', isSent: st.stage === 'sent',
+      start: () => this.setState({ stage: 'rec' }),
+      stop: () => this.setState({ stage: 'draft' }),
+      sign: () => { if (st.ack) this.setState({ stage: 'sent' }); },
+      reset: () => this.setState({ stage: 'idle', ack: false }),
+      toggleAck: () => this.setState({ ack: !st.ack }),
+
+      quickTemplates: [{ label: 'RCT follow-up' }, { label: 'Extraction' }, { label: 'Routine check-up' }],
+
+      wave: heights.map((h, i) => ({
+        style: 'width: 5px; height: ' + h + 'px; border-radius: 999px; background: '
+          + (i > 31 ? '#C2D5EE' : '#0B5CD5') + '; flex-shrink: 0'
+      })),
+
+      transcript: [
+        { text: 'Patient is here for sitting two on the lower right first molar, forty-six.', done: true },
+        { text: 'No pain since the last visit, temporary restoration intact, no swelling.', done: true },
+        { text: 'Removed the dressing, canals dry, obturated all three canals with gutta-percha and sealer.', done: true },
+        { text: 'Post-endodontic composite placed. Advised zirconia crown in the next two weeks.', done: true },
+        { text: 'Prescribe ibuprofen four hundred if there is discomfort, and…', done: false }
+      ].map((t) => ({
+        text: t.text,
+        style: t.done
+          ? 'font-size: 14.5px; line-height: 1.6; color: #1D2C3F'
+          : 'font-size: 14.5px; line-height: 1.6; color: #8494A8'
+      })),
+
+      summary: [
+        { k: 'Chief complaint', v: 'Review after root canal sitting 1 on 46. No pain since the last visit. Temporary restoration intact.' },
+        { k: 'Examination', v: 'No tenderness to percussion. No swelling or sinus. Temporary restoration sound, canals dry on access.' },
+        { k: 'Procedure', v: 'Dressing removed. All three canals obturated with gutta-percha and sealer. Post-endodontic composite placed. Radiograph confirms adequate fill.' },
+        { k: 'Plan', v: 'Zirconia crown on 46 within two weeks. Avoid chewing on the right until the crown is cemented. Review in 14 days.' }
+      ],
+
+      rx: [
+        { n: '1', name: 'Ibuprofen [400 mg]', dose: '1 tablet, up to three times daily, after food, only if there is pain · [3] days', flag: 'AS NEEDED', tone: 'grey' },
+        { n: '2', name: 'Clindamycin [300 mg]', dose: '1 capsule, three times daily, for [5] days', flag: 'ALLERGY-SAFE', tone: 'green' },
+        { n: '3', name: 'Chlorhexidine [0.2%] mouthwash', dose: 'Rinse 10 ml for 30 seconds, twice daily, for [5] days', flag: 'ROUTINE', tone: 'grey' }
+      ].map((r) => ({
+        n: r.n, name: r.name, dose: r.dose, flag: r.flag,
+        pill: (r.tone === 'green' ? 'background: #E9F7F3; color: #0E7A57;' : 'background: #F1F5FA; color: #7C8CA0;')
+          + ' padding: 5px 10px; border-radius: 6px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.05em; flex-shrink: 0'
+      })),
+
+      ackBox: st.ack
+        ? 'width: 24px; height: 24px; border-radius: 7px; background: #0B5CD5; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px'
+        : 'width: 24px; height: 24px; border-radius: 7px; border: 2px solid #C8D2DE; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; color: transparent',
+      signStyle: st.ack
+        ? 'flex-grow: 1; height: 56px; border-radius: 13px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 15.5px; text-align: center; box-shadow: 0 10px 24px rgba(11,92,213,0.26)'
+        : 'flex-grow: 1; height: 56px; border-radius: 13px; background: #E7EDF5; color: #A3B0C0; font-weight: 700; font-size: 15.5px; text-align: center; cursor: not-allowed',
+
+      sentItems: [
+        { title: 'Prescription PDF on WhatsApp', note: 'Signed, stamped with [Reg. no.] · delivered [4:44 PM]' },
+        { title: 'Case summary written to the chart', note: 'Tooth 46 updated to obturated · audit log entry created' },
+        { title: 'Invoice raised and payment link sent', note: '₹[SAMPLE 4,900] · added to the existing EMI plan' },
+        { title: 'Crown appointment proposed', note: '[Thu 25 Sep], [5:00 PM] · patient can accept by replying' },
+        { title: 'Day-1 check-in scheduled', note: 'Fires tomorrow morning, answers routed to the front desk' },
+        { title: 'Stock deducted for the procedure', note: 'Gutta-percha, sealer, composite · 2 items now below par' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

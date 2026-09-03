@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <style>
+    *{ box-sizing: border-box; }
+    body { margin: 0; background: #F5F7FB; color: #0F1A2A;
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #0B5CD5; text-decoration: none; } a:hover { color: #08306E; }
+    button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; text-align: left; }
+    h1, h2, h3 { margin: 0; } p { margin: 0; }
+  </style>
+</helmet>
+
+<div style="display: flex; flex-direction: column; height: 900px; background: #F5F7FB; overflow: hidden">
+
+  <div style="height: 72px; flex-shrink: 0; background: #FFFFFF; border-bottom: 1px solid #E3E9F0; display: flex; align-items: center; justify-content: space-between; padding: 0 24px">
+    <div style="display: flex; flex-direction: column; gap: 3px">
+      <h1 style="font-size: 19px; font-weight: 800; letter-spacing: -0.02em">Invoice for [Patient D]</h1>
+      <div style="font-size: 12.5px; color: #5D6D82">Built automatically from the treatment plan &middot; INV-[2026]-[0184]</div>
+    </div>
+    <div style="display: flex; gap: 9px">
+      <button style="height: 38px; padding: 0 16px; border-radius: 10px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 13px">Print</button>
+      <button style="height: 38px; padding: 0 16px; border-radius: 10px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 13px">Split into EMI</button>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; gap: 16px; padding: 16px 24px 20px; min-height: 0">
+
+    <div style="flex-grow: 1; background: #FFFFFF; border-radius: 16px; border: 1px solid #E3E9F0; display: flex; flex-direction: column; overflow: hidden; min-width: 0">
+      <div style="padding: 18px 22px; border-bottom: 1px solid #EEF2F7; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0">
+        <div style="display: flex; flex-direction: column; gap: 3px">
+          <div style="font-size: 15px; font-weight: 800">Line items</div>
+          <div style="font-size: 12px; color: #8494A8">Priced from your rate card. Tap a line to include or hold it back.</div>
+        </div>
+        <button style="height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid #DDE5EF; font-size: 12.5px; font-weight: 700">+ Add line</button>
+      </div>
+
+      <div style="flex-grow: 1; overflow: hidden">
+        <sc-for list="{{lines}}" as="l" hint-placeholder-count="6">
+          <button onClick="{{l.toggle}}" style="{{l.wrap}}">
+            <div style="{{l.check}}">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1; min-width: 0">
+              <div style="{{l.nameStyle}}">{{l.name}}</div>
+              <div style="font-size: 11.5px; color: #8494A8">{{l.meta}}</div>
+            </div>
+            <div style="width: 66px; text-align: right; font-size: 13px; color: #8494A8">{{l.qty}}</div>
+            <div style="width: 104px; text-align: right; font-size: 13px; color: #5D6D82">₹{{l.rate}}</div>
+            <div style="width: 116px; text-align: right; font-size: 14px; font-weight: 700">₹{{l.amt}}</div>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="padding: 18px 22px; border-top: 1px solid #EEF2F7; background: #FBFCFE; display: flex; gap: 26px; flex-shrink: 0">
+        <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 9px">
+          <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #8494A8">Where these numbers came from</div>
+          <sc-for list="{{provenance}}" as="p" hint-placeholder-count="3">
+            <div style="display: flex; gap: 9px; align-items: flex-start">
+              <div style="width: 5px; height: 5px; border-radius: 999px; background: #C2D5EE; margin-top: 6px; flex-shrink: 0"></div>
+              <div style="font-size: 12.5px; color: #5D6D82; line-height: 1.5">{{p.text}}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="width: 260px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between; font-size: 13px"><span style="color: #5D6D82">Subtotal</span><span style="font-weight: 700">₹{{totals.sub}}</span></div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px"><span style="color: #5D6D82">Plan discount</span><span style="font-weight: 700; color: #0E7A57">&minus;₹{{totals.disc}}</span></div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px"><span style="color: #5D6D82">Already paid</span><span style="font-weight: 700">₹{{totals.paid}}</span></div>
+          <div style="height: 1px; background: #E3E9F0; margin: 3px 0"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center">
+            <span style="font-size: 14px; font-weight: 800">Due now</span>
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 30px">₹{{totals.due}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 372px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px">
+
+      <div style="padding: 20px 22px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <div style="font-size: 15px; font-weight: 800">Send it</div>
+          <div style="{{statusPill}}">{{statusText}}</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 9px">
+          <sc-for list="{{channels}}" as="c" hint-placeholder-count="3">
+            <button onClick="{{c.toggle}}" style="{{c.wrap}}">
+              <div style="{{c.box}}">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1">
+                <div style="font-size: 13.5px; font-weight: 700">{{c.label}}</div>
+                <div style="font-size: 11.5px; color: #8494A8">{{c.note}}</div>
+              </div>
+            </button>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
+          <button onClick="{{send}}" style="height: 50px; border-radius: 12px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 14.5px; text-align: center; box-shadow: 0 8px 20px rgba(11,92,213,0.22)">Send invoice and payment link</button>
+        </sc-if>
+        <sc-if value="{{sent}}" hint-placeholder-val="{{true}}">
+          <button onClick="{{reset}}" style="height: 44px; border-radius: 12px; border: 1px solid #DDE5EF; background: #FFFFFF; font-weight: 700; font-size: 13.5px; text-align: center">Undo and edit</button>
+        </sc-if>
+      </div>
+
+      <div style="flex-grow: 1; padding: 20px 22px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E3E9F0; display: flex; flex-direction: column; gap: 14px; min-height: 0">
+        <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #8494A8">Collection timeline</div>
+        <sc-for list="{{timeline}}" as="t" hint-placeholder-count="6">
+          <div style="display: flex; gap: 12px; align-items: flex-start">
+            <div style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0">
+              <div style="{{t.dot}}"></div>
+              <div style="{{t.rail}}"></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 2px; padding-bottom: 12px">
+              <div style="{{t.titleStyle}}">{{t.title}}</div>
+              <div style="font-size: 11.5px; color: #8494A8; line-height: 1.45">{{t.note}}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="padding: 16px 18px; border-radius: 14px; background: #0B1B30; display: flex; flex-direction: column; gap: 8px; flex-shrink: 0">
+        <div style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: #6FA6F0">Without a billing clerk</div>
+        <div style="font-size: 12.5px; color: #C6D6E8; line-height: 1.55">Invoices raise themselves from the completed plan, chase themselves on day [3] and day [7], and reconcile against the payment gateway. A person only steps in for a dispute.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      off: { l5: true },
+      ch: { wa: true, sms: false, email: true },
+      sent: false
+    };
+  }
+
+  renderVals() {
+    const st = this.state;
+
+    const lineData = [
+      { id: 'l1', name: 'Root canal · 46 · sitting 2 (obturation)', meta: 'Completed today · Dr. [Name]', qty: '1', rate: 4900 },
+      { id: 'l2', name: 'Post-endodontic composite restoration', meta: 'Completed today · included in procedure kit', qty: '1', rate: 1800 },
+      { id: 'l3', name: 'Digital IOPA · post-obturation', meta: 'Completed today', qty: '2', rate: 300 },
+      { id: 'l4', name: 'Local anaesthetic · articaine', meta: 'Consumable · auto-deducted from stock', qty: '2', rate: 180 },
+      { id: 'l5', name: 'Zirconia crown · 46', meta: 'Planned, not yet started · hold back until the next visit', qty: '1', rate: 13500 },
+      { id: 'l6', name: 'Chairside consultation time', meta: 'Waived for patients on an active plan', qty: '1', rate: 0 }
+    ];
+
+    const inr = (n) => {
+      const s = String(n);
+      if (s.length <= 3) return s;
+      const last3 = s.slice(-3);
+      let rest = s.slice(0, -3);
+      rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+      return rest + ',' + last3;
+    };
+
+    const active = lineData.filter((l) => !st.off[l.id]);
+    const sub = active.reduce((a, l) => a + l.rate * parseInt(l.qty, 10), 0);
+    const disc = Math.round(sub * 0.05);
+    const paid = 0;
+    const due = sub - disc - paid;
+
+    const channelData = [
+      { id: 'wa', label: 'WhatsApp', note: 'Invoice PDF + one-tap payment link' },
+      { id: 'sms', label: 'SMS', note: 'Fallback if WhatsApp is undelivered' },
+      { id: 'email', label: 'Email', note: 'For patients claiming insurance' }
+    ];
+
+    const tl = st.sent
+      ? [
+          { title: 'Invoice sent on WhatsApp', note: 'Delivered and read · [4:46 PM]', state: 'done' },
+          { title: 'Payment link opened', note: 'Patient viewed the link · [4:48 PM]', state: 'done' },
+          { title: 'First reminder', note: 'Fires [6 Sep] if still unpaid', state: 'pending' },
+          { title: 'Second reminder', note: 'Fires [10 Sep], front desk is copied', state: 'pending' },
+          { title: 'Receipt and ledger entry', note: 'Automatic the moment payment clears', state: 'pending' },
+          { title: 'Escalation to the front desk', note: 'Only if unpaid after [14] days', state: 'pending' }
+        ]
+      : [
+          { title: 'Nothing sent yet', note: 'The invoice is drafted and waiting on you', state: 'pending' },
+          { title: 'Send on WhatsApp', note: 'Delivered within seconds', state: 'pending' },
+          { title: 'Reminders on day [3] and day [7]', note: 'Stop automatically once paid', state: 'pending' },
+          { title: 'Receipt and ledger entry', note: 'Automatic on payment', state: 'pending' },
+          { title: 'EMI instalment scheduled', note: 'If the patient chooses to split it', state: 'pending' },
+          { title: 'Escalation to the front desk', note: 'Only if unpaid after [14] days', state: 'pending' }
+        ];
+
+    return {
+      lines: lineData.map((l) => {
+        const on = !st.off[l.id];
+        return {
+          name: l.name, meta: l.meta, qty: '×' + l.qty,
+          rate: inr(l.rate), amt: inr(l.rate * parseInt(l.qty, 10)),
+          toggle: () => { const o = Object.assign({}, st.off); if (on) { o[l.id] = true; } else { delete o[l.id]; } this.setState({ off: o }); },
+          wrap: 'width: 100%; display: flex; align-items: center; gap: 14px; padding: 14px 22px; border-bottom: 1px solid #F4F7FA'
+            + (on ? '' : '; background: #FBFCFD'),
+          nameStyle: on
+            ? 'font-size: 13.5px; font-weight: 700; color: #0F1A2A'
+            : 'font-size: 13.5px; font-weight: 700; color: #A3B0C0; text-decoration: line-through',
+          check: on
+            ? 'width: 22px; height: 22px; border-radius: 7px; background: #0B5CD5; display: flex; align-items: center; justify-content: center; flex-shrink: 0'
+            : 'width: 22px; height: 22px; border-radius: 7px; border: 2px solid #D7DFE9; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: transparent'
+        };
+      }),
+
+      totals: { sub: inr(sub), disc: inr(disc), paid: inr(paid), due: inr(due) },
+
+      provenance: [
+        { text: 'Procedures come from the signed chairside note — nothing is keyed in twice.' },
+        { text: 'Consumables are priced from the materials kit that was deducted from stock.' },
+        { text: 'The [5%] plan discount is applied automatically to patients on an active treatment plan.' }
+      ],
+
+      channels: channelData.map((c) => {
+        const on = !!st.ch[c.id];
+        return {
+          label: c.label, note: c.note,
+          toggle: () => { const n = Object.assign({}, st.ch); n[c.id] = !on; this.setState({ ch: n }); },
+          wrap: 'width: 100%; display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 12px; border: 1px solid '
+            + (on ? '#C2D5EE' : '#E7EDF5') + (on ? '; background: #F7FAFE' : ''),
+          box: on
+            ? 'width: 20px; height: 20px; border-radius: 6px; background: #0B5CD5; display: flex; align-items: center; justify-content: center; flex-shrink: 0'
+            : 'width: 20px; height: 20px; border-radius: 6px; border: 2px solid #D7DFE9; background: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: transparent'
+        };
+      }),
+
+      notSent: !st.sent,
+      sent: st.sent,
+      send: () => this.setState({ sent: true }),
+      reset: () => this.setState({ sent: false }),
+      statusText: st.sent ? 'SENT · AWAITING PAYMENT' : 'DRAFT',
+      statusPill: (st.sent ? 'background: #E9F7F3; color: #0E7A57;' : 'background: #F1F5FA; color: #7C8CA0;')
+        + ' padding: 5px 10px; border-radius: 6px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.05em',
+
+      timeline: tl.map((t, i) => ({
+        title: t.title, note: t.note,
+        titleStyle: 'font-size: 13px; font-weight: 700; color: ' + (t.state === 'done' ? '#0F1A2A' : '#7C8CA0'),
+        dot: 'width: 10px; height: 10px; border-radius: 999px; flex-shrink: 0; background: '
+          + (t.state === 'done' ? '#0E7A57' : '#D7DFE9'),
+        rail: i === tl.length - 1 ? 'display: none' : 'width: 2px; flex-grow: 1; min-height: 18px; background: #EEF2F7'
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>
