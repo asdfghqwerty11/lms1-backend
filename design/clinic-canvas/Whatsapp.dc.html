@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <style>
+    *{ box-sizing: border-box; }
+    body { margin: 0; background: #E9E1D8; color: #0F1A2A;
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; text-align: left; }
+    p { margin: 0; }
+  </style>
+</helmet>
+
+<div style="width: 390px; height: 844px; display: flex; flex-direction: column; background: #E9E1D8; overflow: hidden">
+
+  <div style="flex-shrink: 0; background: #075E54; padding: 12px 14px; display: flex; flex-direction: column; gap: 12px">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0"><path d="M15 5l-7 7 7 7"/></svg>
+      <div style="width: 36px; height: 36px; border-radius: 999px; background: #0B5CD5; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.1c-1.7 0-2.4.9-4.2.9-1.6 0-2.6-.6-3.6.5C2.8 6.1 3 9.1 3.7 11.8c.6 2.2 1.1 4.7 1.7 6.2.4 1.1 1.6 1.1 2-.1.4-1.2.7-3.3 1.3-4.2.5-.8 2-.8 2.5 0 .6.9.9 3 1.3 4.2.4 1.2 1.6 1.2 2 .1.6-1.5 1.1-4 1.7-6.2.7-2.7.9-5.7-.5-7.3-1-1.1-2-.5-3.6-.5-1.8 0-2.5-.9-4.1-.9z"/></svg>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1; min-width: 0">
+        <div style="font-size: 15px; font-weight: 700; color: #FFFFFF">Dentalkart Dental Studio</div>
+        <div style="font-size: 11.5px; color: #A8CFC9">{{thread.sub}}</div>
+      </div>
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" style="flex-shrink: 0"><path d="M12 6h0M12 12h0M12 18h0"/></svg>
+    </div>
+
+    <div style="display: flex; gap: 6px">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+        <button onClick="{{t.pick}}" style="{{t.wrap}}">{{t.label}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; padding: 16px 14px; display: flex; flex-direction: column; gap: 9px; overflow: hidden; background: #E9E1D8; background-image: radial-gradient(#DED4C8 1.1px, transparent 1.1px); background-size: 18px 18px">
+
+    <div style="align-self: center; padding: 5px 12px; border-radius: 8px; background: #D6E6E0; font-size: 11px; font-weight: 600; color: #526B63; margin-bottom: 4px">{{thread.day}}</div>
+
+    <sc-for list="{{msgs}}" as="m" hint-placeholder-count="6">
+      <div style="{{m.row}}">
+        <div style="{{m.bubble}}">
+          <sc-if value="{{m.hasCard}}" hint-placeholder-val="{{true}}">
+            <div style="{{m.cardStyle}}">
+              <div style="display: flex; gap: 10px; align-items: center">
+                <div style="{{m.cardIcon}}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="{{m.cardD}}"></path></svg>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 1px; min-width: 0">
+                  <div style="font-size: 12.5px; font-weight: 700">{{m.cardTitle}}</div>
+                  <div style="font-size: 11px; color: #6B7A8C">{{m.cardSub}}</div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+          <div style="{{m.textStyle}}">{{m.text}}</div>
+          <sc-if value="{{m.hasBtns}}" hint-placeholder-val="{{true}}">
+            <div style="display: flex; flex-direction: column; gap: 1px; margin: 8px -10px -7px; border-top: 1px solid #DDE6E2">
+              <sc-for list="{{m.btns}}" as="b" hint-placeholder-count="2">
+                <div style="padding: 9px; text-align: center; font-size: 13px; font-weight: 600; color: #0B5CD5; border-top: 1px solid #EDF1EF">{{b.label}}</div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="{{m.metaStyle}}">
+            <span>{{m.time}}</span>
+            <sc-if value="{{m.out}}" hint-placeholder-val="{{true}}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4FC3F7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m3 12.5 3.6 3.6L14 8.5"/><path d="m10.5 15.5 1 1L19 8.5"/></svg>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="flex-shrink: 0; padding: 9px 12px 14px; display: flex; gap: 8px; align-items: center; background: #E9E1D8">
+    <div style="flex-grow: 1; height: 44px; border-radius: 999px; background: #FFFFFF; display: flex; align-items: center; padding: 0 16px; font-size: 14px; color: #9AA6B2">Message</div>
+    <div style="width: 44px; height: 44px; border-radius: 999px; background: #075E54; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a2.6 2.6 0 0 0-2.6 2.6v5.2a2.6 2.6 0 0 0 5.2 0V6.1A2.6 2.6 0 0 0 12 3.5z"/><path d="M6 11.3a6 6 0 0 0 12 0M12 17.3V20.5"/></svg>
+    </div>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { t: 'remind' };
+  }
+
+  renderVals() {
+    const st = this.state;
+
+    const threads = {
+      remind: {
+        sub: 'Reminder ladder · no-show recovery', day: '[Tue 2 Sep]',
+        msgs: [
+          { out: true, time: '[10:00 AM]', text: 'Hello [Patient name], this is a reminder of your appointment tomorrow, [Wed 3 Sep] at [4:30 PM], with Dr. [Name] for root canal sitting 2.',
+            btns: ['Confirm', 'Move to another day'] },
+          { out: false, time: '[10:14 AM]', text: 'Move to another day' },
+          { out: true, time: '[10:14 AM]', text: 'No problem. These are the next slots with Dr. [Name]:',
+            btns: ['[Thu 4 Sep], 5:00 PM', '[Sat 6 Sep], 11:30 AM'] },
+          { out: false, time: '[10:16 AM]', text: '[Thu 4 Sep], 5:00 PM' },
+          { out: true, time: '[10:16 AM]', text: 'Done. You are now booked for [Thu 4 Sep] at [5:00 PM]. Your old slot has been offered to a patient on our waiting list.' },
+          { out: true, time: '[10:16 AM]', text: 'Nobody at the clinic touched this conversation. The slot you released was filled [7] minutes later.', note: true }
+        ]
+      },
+      rx: {
+        sub: 'Prescription delivery', day: '[Wed 3 Sep]',
+        msgs: [
+          { out: true, time: '[4:44 PM]', text: 'Thank you for coming in today. Dr. [Name] has signed your prescription and case summary.' },
+          { out: true, time: '[4:44 PM]', card: ['Prescription_[Patient]_[03Sep].pdf', 'Signed · [Reg. no.] · 1 page', 'M6 3h9l4 4v14H6z M15 3v4h4'], text: '' },
+          { out: true, time: '[4:44 PM]', text: 'Three medicines, starting tonight. Ibuprofen only if there is pain. Avoid chewing on the right side until the crown is fitted.' },
+          { out: false, time: '[6:02 PM]', text: 'Got it, thank you doctor' },
+          { out: true, time: '[Next day, 9:00 AM]', text: 'Good morning. How is the tooth feeling today?',
+            btns: ['All fine', 'Still uncomfortable'] },
+          { out: true, time: '', text: 'A “still uncomfortable” reply is routed straight to the doctor. “All fine” closes the follow-up with no one involved.', note: true }
+        ]
+      },
+      pay: {
+        sub: 'Invoice and payment', day: '[Wed 3 Sep]',
+        msgs: [
+          { out: true, time: '[4:46 PM]', text: 'Here is your invoice for today’s visit.' },
+          { out: true, time: '[4:46 PM]', card: ['INV-[2026]-[0184].pdf', '₹[SAMPLE 7,277] · due [11 Sep]', 'M6 3h9l4 4v14H6z M15 3v4h4'], text: '',
+            btns: ['Pay now', 'Split into EMI'] },
+          { out: false, time: '[4:52 PM]', text: 'Pay now' },
+          { out: true, time: '[4:53 PM]', text: 'Payment received. Your receipt is attached and your account is now clear.' },
+          { out: true, time: '[4:53 PM]', card: ['Receipt_[0184].pdf', 'Paid in full · [4:53 PM]', 'm5 12.5 4.5 4.5L19 7'], text: '' },
+          { out: true, time: '', text: 'From procedure to cleared payment in [7] minutes, with no billing clerk in the loop.', note: true }
+        ]
+      },
+      stock: {
+        sub: 'Stock approval · owner', day: '[Wed 3 Sep]',
+        msgs: [
+          { out: true, time: '[8:05 AM]', text: 'Good morning. [5] items are below par. I have drafted a Dentalkart order.' },
+          { out: true, time: '[8:05 AM]', card: ['Draft order · [4] items', '₹[SAMPLE 21,404] after your account discount', 'M4 8.5 12 4l8 4.5v7L12 20l-8-4.5z M12 12v8'], text: 'Gutta-percha [F2] ×[6], composite [A2] ×[24], gloves [M] ×[20], articaine ×[60]. All four run out within [6] days at the current rate.',
+            btns: ['Approve and order', 'Open the cart'] },
+          { out: false, time: '[8:11 AM]', text: 'Approve and order' },
+          { out: true, time: '[8:11 AM]', text: 'Ordered. Dispatch expected today by [6 PM]. Stock levels will update themselves when the box is scanned in.' },
+          { out: true, time: '', text: 'This replaced a weekly stock count, a phone call to a rep and a purchase order. [6] minutes a week instead of [4] hours.', note: true }
+        ]
+      }
+    };
+
+    const tabData = [
+      { id: 'remind', label: 'Reminders' },
+      { id: 'rx', label: 'Prescription' },
+      { id: 'pay', label: 'Invoice' },
+      { id: 'stock', label: 'Stock' }
+    ];
+
+    const th = threads[st.t] || threads.remind;
+
+    return {
+      tabs: tabData.map((t) => ({
+        label: t.label,
+        pick: () => this.setState({ t: t.id }),
+        wrap: st.t === t.id
+          ? 'flex-grow: 1; height: 30px; border-radius: 8px; background: #FFFFFF; color: #075E54; font-size: 11.5px; font-weight: 800; text-align: center'
+          : 'flex-grow: 1; height: 30px; border-radius: 8px; background: #0A6E62; color: #A8CFC9; font-size: 11.5px; font-weight: 700; text-align: center'
+      })),
+
+      thread: { sub: th.sub, day: th.day },
+
+      msgs: th.msgs.map((m) => {
+        const note = !!m.note;
+        return {
+          out: m.out && !note,
+          time: m.time,
+          text: m.text,
+          hasCard: !!m.card,
+          cardTitle: m.card ? m.card[0] : '',
+          cardSub: m.card ? m.card[1] : '',
+          cardD: m.card ? m.card[2] : '',
+          cardStyle: 'padding: 10px; border-radius: 10px; background: #F2F6F4; margin-bottom: ' + (m.text ? '8px' : '4px'),
+          cardIcon: 'width: 32px; height: 32px; border-radius: 9px; background: #FFFFFF; color: #0B5CD5; display: flex; align-items: center; justify-content: center; flex-shrink: 0',
+          hasBtns: !!m.btns,
+          btns: (m.btns || []).map((b) => ({ label: b })),
+          row: note
+            ? 'display: flex; justify-content: center; margin: 6px 0'
+            : (m.out ? 'display: flex; justify-content: flex-end' : 'display: flex; justify-content: flex-start'),
+          bubble: note
+            ? 'max-width: 300px; padding: 10px 13px; border-radius: 11px; background: #F7EFD9; border: 1px solid #E8D9B4'
+            : 'max-width: 280px; padding: 8px 10px 6px; border-radius: 11px; background: ' + (m.out ? '#DCF8C6' : '#FFFFFF')
+              + '; box-shadow: 0 1px 1px rgba(15,26,42,0.10)',
+          textStyle: note
+            ? 'font-size: 11.5px; line-height: 1.5; color: #7A5B14; font-style: italic'
+            : 'font-size: 13.5px; line-height: 1.45; color: #17242F',
+          metaStyle: note
+            ? 'display: none'
+            : 'display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-top: 3px; font-size: 10.5px; color: #7C8C82'
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

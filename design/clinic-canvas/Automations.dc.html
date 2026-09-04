@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <style>
+    *{ box-sizing: border-box; }
+    body { margin: 0; background: #0B1B30; color: #0F1A2A;
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; text-align: left; }
+    h1, h2, h3 { margin: 0; } p { margin: 0; }
+  </style>
+</helmet>
+
+<div style="width: 1280px; min-height: 1000px; background: #0B1B30; padding: 30px; display: flex; flex-direction: column; gap: 20px">
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: 9px">
+      <div style="font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 700; color: #6FA6F0">Automation control room</div>
+      <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 42px; font-weight: 400; color: #FFFFFF; letter-spacing: -0.015em">What the clinic no longer pays people to do</h1>
+    </div>
+    <div style="display: flex; gap: 10px">
+      <div style="padding: 10px 16px; border-radius: 10px; background: #17304F; font-size: 12.5px; font-weight: 700; color: #C6D6E8">At [{{vol}}] patients a month</div>
+      <div style="padding: 10px 16px; border-radius: 10px; background: #17304F; font-size: 12.5px; font-weight: 700; color: #C6D6E8">Loaded cost &#8377;[{{rate}}]/hour</div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+    <sc-for list="{{headline}}" as="h" hint-placeholder-count="4">
+      <div style="{{h.wrap}}">
+        <div style="font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: {{h.labelColor}}">{{h.label}}</div>
+        <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 46px; line-height: 1.05; color: {{h.valueColor}}">{{h.value}}</div>
+        <div style="font-size: 12.5px; color: {{h.noteColor}}; line-height: 1.5">{{h.note}}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="flex-grow: 1; background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+
+    <div style="display: flex; justify-content: space-between; align-items: center">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <div style="font-size: 16px; font-weight: 800; letter-spacing: -0.015em">The seven loops</div>
+        <div style="font-size: 12.5px; color: #5D6D82">Switch one off to see what it was carrying. Every row is a job a person used to do by hand.</div>
+      </div>
+      <div style="display: flex; gap: 18px">
+        <sc-for list="{{legend}}" as="l" hint-placeholder-count="2">
+          <div style="display: flex; align-items: center; gap: 7px">
+            <span style="{{l.sw}}"></span>
+            <span style="font-size: 12px; font-weight: 600; color: #5D6D82">{{l.label}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display: flex; padding: 0 4px 8px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: #A3B0C0; border-bottom: 1px solid #EEF2F7">
+      <div style="width: 52px; flex-shrink: 0"></div>
+      <div style="flex-grow: 1">Loop</div>
+      <div style="width: 150px">Replaces</div>
+      <div style="width: 108px; text-align: right">Runs / month</div>
+      <div style="width: 108px; text-align: right">Min saved</div>
+      <div style="width: 116px; text-align: right">Hours / month</div>
+      <div style="width: 128px; text-align: right">Value / month</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column">
+      <sc-for list="{{rows}}" as="r" hint-placeholder-count="7">
+        <div style="{{r.wrap}}">
+          <div style="width: 52px; flex-shrink: 0">
+            <button onClick="{{r.toggle}}" style="{{r.track}}">
+              <span style="{{r.knob}}"></span>
+            </button>
+          </div>
+          <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; padding-right: 16px">
+            <div style="{{r.nameStyle}}">{{r.name}}</div>
+            <div style="font-size: 11.5px; color: #8494A8; line-height: 1.45">{{r.detail}}</div>
+          </div>
+          <div style="width: 150px; font-size: 12.5px; color: #5D6D82; font-weight: 600">{{r.replaces}}</div>
+          <div style="width: 108px; text-align: right; font-size: 13px; color: #5D6D82">{{r.runs}}</div>
+          <div style="width: 108px; text-align: right; font-size: 13px; color: #5D6D82">{{r.mins}}</div>
+          <div style="width: 116px; text-align: right; font-size: 14px; font-weight: 700">{{r.hours}}</div>
+          <div style="width: 128px; text-align: right; font-size: 14px; font-weight: 700; color: {{r.valueColor}}">{{r.value}}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; padding: 16px 4px 0; border-top: 2px solid #0F1A2A; align-items: center">
+      <div style="width: 52px; flex-shrink: 0"></div>
+      <div style="flex-grow: 1; font-size: 14.5px; font-weight: 800">Total, with the loops you have switched on</div>
+      <div style="width: 116px; text-align: right; font-family: 'Instrument Serif', Georgia, serif; font-size: 26px">{{totalHours}}</div>
+      <div style="width: 128px; text-align: right; font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; color: #0E7A57">{{totalValue}}</div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px">
+    <sc-for list="{{guards}}" as="g" hint-placeholder-count="3">
+      <div style="padding: 20px; border-radius: 16px; background: #12294A; display: flex; flex-direction: column; gap: 9px">
+        <div style="display: flex; align-items: center; gap: 9px">
+          <div style="width: 26px; height: 26px; border-radius: 8px; background: #1D3A5F; color: #6FA6F0; display: flex; align-items: center; justify-content: center; flex-shrink: 0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{g.d}}"></path></svg>
+          </div>
+          <div style="font-size: 13.5px; font-weight: 800; color: #FFFFFF">{{g.title}}</div>
+        </div>
+        <div style="font-size: 12.5px; color: #9DB4CE; line-height: 1.6">{{g.body}}</div>
+      </div>
+    </sc-for>
+  </div>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"monthlyPatients":{"editor":"range","default":900,"min":200,"max":3000,"step":50,"section":"Your clinic","tsType":"number"},"hourlyCost":{"editor":"int","default":250,"min":50,"max":2000,"step":25,"unit":"₹/hr","section":"Your clinic","tsType":"number"},"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { off: {} };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const vol = this.props.monthlyPatients != null ? this.props.monthlyPatients : 900;
+    const rate = this.props.hourlyCost != null ? this.props.hourlyCost : 250;
+
+    const inr = (n) => {
+      const s = String(Math.round(n));
+      if (s.length <= 3) return s;
+      const last3 = s.slice(-3);
+      let rest = s.slice(0, -3);
+      rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+      return rest + ',' + last3;
+    };
+    const money = (n) => {
+      if (n >= 100000) return '₹' + (n / 100000).toFixed(2) + 'L';
+      return '₹' + inr(n);
+    };
+
+    const loops = [
+      { id: 'book', name: 'Self-serve booking and rescheduling', detail: 'Patient picks the slot; reschedules happen by reply, not by phone call.', replaces: 'Front desk', per: 1.3, mins: 4, fixed: 0 },
+      { id: 'remind', name: 'Reminder ladder and no-show recovery', detail: 'T-24h and T-2h nudges; a released slot is offered to the waitlist automatically.', replaces: 'Front desk', per: 2, mins: 1.5, fixed: 0 },
+      { id: 'voice', name: 'Voice note to case summary and prescription', detail: 'Doctor speaks, the note and the Rx are drafted; the doctor signs before anything sends.', replaces: 'Assistant + doctor typing', per: 1, mins: 7, fixed: 0 },
+      { id: 'bill', name: 'Invoice, payment link and chasing', detail: 'Raised from the signed note, priced from the rate card, chased on day [3] and day [7].', replaces: 'Billing clerk', per: 1, mins: 6, fixed: 0 },
+      { id: 'recall', name: 'Recalls and post-op follow-ups', detail: 'Day-1 and day-7 check-ins, six-month recall, review requests. Replies route to a human.', replaces: 'Front desk', per: 0.7, mins: 3, fixed: 0 },
+      { id: 'stock', name: 'Inventory count and Dentalkart auto-order', detail: 'Procedures deduct their kit; a draft cart appears when cover drops below [4] weeks.', replaces: 'Purchase clerk', per: 0, mins: 0, fixed: 960 },
+      { id: 'records', name: 'Record filing and retrieval', detail: 'X-rays, consents and plans attach themselves to the chart and to the patient portal.', replaces: 'Records assistant', per: 1, mins: 2, fixed: 0 }
+    ];
+
+    const calc = (l) => {
+      const runs = l.fixed ? 0 : Math.round(vol * l.per);
+      const minutes = l.fixed ? l.fixed : runs * l.mins;
+      return { runs: runs, minutes: minutes, hours: minutes / 60 };
+    };
+
+    let totalMin = 0;
+    const rows = loops.map((l) => {
+      const on = !st.off[l.id];
+      const c = calc(l);
+      if (on) totalMin += c.minutes;
+      return {
+        name: l.name, detail: l.detail, replaces: l.replaces,
+        runs: l.fixed ? 'continuous' : '[' + inr(c.runs) + ']',
+        mins: l.fixed ? '—' : String(l.mins),
+        hours: c.hours.toFixed(0) + ' hrs',
+        value: money(c.hours * rate),
+        valueColor: on ? '#0E7A57' : '#C8D2DE',
+        toggle: () => { const o = Object.assign({}, st.off); if (on) { o[l.id] = true; } else { delete o[l.id]; } this.setState({ off: o }); },
+        wrap: 'display: flex; align-items: center; padding: 15px 4px; border-bottom: 1px solid #F4F7FA' + (on ? '' : '; opacity: 0.45'),
+        nameStyle: 'font-size: 14px; font-weight: 700; color: ' + (on ? '#0F1A2A' : '#8494A8'),
+        track: on
+          ? 'width: 38px; height: 22px; border-radius: 999px; background: #0B5CD5; display: flex; align-items: center; justify-content: flex-end; padding: 0 3px'
+          : 'width: 38px; height: 22px; border-radius: 999px; background: #D7DFE9; display: flex; align-items: center; justify-content: flex-start; padding: 0 3px',
+        knob: 'width: 16px; height: 16px; border-radius: 999px; background: #FFFFFF; display: block; box-shadow: 0 1px 2px rgba(15,26,42,0.25)'
+      };
+    });
+
+    const totalHours = totalMin / 60;
+    const fte = totalHours / 180;
+
+    return {
+      vol: inr(vol),
+      rate: inr(rate),
+
+      headline: [
+        { label: 'Hours removed each month', value: totalHours.toFixed(0), note: 'Of clerical work that used to sit on your team', tone: 'blue' },
+        { label: 'Full-time people equivalent', value: fte.toFixed(1), note: 'At [180] productive hours per person per month', tone: 'blue' },
+        { label: 'Value at your loaded cost', value: money(totalHours * rate), note: 'Before counting recovered no-shows and faster collections', tone: 'green' },
+        { label: 'Approvals still yours', value: '[3]', note: 'Prescriptions, large stock orders, leave. Nothing else waits on a human.', tone: 'amber' }
+      ].map((h) => ({
+        label: h.label, value: h.value, note: h.note,
+        wrap: 'padding: 22px; border-radius: 18px; display: flex; flex-direction: column; gap: 8px; background: '
+          + (h.tone === 'green' ? '#0E7A57' : (h.tone === 'amber' ? '#17304F' : '#12294A')),
+        labelColor: h.tone === 'green' ? '#A9E7CF' : '#6FA6F0',
+        valueColor: '#FFFFFF',
+        noteColor: h.tone === 'green' ? '#BFEDD9' : '#9DB4CE'
+      })),
+
+      legend: [
+        { label: 'Running', sw: 'width: 26px; height: 15px; border-radius: 999px; background: #0B5CD5; display: block' },
+        { label: 'Switched off', sw: 'width: 26px; height: 15px; border-radius: 999px; background: #D7DFE9; display: block' }
+      ],
+
+      rows: rows,
+      totalHours: totalHours.toFixed(0) + ' hrs',
+      totalValue: money(totalHours * rate),
+
+      guards: [
+        { title: 'A doctor signs every prescription', d: 'M12 3.2 19.5 6v6c0 4.3-3.1 7.4-7.5 8.8C7.6 19.4 4.5 16.3 4.5 12V6z',
+          body: 'Voice drafts it, the doctor reads it and signs it, and only then does it send. The approval is written to the audit log with the registration number. No prescription ever leaves unsigned.' },
+        { title: 'Every automated message is logged', d: 'M6 3h9l4 4v14H6zM15 3v4h4M9 13h6M9 17h4',
+          body: 'Who was messaged, on what template, and what they replied. WhatsApp templates are pre-approved by Meta, so the clinic stays inside the rules for business messaging.' },
+        { title: 'Patient data stays accountable', d: 'M12 3.2 19.5 6v6c0 4.3-3.1 7.4-7.5 8.8C7.6 19.4 4.5 16.3 4.5 12V6zm-3 6 2.2 2.2L15.5 10',
+          body: 'Consent is captured at booking, every record view is logged, and a patient can ask for an export or erasure. This is what the DPDP Act expects of a clinic holding health data.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

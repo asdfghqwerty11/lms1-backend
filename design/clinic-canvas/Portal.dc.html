@@ -1,0 +1,297 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <style>
+    *{ box-sizing: border-box; }
+    body { margin: 0; background: #EEF3FA; color: #0F1A2A;
+      font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; text-wrap: pretty; }
+    a { color: #0B5CD5; text-decoration: none; } a:hover { color: #08306E; }
+    button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; text-align: left; }
+    h1, h2, h3 { margin: 0; } p { margin: 0; }
+  </style>
+</helmet>
+
+<div style="padding: 26px; min-height: 860px; background: #EEF3FA">
+  <div style="max-width: 1068px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px">
+
+    <div style="display: flex; justify-content: space-between; align-items: center">
+      <div style="display: flex; flex-direction: column; gap: 5px">
+        <div style="font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: #7C93B0">Patient portal</div>
+        <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: 36px; font-weight: 400; letter-spacing: -0.015em">Good morning, [Patient name]</h1>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center">
+        <button style="height: 44px; padding: 0 18px; border-radius: 11px; border: 1px solid #D3DEEC; background: #FFFFFF; font-weight: 700; font-size: 13.5px">Download all records</button>
+        <button style="height: 44px; padding: 0 20px; border-radius: 11px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 13.5px">Book appointment</button>
+      </div>
+    </div>
+
+    <div style="padding: 22px 26px; border-radius: 18px; background: #0B1B30; display: flex; justify-content: space-between; align-items: center; gap: 26px">
+      <div style="display: flex; gap: 22px; align-items: center">
+        <div style="width: 62px; height: 62px; border-radius: 15px; background: #17304F; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0">
+          <div style="font-size: 10px; letter-spacing: 0.1em; color: #6FA6F0; font-weight: 700">[SEP]</div>
+          <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; color: #FFFFFF; line-height: 1">[11]</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 5px">
+          <div style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: #6FA6F0">Next appointment</div>
+          <div style="font-size: 19px; font-weight: 700; color: #FFFFFF">Root canal, sitting 2 &middot; [4:30 PM]</div>
+          <div style="font-size: 13.5px; color: #9DB4CE">Dr. [Name], Endodontist &middot; Chair [2] &middot; [Clinic address line]</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; flex-shrink: 0">
+        <button style="height: 44px; padding: 0 18px; border-radius: 11px; border: 1px solid #33506F; color: #FFFFFF; font-weight: 700; font-size: 13.5px">Reschedule</button>
+        <button style="height: 44px; padding: 0 18px; border-radius: 11px; background: #FFFFFF; color: #0B1B30; font-weight: 700; font-size: 13.5px">Get directions</button>
+      </div>
+    </div>
+
+    <div style="background: #FFFFFF; border-radius: 20px; border: 1px solid #DDE6F2; overflow: hidden">
+      <div style="display: flex; gap: 4px; padding: 8px 8px 0; border-bottom: 1px solid #EEF2F7">
+        <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+          <button onClick="{{t.pick}}" style="{{t.wrap}}">
+            <span>{{t.label}}</span>
+            <span style="{{t.badge}}">{{t.count}}</span>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="padding: 22px 26px 26px; min-height: 430px">
+
+        <sc-if value="{{isVisits}}" hint-placeholder-val="{{true}}">
+          <div style="display: flex; flex-direction: column; gap: 10px">
+            <sc-for list="{{visits}}" as="v" hint-placeholder-count="4">
+              <div style="display: flex; gap: 18px; align-items: center; padding: 17px 19px; border-radius: 14px; border: 1px solid #E7EDF5; background: #FFFFFF">
+                <div style="{{v.pill}}">{{v.status}}</div>
+                <div style="display: flex; flex-direction: column; gap: 3px; flex-grow: 1">
+                  <div style="font-size: 15px; font-weight: 700">{{v.title}}</div>
+                  <div style="font-size: 12.5px; color: #5D6D82">{{v.meta}}</div>
+                </div>
+                <div style="font-size: 13px; font-weight: 700; color: #0B5CD5; flex-shrink: 0">{{v.action}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isRx}}" hint-placeholder-val="{{true}}">
+          <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px">
+            <div style="grid-column: span 5; display: flex; flex-direction: column; gap: 10px">
+              <sc-for list="{{scripts}}" as="s" hint-placeholder-count="3">
+                <button onClick="{{s.pick}}" style="{{s.wrap}}">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px">
+                    <div style="display: flex; flex-direction: column; gap: 4px">
+                      <div style="font-size: 14.5px; font-weight: 700">{{s.title}}</div>
+                      <div style="font-size: 12.5px; color: #5D6D82">{{s.date}} &middot; Dr. [Name]</div>
+                    </div>
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8494A8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px"><path d="M9 6l6 6-6 6"/></svg>
+                  </div>
+                </button>
+              </sc-for>
+            </div>
+            <div style="grid-column: span 7; padding: 24px; border-radius: 16px; border: 1px solid #E7EDF5; background: #FBFCFE; display: flex; flex-direction: column; gap: 18px">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px dashed #DDE6F2">
+                <div style="display: flex; flex-direction: column; gap: 4px">
+                  <div style="font-size: 16px; font-weight: 700">Prescription</div>
+                  <div style="font-size: 12.5px; color: #5D6D82">{{rx.date}} &middot; Signed by Dr. [Name], [Reg. no.]</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px; background: #E9F7F3; border: 1px solid #BFE6DB">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0E7A57" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>
+                  <span style="font-size: 11.5px; font-weight: 800; color: #0E7A57; letter-spacing: 0.03em">DOCTOR SIGNED</span>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 12px">
+                <sc-for list="{{rx.meds}}" as="m" hint-placeholder-count="3">
+                  <div style="display: flex; gap: 14px; align-items: flex-start">
+                    <div style="width: 30px; height: 30px; border-radius: 9px; background: #EDF3FE; color: #0B5CD5; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0">{{m.n}}</div>
+                    <div style="display: flex; flex-direction: column; gap: 3px">
+                      <div style="font-size: 14.5px; font-weight: 700">{{m.name}}</div>
+                      <div style="font-size: 12.5px; color: #5D6D82">{{m.dose}}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="padding: 14px; border-radius: 12px; background: #FFFBF2; border: 1px solid #F2E2C4; font-size: 12.5px; color: #7A5B14; line-height: 1.55">{{rx.advice}}</div>
+              <div style="display: flex; gap: 10px">
+                <button style="flex-grow: 1; height: 44px; border-radius: 11px; background: #0B5CD5; color: #FFFFFF; font-weight: 700; font-size: 13.5px; text-align: center">Download PDF</button>
+                <button style="flex-grow: 1; height: 44px; border-radius: 11px; border: 1px solid #D3DEEC; background: #FFFFFF; font-weight: 700; font-size: 13.5px; text-align: center">Resend on WhatsApp</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isBills}}" hint-placeholder-val="{{true}}">
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            <div style="display: flex; gap: 14px">
+              <div style="flex-grow: 1; padding: 18px 20px; border-radius: 14px; background: #FFF6F5; border: 1px solid #F5D2CC; display: flex; flex-direction: column; gap: 5px">
+                <div style="font-size: 12px; font-weight: 700; color: #B42318; letter-spacing: 0.06em; text-transform: uppercase">Outstanding</div>
+                <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; color: #0B1B30">&#8377;{{outstanding}}</div>
+              </div>
+              <div style="flex-grow: 1; padding: 18px 20px; border-radius: 14px; background: #F4F8FD; border: 1px solid #DDE6F2; display: flex; flex-direction: column; gap: 5px">
+                <div style="font-size: 12px; font-weight: 700; color: #5D6D82; letter-spacing: 0.06em; text-transform: uppercase">Paid this year</div>
+                <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; color: #0B1B30">&#8377;[SAMPLE 46,200]</div>
+              </div>
+              <div style="flex-grow: 1; padding: 18px 20px; border-radius: 14px; background: #F2FBF8; border: 1px solid #BFE6DB; display: flex; flex-direction: column; gap: 5px">
+                <div style="font-size: 12px; font-weight: 700; color: #0E7A57; letter-spacing: 0.06em; text-transform: uppercase">EMI plan</div>
+                <div style="font-size: 15px; font-weight: 700; color: #0B1B30; padding-top: 7px">[3] of [6] instalments cleared</div>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <sc-for list="{{bills}}" as="b" hint-placeholder-count="4">
+                <div style="display: flex; gap: 18px; align-items: center; padding: 16px 19px; border-radius: 13px; border: 1px solid #E7EDF5">
+                  <div style="display: flex; flex-direction: column; gap: 3px; flex-grow: 1">
+                    <div style="font-size: 14.5px; font-weight: 700">{{b.title}}</div>
+                    <div style="font-size: 12.5px; color: #5D6D82">{{b.no}} &middot; {{b.date}}</div>
+                  </div>
+                  <div style="font-size: 15px; font-weight: 700">&#8377;{{b.amt}}</div>
+                  <div style="{{b.pill}}">{{b.status}}</div>
+                  <button onClick="{{b.pay}}" style="{{b.btn}}">{{b.btnLabel}}</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isFiles}}" hint-placeholder-val="{{true}}">
+          <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+            <sc-for list="{{files}}" as="f" hint-placeholder-count="8">
+              <div style="border-radius: 14px; border: 1px solid #E7EDF5; overflow: hidden; background: #FFFFFF">
+                <div style="height: 122px; background: #F3F7FD; border-bottom: 1px dashed #DDE6F2; display: flex; align-items: center; justify-content: center">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8CACD4" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M3.5 15 9 10l4 3.6 3-2.4 4.5 3.8"/></svg>
+                </div>
+                <div style="padding: 13px 15px; display: flex; flex-direction: column; gap: 3px">
+                  <div style="font-size: 13px; font-weight: 700">{{f.name}}</div>
+                  <div style="font-size: 11.5px; color: #8494A8">{{f.date}}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1120,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'rx', rx: 'r1', paid: {} };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const billData = [
+      { id: 'b1', title: 'Root canal, sitting 2 · 46', no: 'INV-[2026]-[0184]', date: '[03 Sep]', amt: '[7,277]', due: true },
+      { id: 'b2', title: 'Root canal, sitting 1 · 46', no: 'INV-[2026]-[0161]', date: '[28 Aug]', amt: '[9,500]', due: false },
+      { id: 'b3', title: 'Consultation + digital X-ray', no: 'INV-[2026]-[0142]', date: '[21 Aug]', amt: '[1,200]', due: false },
+      { id: 'b4', title: 'Scaling and polishing', no: 'INV-[2026]-[0090]', date: '[12 Jun]', amt: '[2,800]', due: false }
+    ];
+    const dueCount = billData.filter((b) => b.due && !st.paid[b.id]).length;
+
+    const tabData = [
+      { id: 'visits', label: 'Appointments', count: '4' },
+      { id: 'rx', label: 'Prescriptions', count: '3' },
+      { id: 'bills', label: 'Invoices', count: dueCount ? dueCount + ' due' : 'clear' },
+      { id: 'files', label: 'X-rays & records', count: '8' }
+    ];
+
+    const rxData = {
+      r1: {
+        title: 'Root canal, sitting 1', date: '[28 Aug]',
+        meds: [
+          { n: '1', name: 'Amoxicillin + Clavulanate [625 mg]', dose: '1 tablet, twice daily, after food, for [5] days' },
+          { n: '2', name: 'Ibuprofen [400 mg]', dose: '1 tablet, up to three times daily, only if there is pain' },
+          { n: '3', name: 'Chlorhexidine mouthwash [0.2%]', dose: 'Rinse 10 ml for 30 seconds, twice daily, for [7] days' }
+        ],
+        advice: 'Chew on the other side until the crown is fitted. If swelling increases after 48 hours or you develop a fever, message the clinic on WhatsApp straight away.'
+      },
+      r2: {
+        title: 'Scaling and polishing', date: '[12 Jun]',
+        meds: [{ n: '1', name: 'Desensitising toothpaste', dose: 'Brush twice daily, do not rinse immediately, for [4] weeks' }],
+        advice: 'Mild sensitivity to cold for a week is expected. Avoid very hot or cold drinks for 24 hours.'
+      },
+      r3: {
+        title: 'Extraction, lower right [48]', date: '[03 Feb]',
+        meds: [
+          { n: '1', name: 'Amoxicillin [500 mg]', dose: '1 capsule, three times daily, for [5] days' },
+          { n: '2', name: 'Paracetamol [650 mg]', dose: '1 tablet every 8 hours as needed for pain' }
+        ],
+        advice: 'No rinsing, spitting or straws for 24 hours. Soft, cool food for two days. Return if bleeding restarts.'
+      }
+    };
+
+    return {
+      tabs: tabData.map((t) => ({
+        label: t.label, count: t.count,
+        pick: () => this.setState({ tab: t.id }),
+        wrap: st.tab === t.id
+          ? 'display: flex; align-items: center; gap: 9px; padding: 14px 18px; border-radius: 12px 12px 0 0; background: #FFFFFF; border-bottom: 2px solid #0B5CD5; font-size: 14px; font-weight: 700; color: #0B5CD5; margin-bottom: -1px'
+          : 'display: flex; align-items: center; gap: 9px; padding: 14px 18px; border-radius: 12px 12px 0 0; font-size: 14px; font-weight: 700; color: #7C8CA0',
+        badge: st.tab === t.id
+          ? 'padding: 3px 8px; border-radius: 6px; background: #EDF3FE; font-size: 11px; font-weight: 800; color: #0B5CD5'
+          : 'padding: 3px 8px; border-radius: 6px; background: #F1F5FA; font-size: 11px; font-weight: 800; color: #8494A8'
+      })),
+
+      outstanding: '[SAMPLE ' + (dueCount ? '7,277' : '0') + ']',
+      isVisits: st.tab === 'visits', isRx: st.tab === 'rx', isBills: st.tab === 'bills', isFiles: st.tab === 'files',
+
+      visits: [
+        { status: 'UPCOMING', title: 'Root canal, sitting 2 · Dr. [Name]', meta: '[Thu 11 Sep], [4:30 PM] · Chair [2] · 60 min', action: 'Reschedule', tone: 'blue' },
+        { status: 'DONE', title: 'Root canal, sitting 1 · Dr. [Name]', meta: '[28 Aug], [5:00 PM] · Prescription and invoice sent', action: 'View summary', tone: 'grey' },
+        { status: 'DONE', title: 'Consultation + digital X-ray · Dr. [Name]', meta: '[21 Aug], [11:30 AM] · Treatment plan approved', action: 'View summary', tone: 'grey' },
+        { status: 'RECALL', title: 'Six-month check-up · any doctor', meta: 'Due [Feb 2027] · we will message you a month before', action: 'Book early', tone: 'green' }
+      ].map((v) => ({
+        status: v.status, title: v.title, meta: v.meta, action: v.action,
+        pill: (v.tone === 'blue'
+          ? 'padding: 6px 11px; border-radius: 7px; background: #EDF3FE; color: #0B5CD5;'
+          : (v.tone === 'green'
+            ? 'padding: 6px 11px; border-radius: 7px; background: #E9F7F3; color: #0E7A57;'
+            : 'padding: 6px 11px; border-radius: 7px; background: #F1F5FA; color: #7C8CA0;'))
+          + ' font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; flex-shrink: 0; width: 84px; text-align: center'
+      })),
+
+      scripts: ['r1', 'r2', 'r3'].map((id) => ({
+        title: rxData[id].title, date: rxData[id].date,
+        pick: () => this.setState({ rx: id }),
+        wrap: st.rx === id
+          ? 'width: 100%; padding: 16px 18px; border-radius: 13px; background: #FFFFFF; border: 2px solid #0B5CD5'
+          : 'width: 100%; padding: 16px 18px; border-radius: 13px; background: #FFFFFF; border: 1px solid #E7EDF5'
+      })),
+      rx: rxData[st.rx] || rxData.r1,
+
+      bills: billData.map((b) => {
+        const cleared = !b.due || st.paid[b.id];
+        return {
+          title: b.title, no: b.no, date: b.date, amt: b.amt,
+          status: cleared ? 'PAID' : 'DUE [11 SEP]',
+          pill: (cleared
+            ? 'padding: 6px 11px; border-radius: 7px; background: #E9F7F3; color: #0E7A57;'
+            : 'padding: 6px 11px; border-radius: 7px; background: #FFF1EF; color: #B42318;')
+            + ' font-size: 10.5px; font-weight: 800; letter-spacing: 0.05em; width: 96px; text-align: center; flex-shrink: 0',
+          pay: () => { if (!cleared) { const p = Object.assign({}, st.paid); p[b.id] = 1; this.setState({ paid: p }); } },
+          btnLabel: cleared ? 'Receipt' : 'Pay now',
+          btn: cleared
+            ? 'height: 38px; padding: 0 15px; border-radius: 9px; border: 1px solid #DDE5EF; background: #FFFFFF; font-size: 13px; font-weight: 700; text-align: center; flex-shrink: 0'
+            : 'height: 38px; padding: 0 18px; border-radius: 9px; background: #0B5CD5; color: #FFFFFF; font-size: 13px; font-weight: 700; text-align: center; flex-shrink: 0'
+        };
+      }),
+
+      files: [
+        { name: 'OPG panoramic', date: '[21 Aug]' }, { name: 'IOPA — [46]', date: '[21 Aug]' },
+        { name: 'IOPA — [46] post-op', date: '[28 Aug]' }, { name: 'CBCT — lower right', date: '[21 Aug]' },
+        { name: 'Intraoral photo set', date: '[21 Aug]' }, { name: 'Treatment plan (signed)', date: '[22 Aug]' },
+        { name: 'Consent — endodontics', date: '[28 Aug]' }, { name: 'Shade record', date: '[28 Aug]' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
